@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Sparkles, Wallet } from 'lucide-react';
+import { Play, Sparkles, Wallet, TrendingUp, Coins, ShoppingBag } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 
 export function Onboarding() {
@@ -89,6 +89,131 @@ export function Onboarding() {
         </div>
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+export function TokensOnboarding({ onClose }: { onClose: () => void }) {
+  const { setHasSeenTokensOnboarding } = useStore();
+  const [slide, setSlide] = useState(0);
+
+  const slides = [
+    {
+      icon: <TrendingUp className="w-12 h-12 text-primary" />,
+      color: "from-primary/20 to-transparent",
+      badge: "01",
+      title: "Что такое Trends?",
+      desc: "Trends — это Reels прямо в Telegram. Смотри короткие видео, подписывайся на авторов и открывай для себя лучший контент, не выходя из мессенджера.",
+      bullets: ["Полноэкранная лента коротких видео", "Категории: Крипто, Авто, Юмор и ещё", "Встроено в Telegram как Mini App"],
+    },
+    {
+      icon: <Coins className="w-12 h-12 text-amber-400" />,
+      color: "from-amber-500/20 to-transparent",
+      badge: "02",
+      title: "Токены TRND",
+      desc: "Твоё внимание — это ценность. Получай TRND-токены за каждый просмотр, ежедневный стрик и приглашение друзей.",
+      bullets: ["1–20 TRND за досмотренное видео", "30–150 TRND за ежедневный стрик 🔥", "+13 000 TRND за каждого активного друга"],
+    },
+    {
+      icon: <ShoppingBag className="w-12 h-12 text-green-400" />,
+      color: "from-green-500/20 to-transparent",
+      badge: "03",
+      title: "Магазин и кэшбэк",
+      desc: "Обменивай накопленные TRND на скидки у партнёров или выводи в крипту после листинга токена.",
+      bullets: ["Кэшбэк от партнёров в TRND", "Скидки на товары и подписки", "Вывод в крипту после листинга"],
+    },
+  ];
+
+  const current = slides[slide];
+  const isLast = slide === slides.length - 1;
+
+  const handleNext = () => {
+    if (!isLast) {
+      setSlide(s => s + 1);
+    } else {
+      setHasSeenTokensOnboarding(true);
+      onClose();
+    }
+  };
+
+  return (
+    <motion.div
+      className="absolute inset-0 z-[80] bg-black/85 backdrop-blur-md flex items-end justify-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={(e) => { if (e.target === e.currentTarget) { setHasSeenTokensOnboarding(true); onClose(); } }}
+    >
+      <motion.div
+        className="w-full bg-gradient-to-b from-[#111111] to-[#090909] border border-white/10 rounded-t-[2rem] p-6 pb-10 overflow-hidden"
+        initial={{ y: '100%' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100%' }}
+        transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+      >
+        {/* Progress dots */}
+        <div className="flex gap-1.5 justify-center mb-6">
+          {slides.map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{ width: i === slide ? 24 : 6, opacity: i <= slide ? 1 : 0.25 }}
+              transition={{ duration: 0.3 }}
+              className="h-1.5 rounded-full bg-primary"
+            />
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slide}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.25 }}
+          >
+            {/* Icon */}
+            <div className={`w-20 h-20 rounded-2xl mb-5 flex items-center justify-center bg-gradient-to-b ${current.color} border border-white/8 mx-auto`}>
+              {current.icon}
+            </div>
+
+            {/* Badge + Title */}
+            <div className="flex items-center gap-2 mb-2 justify-center">
+              <span className="text-xs font-bold text-primary/80 tracking-widest">{current.badge}</span>
+              <h2 className="text-xl font-bold text-white">{current.title}</h2>
+            </div>
+
+            <p className="text-white/55 text-sm text-center mb-5 leading-relaxed">{current.desc}</p>
+
+            {/* Bullets */}
+            <div className="flex flex-col gap-2 mb-6">
+              {current.bullets.map((b, i) => (
+                <div key={i} className="flex items-start gap-3 bg-white/4 border border-white/6 rounded-xl px-4 py-3">
+                  <span className="text-primary mt-0.5">✓</span>
+                  <span className="text-sm text-white/80">{b}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Buttons */}
+        <div className="flex gap-3">
+          {!isLast && (
+            <button
+              onClick={() => { setHasSeenTokensOnboarding(true); onClose(); }}
+              className="flex-none px-4 py-3.5 rounded-2xl text-white/40 text-sm font-medium border border-white/8"
+            >
+              Пропустить
+            </button>
+          )}
+          <button
+            onClick={handleNext}
+            className="flex-1 bg-primary text-white font-bold py-3.5 rounded-2xl active:scale-[0.98] transition-transform text-sm"
+          >
+            {isLast ? 'Перейти к токенам' : 'Далее'}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

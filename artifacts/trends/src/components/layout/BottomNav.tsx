@@ -1,11 +1,12 @@
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useRouter } from "wouter";
 import { Home, Wallet, Plus, Percent, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useStore } from "@/store/useStore";
 
 export function BottomNav() {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
+  const { hasSeenTokensOnboarding, showTokensOnboarding, setShowTokensOnboarding } = useStore() as any;
 
   const navItems = [
     { path: "/", icon: Home, label: "Лента" },
@@ -14,6 +15,15 @@ export function BottomNav() {
     { path: "/profit", icon: Percent, label: "Профит" },
     { path: "/profile", icon: User, label: "Профиль" },
   ];
+
+  const handleTokensClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!hasSeenTokensOnboarding) {
+      setShowTokensOnboarding(true);
+    } else {
+      navigate("/tokens");
+    }
+  };
 
   return (
     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm z-50">
@@ -30,7 +40,6 @@ export function BottomNav() {
                 >
                   <Plus className="w-6 h-6" />
                 </motion.div>
-                {/* Thin earning ring mock */}
                 {location === '/' && (
                   <svg className="absolute -inset-1 w-14 h-14 -rotate-90 animate-spin-slow pointer-events-none">
                     <circle 
@@ -44,6 +53,23 @@ export function BottomNav() {
                   </svg>
                 )}
               </Link>
+            );
+          }
+
+          if (item.path === "/tokens") {
+            return (
+              <motion.div
+                key={index}
+                whileTap={{ scale: 0.85 }}
+                onClick={handleTokensClick}
+                className={cn(
+                  "flex flex-col items-center justify-center w-14 h-12 rounded-2xl gap-1 transition-colors cursor-pointer",
+                  isActive ? "text-primary" : "text-white/50 hover:text-white/80"
+                )}
+              >
+                <item.icon className="w-6 h-6" />
+                <span className="text-[10px] font-medium leading-none">{item.label}</span>
+              </motion.div>
             );
           }
 

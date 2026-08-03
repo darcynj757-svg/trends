@@ -1,7 +1,7 @@
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import { Route, Switch, Router as WouterRouter } from 'wouter';
+import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 import Feed from '@/pages/Feed';
 import Tokens from '@/pages/Tokens';
@@ -11,7 +11,28 @@ import Settings from '@/pages/Settings';
 import Upload from '@/pages/Upload';
 import { MobileFrame } from '@/components/layout/MobileFrame';
 import { TokenEarnAnimation } from '@/components/shared/TokenEarnAnimation';
-import { Onboarding, DailyCheckin } from '@/components/modals/Modals';
+import { Onboarding, DailyCheckin, TokensOnboarding } from '@/components/modals/Modals';
+import { AnimatePresence } from 'framer-motion';
+import { useStore } from '@/store/useStore';
+
+function TokensOnboardingGate() {
+  const [, navigate] = useLocation();
+  const { showTokensOnboarding, setShowTokensOnboarding, setHasSeenTokensOnboarding } = useStore();
+
+  if (!showTokensOnboarding) return null;
+
+  return (
+    <AnimatePresence>
+      <TokensOnboarding
+        onClose={() => {
+          setShowTokensOnboarding(false);
+          setHasSeenTokensOnboarding(true);
+          navigate('/tokens');
+        }}
+      />
+    </AnimatePresence>
+  );
+}
 
 function Router() {
   return (
@@ -31,6 +52,7 @@ function Router() {
       <TokenEarnAnimation />
       <DailyCheckin />
       <Onboarding />
+      <TokensOnboardingGate />
     </MobileFrame>
   );
 }

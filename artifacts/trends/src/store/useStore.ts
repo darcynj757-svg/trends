@@ -43,9 +43,13 @@ interface AppState {
   videos: Video[];
   hasSeenOnboarding: boolean;
   hasSeenDailyCheckin: boolean;
+  hasSeenTokensOnboarding: boolean;
+  showTokensOnboarding: boolean;
   
   setHasSeenOnboarding: (val: boolean) => void;
   setHasSeenDailyCheckin: (val: boolean) => void;
+  setHasSeenTokensOnboarding: (val: boolean) => void;
+  setShowTokensOnboarding: (val: boolean) => void;
   addTokens: (amount: number, reason: string) => void;
   updateProfile: (updates: Partial<User>) => void;
 }
@@ -120,9 +124,13 @@ export const useStore = create<AppState>()(
       videos: mockVideos,
       hasSeenOnboarding: false,
       hasSeenDailyCheckin: false,
+      hasSeenTokensOnboarding: false,
+      showTokensOnboarding: false,
 
       setHasSeenOnboarding: (val) => set({ hasSeenOnboarding: val }),
       setHasSeenDailyCheckin: (val) => set({ hasSeenDailyCheckin: val }),
+      setHasSeenTokensOnboarding: (val) => set({ hasSeenTokensOnboarding: val }),
+      setShowTokensOnboarding: (val) => set({ showTokensOnboarding: val }),
       
       addTokens: (amount, reason) => set((state) => ({
         user: { ...state.user, balance: state.user.balance + amount },
