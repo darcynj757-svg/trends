@@ -92,41 +92,78 @@ export function Onboarding() {
   );
 }
 
+// Star field helper — static positions so they don't re-render
+const STARS = Array.from({ length: 60 }, (_, i) => ({
+  id: i,
+  top: `${(i * 37 + 11) % 100}%`,
+  left: `${(i * 53 + 7) % 100}%`,
+  size: i % 5 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
+  opacity: 0.15 + (i % 7) * 0.06,
+}));
+
+function TrendsLogo() {
+  return (
+    <div className="flex items-center gap-2">
+      {/* T-shield icon */}
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M14 2L4 7v7c0 5.5 4.3 10.6 10 12 5.7-1.4 10-6.5 10-12V7L14 2z" fill="url(#shield-grad)" />
+        <text x="14" y="19" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12" fontFamily="system-ui">T</text>
+        <defs>
+          <linearGradient id="shield-grad" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#4FC3F7" />
+            <stop offset="1" stopColor="#7C3AED" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span className="text-white font-bold tracking-[0.18em] text-sm uppercase">Trends</span>
+    </div>
+  );
+}
+
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   const { setHasSeenTokensOnboarding } = useStore();
   const [slide, setSlide] = useState(0);
+  const [direction, setDirection] = useState(1);
 
   const slides = [
     {
-      icon: <TrendingUp className="w-12 h-12 text-primary" />,
-      color: "from-primary/20 to-transparent",
-      badge: "01",
-      title: "Что такое Trends?",
-      desc: "Trends — это Reels прямо в Telegram. Смотри короткие видео, подписывайся на авторов и открывай для себя лучший контент, не выходя из мессенджера.",
-      bullets: ["Полноэкранная лента коротких видео", "Категории: Крипто, Авто, Юмор и ещё", "Встроено в Telegram как Mini App"],
+      chip: "Монетизируй своё время",
+      lines: [
+        { text: "Новый", gradient: false },
+        { text: "тренд", gradient: false },
+        { text: "Смотри", gradient: true },
+        { text: "Reels", gradient: true },
+        { text: "получай", gradient: false },
+        { text: "токены!", gradient: false },
+      ],
     },
     {
-      icon: <Coins className="w-12 h-12 text-amber-400" />,
-      color: "from-amber-500/20 to-transparent",
-      badge: "02",
-      title: "Токены TRND",
-      desc: "Твоё внимание — это ценность. Получай TRND-токены за каждый просмотр, ежедневный стрик и приглашение друзей.",
-      bullets: ["1–20 TRND за досмотренное видео", "30–150 TRND за ежедневный стрик 🔥", "+13 000 TRND за каждого активного друга"],
+      chip: "Твоё внимание = деньги",
+      lines: [
+        { text: "Зарабатывай", gradient: false },
+        { text: "TRND", gradient: true },
+        { text: "за каждый", gradient: false },
+        { text: "просмотр", gradient: true },
+        { text: "и стрик!", gradient: false },
+      ],
     },
     {
-      icon: <ShoppingBag className="w-12 h-12 text-green-400" />,
-      color: "from-green-500/20 to-transparent",
-      badge: "03",
-      title: "Магазин и кэшбэк",
-      desc: "Обменивай накопленные TRND на скидки у партнёров или выводи в крипту после листинга токена.",
-      bullets: ["Кэшбэк от партнёров в TRND", "Скидки на товары и подписки", "Вывод в крипту после листинга"],
+      chip: "Партнёры и скидки",
+      lines: [
+        { text: "Обменяй", gradient: false },
+        { text: "токены", gradient: true },
+        { text: "на кэшбэк", gradient: false },
+        { text: "и вывод", gradient: true },
+        { text: "в крипту!", gradient: false },
+      ],
     },
   ];
 
-  const current = slides[slide];
-  const isLast = slide === slides.length - 1;
+  const TOTAL = slides.length;
+  const isLast = slide === TOTAL - 1;
 
   const handleNext = () => {
+    setDirection(1);
     if (!isLast) {
       setSlide(s => s + 1);
     } else {
@@ -135,84 +172,118 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
     }
   };
 
+  const handleSkip = () => {
+    setHasSeenTokensOnboarding(true);
+    onClose();
+  };
+
   return (
     <motion.div
-      className="absolute inset-0 z-[80] bg-black/85 backdrop-blur-md flex items-end justify-center"
+      className="absolute inset-0 z-[80] flex flex-col overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onClick={(e) => { if (e.target === e.currentTarget) { setHasSeenTokensOnboarding(true); onClose(); } }}
+      transition={{ duration: 0.3 }}
     >
-      <motion.div
-        className="w-full bg-gradient-to-b from-[#111111] to-[#090909] border border-white/10 rounded-t-[2rem] p-6 pb-10 overflow-hidden"
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        exit={{ y: '100%' }}
-        transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-      >
-        {/* Progress dots */}
-        <div className="flex gap-1.5 justify-center mb-6">
-          {slides.map((_, i) => (
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#07102A]" />
+      {/* Radial blue glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(30,80,200,0.45)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_65%,rgba(20,60,160,0.3)_0%,transparent_70%)]" />
+
+      {/* Stars */}
+      {STARS.map(s => (
+        <div
+          key={s.id}
+          className="absolute rounded-full bg-white pointer-events-none"
+          style={{ top: s.top, left: s.left, width: s.size, height: s.size, opacity: s.opacity }}
+        />
+      ))}
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col h-full px-6 pt-5 pb-8">
+
+        {/* Top bar: progress + skip */}
+        <div className="flex items-center gap-3 mb-6">
+          {Array.from({ length: TOTAL }).map((_, i) => (
             <motion.div
               key={i}
-              animate={{ width: i === slide ? 24 : 6, opacity: i <= slide ? 1 : 0.25 }}
-              transition={{ duration: 0.3 }}
-              className="h-1.5 rounded-full bg-primary"
-            />
-          ))}
-        </div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.25 }}
-          >
-            {/* Icon */}
-            <div className={`w-20 h-20 rounded-2xl mb-5 flex items-center justify-center bg-gradient-to-b ${current.color} border border-white/8 mx-auto`}>
-              {current.icon}
-            </div>
-
-            {/* Badge + Title */}
-            <div className="flex items-center gap-2 mb-2 justify-center">
-              <span className="text-xs font-bold text-primary/80 tracking-widest">{current.badge}</span>
-              <h2 className="text-xl font-bold text-white">{current.title}</h2>
-            </div>
-
-            <p className="text-white/55 text-sm text-center mb-5 leading-relaxed">{current.desc}</p>
-
-            {/* Bullets */}
-            <div className="flex flex-col gap-2 mb-6">
-              {current.bullets.map((b, i) => (
-                <div key={i} className="flex items-start gap-3 bg-white/4 border border-white/6 rounded-xl px-4 py-3">
-                  <span className="text-primary mt-0.5">✓</span>
-                  <span className="text-sm text-white/80">{b}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Buttons */}
-        <div className="flex gap-3">
-          {!isLast && (
-            <button
-              onClick={() => { setHasSeenTokensOnboarding(true); onClose(); }}
-              className="flex-none px-4 py-3.5 rounded-2xl text-white/40 text-sm font-medium border border-white/8"
+              className="h-[3px] rounded-full flex-1 overflow-hidden bg-white/15"
             >
-              Пропустить
-            </button>
-          )}
-          <button
-            onClick={handleNext}
-            className="flex-1 bg-primary text-white font-bold py-3.5 rounded-2xl active:scale-[0.98] transition-transform text-sm"
-          >
-            {isLast ? 'Перейти к токенам' : 'Далее'}
+              <motion.div
+                className="h-full rounded-full bg-white"
+                initial={{ width: i < slide ? '100%' : '0%' }}
+                animate={{ width: i < slide ? '100%' : i === slide ? '100%' : '0%' }}
+                transition={i === slide ? { duration: 6, ease: 'linear' } : { duration: 0.3 }}
+              />
+            </motion.div>
+          ))}
+          <button onClick={handleSkip} className="text-white/40 text-xs font-medium shrink-0 ml-1">
+            Пропустить
           </button>
         </div>
-      </motion.div>
+
+        {/* Logo */}
+        <div className="flex justify-center mb-auto">
+          <TrendsLogo />
+        </div>
+
+        {/* Slide content */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slide}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="flex flex-col items-center text-center"
+            >
+              {/* Headline */}
+              <div className="mb-8">
+                {slides[slide].lines.map((line, i) => (
+                  <div key={i} className="leading-none mb-1">
+                    {line.gradient ? (
+                      <span
+                        className="text-5xl font-black"
+                        style={{
+                          background: 'linear-gradient(90deg, #4FC3F7 0%, #B39DDB 50%, #F48FB1 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }}
+                      >
+                        {line.text}
+                      </span>
+                    ) : (
+                      <span className="text-5xl font-black text-white">{line.text}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Chip */}
+              <div className="inline-flex items-center gap-2 bg-white/8 border border-white/12 rounded-full px-5 py-2.5 backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                <span className="text-white/70 text-sm font-medium">{slides[slide].chip}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* CTA button */}
+        <button
+          onClick={handleNext}
+          className="w-full py-4 rounded-2xl font-bold text-base tracking-wider text-white active:scale-[0.97] transition-transform"
+          style={{
+            background: 'linear-gradient(90deg, #2979FF 0%, #1565C0 100%)',
+            boxShadow: '0 4px 32px rgba(41,121,255,0.45)',
+          }}
+        >
+          {isLast ? 'НАЧАТЬ' : 'ДАЛЕЕ'}
+        </button>
+      </div>
     </motion.div>
   );
 }
