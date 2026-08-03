@@ -151,7 +151,7 @@ export const useStore = create<AppState>()(
       })),
     }),
     {
-      name: 'trends-storage',
+      name: 'trends-storage-v2',
     }
   )
 );
