@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import trendsLogoSrc from '@assets/logo_trends_1785780666251.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Sparkles, Wallet, TrendingUp, Coins, ShoppingBag } from 'lucide-react';
 import { useStore } from '@/store/useStore';
@@ -92,30 +93,35 @@ export function Onboarding() {
   );
 }
 
-// Star field helper — static positions so they don't re-render
-const STARS = Array.from({ length: 60 }, (_, i) => ({
+// Pre-computed star data
+const STARS = Array.from({ length: 80 }, (_, i) => ({
   id: i,
-  top: `${(i * 37 + 11) % 100}%`,
-  left: `${(i * 53 + 7) % 100}%`,
-  size: i % 5 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
-  opacity: 0.15 + (i % 7) * 0.06,
+  top: (i * 37 + 11) % 100,
+  left: (i * 53 + 7) % 100,
+  size: i % 6 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
+  twinkleDuration: 1.5 + (i % 5) * 0.7,
+  twinkleDelay: (i % 9) * 0.4,
+  baseOpacity: 0.1 + (i % 7) * 0.07,
 }));
+
+// Floating orbs config
+const ORBS = [
+  { size: 260, x: ['10%', '25%', '15%'], y: ['15%', '35%', '20%'], color: 'rgba(41,121,255,0.22)', duration: 12 },
+  { size: 200, x: ['65%', '55%', '70%'], y: ['10%', '30%', '15%'], color: 'rgba(124,58,237,0.18)', duration: 15 },
+  { size: 180, x: ['20%', '40%', '25%'], y: ['60%', '75%', '65%'], color: 'rgba(79,195,247,0.15)', duration: 18 },
+  { size: 220, x: ['60%', '75%', '65%'], y: ['55%', '70%', '60%'], color: 'rgba(244,143,177,0.12)', duration: 13 },
+];
 
 function TrendsLogo() {
   return (
-    <div className="flex items-center gap-2">
-      {/* T-shield icon */}
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M14 2L4 7v7c0 5.5 4.3 10.6 10 12 5.7-1.4 10-6.5 10-12V7L14 2z" fill="url(#shield-grad)" />
-        <text x="14" y="19" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12" fontFamily="system-ui">T</text>
-        <defs>
-          <linearGradient id="shield-grad" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#4FC3F7" />
-            <stop offset="1" stopColor="#7C3AED" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <span className="text-white font-bold tracking-[0.18em] text-sm uppercase">Trends</span>
+    <div className="flex items-center gap-2.5">
+      <img
+        src={trendsLogoSrc}
+        alt="Trends"
+        className="w-8 h-8 object-contain"
+        style={{ mixBlendMode: 'screen' }}
+      />
+      <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">Trends</span>
     </div>
   );
 }
@@ -123,38 +129,36 @@ function TrendsLogo() {
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   const { setHasSeenTokensOnboarding } = useStore();
   const [slide, setSlide] = useState(0);
-  const [direction, setDirection] = useState(1);
 
   const slides = [
     {
-      chip: "Монетизируй своё время",
+      chip: "Монетизируй своё внимание",
+      label: "01 — Что такое Trends",
       lines: [
-        { text: "Новый", gradient: false },
-        { text: "тренд", gradient: false },
         { text: "Смотри", gradient: true },
-        { text: "Reels", gradient: true },
-        { text: "получай", gradient: false },
-        { text: "токены!", gradient: false },
+        { text: "Reels прямо", gradient: false },
+        { text: "в Telegram", gradient: false },
+        { text: "и зарабатывай", gradient: true },
       ],
     },
     {
-      chip: "Твоё внимание = деньги",
+      chip: "До 500 видео в день",
+      label: "02 — Как работают токены",
       lines: [
-        { text: "Зарабатывай", gradient: false },
-        { text: "TRND", gradient: true },
-        { text: "за каждый", gradient: false },
+        { text: "Каждый", gradient: false },
         { text: "просмотр", gradient: true },
-        { text: "и стрик!", gradient: false },
+        { text: "приносит", gradient: false },
+        { text: "TRND", gradient: true },
       ],
     },
     {
-      chip: "Партнёры и скидки",
+      chip: "Кэшбэк · скидки · крипта",
+      label: "03 — Магазин и обмен",
       lines: [
-        { text: "Обменяй", gradient: false },
-        { text: "токены", gradient: true },
-        { text: "на кэшбэк", gradient: false },
-        { text: "и вывод", gradient: true },
-        { text: "в крипту!", gradient: false },
+        { text: "TRND —", gradient: false },
+        { text: "настоящие", gradient: true },
+        { text: "деньги", gradient: false },
+        { text: "уже сейчас", gradient: true },
       ],
     },
   ];
@@ -163,18 +167,8 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   const isLast = slide === TOTAL - 1;
 
   const handleNext = () => {
-    setDirection(1);
-    if (!isLast) {
-      setSlide(s => s + 1);
-    } else {
-      setHasSeenTokensOnboarding(true);
-      onClose();
-    }
-  };
-
-  const handleSkip = () => {
-    setHasSeenTokensOnboarding(true);
-    onClose();
+    if (!isLast) setSlide(s => s + 1);
+    else { setHasSeenTokensOnboarding(true); onClose(); }
   };
 
   return (
@@ -183,71 +177,135 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.4 }}
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#07102A]" />
-      {/* Radial blue glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(30,80,200,0.45)_0%,transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_65%,rgba(20,60,160,0.3)_0%,transparent_70%)]" />
+      {/* ── Base background ── */}
+      <div className="absolute inset-0 bg-[#050E24]" />
 
-      {/* Stars */}
-      {STARS.map(s => (
-        <div
-          key={s.id}
-          className="absolute rounded-full bg-white pointer-events-none"
-          style={{ top: s.top, left: s.left, width: s.size, height: s.size, opacity: s.opacity }}
+      {/* ── Aurora bottom glow ── */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background: 'radial-gradient(ellipse 90% 60% at 50% 110%, rgba(41,121,255,0.35) 0%, transparent 70%)',
+        }}
+      />
+
+      {/* ── Animated floating orbs ── */}
+      {ORBS.map((orb, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: orb.size,
+            height: orb.size,
+            background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
+            filter: 'blur(40px)',
+          }}
+          animate={{ x: orb.x, y: orb.y }}
+          transition={{ duration: orb.duration, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
         />
       ))}
 
-      {/* Content */}
+      {/* ── Twinkling stars ── */}
+      {STARS.map(s => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full bg-white pointer-events-none"
+          style={{ top: `${s.top}%`, left: `${s.left}%`, width: s.size, height: s.size }}
+          animate={{ opacity: [s.baseOpacity, s.baseOpacity * 3.5, s.baseOpacity] }}
+          transition={{ duration: s.twinkleDuration, repeat: Infinity, delay: s.twinkleDelay, ease: 'easeInOut' }}
+        />
+      ))}
+
+      {/* ── Slide-keyed color tint overlay ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`tint-${slide}`}
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            background: [
+              'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(41,121,255,0.18) 0%, transparent 70%)',
+              'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(124,58,237,0.18) 0%, transparent 70%)',
+              'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(16,185,129,0.15) 0%, transparent 70%)',
+            ][slide],
+          }}
+        />
+      </AnimatePresence>
+
+      {/* ── Content ── */}
       <div className="relative z-10 flex flex-col h-full px-6 pt-5 pb-8">
 
-        {/* Top bar: progress + skip */}
-        <div className="flex items-center gap-3 mb-6">
+        {/* Progress + skip */}
+        <div className="flex items-center gap-2.5 mb-5">
           {Array.from({ length: TOTAL }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="h-[3px] rounded-full flex-1 overflow-hidden bg-white/15"
-            >
+            <div key={i} className="h-[3px] rounded-full flex-1 overflow-hidden bg-white/12">
               <motion.div
                 className="h-full rounded-full bg-white"
                 initial={{ width: i < slide ? '100%' : '0%' }}
-                animate={{ width: i < slide ? '100%' : i === slide ? '100%' : '0%' }}
-                transition={i === slide ? { duration: 6, ease: 'linear' } : { duration: 0.3 }}
+                animate={{ width: i <= slide ? '100%' : '0%' }}
+                transition={i === slide ? { duration: 0.4 } : { duration: 0.3 }}
               />
-            </motion.div>
+            </div>
           ))}
-          <button onClick={handleSkip} className="text-white/40 text-xs font-medium shrink-0 ml-1">
+          <button
+            onClick={() => { setHasSeenTokensOnboarding(true); onClose(); }}
+            className="text-white/35 text-xs font-medium shrink-0 ml-1 hover:text-white/60 transition-colors"
+          >
             Пропустить
           </button>
         </div>
 
         {/* Logo */}
-        <div className="flex justify-center mb-auto">
+        <div className="flex justify-center mb-2">
           <TrendsLogo />
         </div>
 
-        {/* Slide content */}
+        {/* Slide body */}
         <div className="flex-1 flex flex-col items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -24 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="flex flex-col items-center text-center"
+              initial={{ opacity: 0, y: 32, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -24, scale: 0.97 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center text-center w-full"
             >
-              {/* Headline */}
-              <div className="mb-8">
+              {/* Slide label */}
+              <motion.span
+                className="text-xs font-semibold tracking-[0.2em] text-white/30 uppercase mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15 }}
+              >
+                {slides[slide].label}
+              </motion.span>
+
+              {/* Headline — staggered lines */}
+              <div className="mb-8 space-y-0.5">
                 {slides[slide].lines.map((line, i) => (
-                  <div key={i} className="leading-none mb-1">
+                  <motion.div
+                    key={`${slide}-${i}`}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.07, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="leading-tight"
+                  >
                     {line.gradient ? (
                       <span
-                        className="text-5xl font-black"
+                        className="text-[46px] font-black leading-[1.05]"
                         style={{
-                          background: 'linear-gradient(90deg, #4FC3F7 0%, #B39DDB 50%, #F48FB1 100%)',
+                          background: [
+                            'linear-gradient(95deg, #4FC3F7 0%, #B39DDB 55%, #F48FB1 100%)',
+                            'linear-gradient(95deg, #A78BFA 0%, #60A5FA 100%)',
+                            'linear-gradient(95deg, #34D399 0%, #60A5FA 100%)',
+                          ][slide],
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text',
@@ -256,33 +314,60 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                         {line.text}
                       </span>
                     ) : (
-                      <span className="text-5xl font-black text-white">{line.text}</span>
+                      <span className="text-[52px] font-black text-white leading-[1.05]">{line.text}</span>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* Chip */}
-              <div className="inline-flex items-center gap-2 bg-white/8 border border-white/12 rounded-full px-5 py-2.5 backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
-                <span className="text-white/70 text-sm font-medium">{slides[slide].chip}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.45, duration: 0.35 }}
+                className="inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 backdrop-blur-md"
+                style={{
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+              >
+                <motion.span
+                  className="w-1.5 h-1.5 rounded-full"
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  style={{ background: ['#4FC3F7', '#A78BFA', '#34D399'][slide] }}
+                />
+                <span className="text-white/65 text-sm font-medium">{slides[slide].chip}</span>
+                <motion.span
+                  className="w-1.5 h-1.5 rounded-full"
+                  animate={{ opacity: [1, 0.4, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  style={{ background: ['#F48FB1', '#60A5FA', '#60A5FA'][slide] }}
+                />
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* CTA button */}
-        <button
+        {/* CTA */}
+        <motion.button
           onClick={handleNext}
-          className="w-full py-4 rounded-2xl font-bold text-base tracking-wider text-white active:scale-[0.97] transition-transform"
+          whileTap={{ scale: 0.97 }}
+          className="w-full py-4 rounded-2xl font-bold text-base tracking-widest text-white relative overflow-hidden"
           style={{
-            background: 'linear-gradient(90deg, #2979FF 0%, #1565C0 100%)',
-            boxShadow: '0 4px 32px rgba(41,121,255,0.45)',
+            background: 'linear-gradient(90deg, #2563EB 0%, #1D4ED8 100%)',
+            boxShadow: '0 0 40px rgba(37,99,235,0.5)',
           }}
         >
+          {/* Shimmer sweep */}
+          <motion.span
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.15) 50%, transparent 65%)' }}
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.5, ease: 'easeInOut' }}
+          />
           {isLast ? 'НАЧАТЬ' : 'ДАЛЕЕ'}
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   );
