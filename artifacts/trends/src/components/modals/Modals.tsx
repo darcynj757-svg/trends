@@ -242,29 +242,29 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {/* Giant left-aligned title */}
               <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none' }}>
                 {current.title.map((seg, i) => {
-                  const parts = seg.text.split('\n');
-                  const content = parts.map((part, pi) => (
-                    <span key={pi}>
+                  if (seg.accent) {
+                    // Gradient: render raw text only — no nested elements, background-clip needs a clean box
+                    return (
+                      <span
+                        key={i}
+                        style={{
+                          background: TITLE_GRADIENT,
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }}
+                      >
+                        {seg.text.replace(/\n/g, ' ')}
+                      </span>
+                    );
+                  }
+                  // Plain white: split on \n and insert <br>
+                  return seg.text.split('\n').map((part, pi, arr) => (
+                    <span key={`${i}-${pi}`} className="text-white">
                       {part}
-                      {pi < parts.length - 1 && <br />}
+                      {pi < arr.length - 1 && <br />}
                     </span>
                   ));
-                  return seg.accent ? (
-                    <span
-                      key={i}
-                      style={{
-                        background: TITLE_GRADIENT,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        display: 'inline',
-                      }}
-                    >
-                      {content}
-                    </span>
-                  ) : (
-                    <span key={i} className="text-white">{content}</span>
-                  );
                 })}
               </h1>
 
