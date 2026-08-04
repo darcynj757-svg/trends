@@ -57,7 +57,7 @@ const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
       { text: 'Экономика внимания.\n', accent: false },
-      { text: 'Начни монетизировать своё время', accent: true },
+      { text: 'Начни монетизировать своё время уже сейчас!', accent: true },
     ],
     subtitle: null,
     pill: 'Новый тренд',
@@ -114,21 +114,26 @@ const onboardingScreens: OnboardingScreen[] = [
 
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
-  { w: 340, h: 340, x: '-15%', y: '10%',  color: 'rgba(41,121,255,0.22)',  dur: 14, dx: ['0%','14%','5%'],    dy: ['0%','10%','3%']  },
-  { w: 280, h: 280, x: '55%',  y: '-8%',  color: 'rgba(124,58,237,0.18)',  dur: 11, dx: ['0%','-12%','-4%'],  dy: ['0%','16%','7%'] },
-  { w: 220, h: 220, x: '15%',  y: '58%',  color: 'rgba(79,195,247,0.16)',  dur: 17, dx: ['0%','10%','-5%'],   dy: ['0%','-12%','4%'] },
-  { w: 240, h: 240, x: '62%',  y: '58%',  color: 'rgba(244,143,177,0.13)', dur: 13, dx: ['0%','-8%','3%'],    dy: ['0%','8%','-5%']  },
+  { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
+  { w: 460, h: 460, x: '42%',  y: '30%',  color: 'rgba(150,20,255,0.26)',  dur: 10, dx: ['0%','-10%','-3%'], dy: ['0%','12%','5%'] },
+  { w: 380, h: 380, x: '5%',   y: '55%',  color: 'rgba(0,180,255,0.20)',   dur: 14, dx: ['0%','8%','-4%'], dy: ['0%','-10%','3%'] },
 ];
 
-const STARS = Array.from({ length: 70 }, (_, i) => ({
+const STARS = Array.from({ length: 55 }, (_, i) => ({
   id: i,
   top:  (i * 37 + 11) % 100,
   left: (i * 53 + 7)  % 100,
-  size: i % 6 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
-  dur:  1.5 + (i % 5) * 0.7,
-  delay:(i % 9) * 0.4,
-  baseOp: 0.08 + (i % 7) * 0.07,
+  size: i % 10 === 0 ? 2.5 : i % 4 === 0 ? 1.5 : 1,
+  dur:  2 + (i % 5) * 0.8,
+  delay:(i % 9) * 0.5,
+  baseOp: 0.12 + (i % 5) * 0.08,
 }));
+
+const SHOOTING_STARS = [
+  { id: 0, top: 12, delay: 3,  dur: 1.1, length: 100 },
+  { id: 1, top: 34, delay: 9,  dur: 0.9, length: 80  },
+  { id: 2, top: 22, delay: 16, dur: 1.2, length: 120 },
+];
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
@@ -183,7 +188,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* ── Animated orbs ── */}
+      {/* ── Orbs ── */}
       {BG_ORBS.map((orb, i) => (
         <motion.div
           key={i}
@@ -191,20 +196,20 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           style={{
             width: orb.w, height: orb.h,
             left: orb.x, top: orb.y,
-            background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
-            filter: 'blur(50px)',
+            background: `radial-gradient(circle, ${orb.color} 0%, transparent 68%)`,
+            filter: 'blur(60px)',
           }}
-          animate={{ x: orb.dx, y: orb.dy }}
+          animate={{ x: orb.dx, y: orb.dy, scale: [1, 1.08, 0.95, 1] }}
           transition={{ duration: orb.dur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
         />
       ))}
 
-      {/* Bottom radial glow */}
+      {/* Bottom glow */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-80 pointer-events-none"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 90% 60% at 50% 110%, rgba(41,121,255,0.35) 0%, transparent 70%)' }}
+        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        style={{ height: '45%', background: 'radial-gradient(ellipse 80% 55% at 50% 115%, rgba(41,100,255,0.38) 0%, transparent 70%)' }}
+        animate={{ opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Stars */}
@@ -213,8 +218,27 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           key={s.id}
           className="absolute rounded-full bg-white pointer-events-none"
           style={{ top: `${s.top}%`, left: `${s.left}%`, width: s.size, height: s.size }}
-          animate={{ opacity: [s.baseOp, s.baseOp * 3.5, s.baseOp] }}
+          animate={{ opacity: [s.baseOp, s.baseOp * 4, s.baseOp] }}
           transition={{ duration: s.dur, repeat: Infinity, delay: s.delay, ease: 'easeInOut' }}
+        />
+      ))}
+
+      {/* Shooting stars */}
+      {SHOOTING_STARS.map(s => (
+        <motion.div
+          key={s.id}
+          className="absolute pointer-events-none"
+          style={{
+            top: `${s.top}%`,
+            left: '-8%',
+            width: s.length,
+            height: 1.5,
+            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 70%, white 100%)',
+            borderRadius: 2,
+            rotate: 18,
+          }}
+          animate={{ x: ['0vw', '125vw'], opacity: [0, 0.9, 0.9, 0] }}
+          transition={{ duration: s.dur, repeat: Infinity, delay: s.delay, repeatDelay: 12, ease: 'easeIn' }}
         />
       ))}
 
@@ -240,16 +264,18 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pill — above title */}
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-5">
                 <div
-                  className="inline-flex items-center rounded-full px-4 py-1.5"
+                  className="inline-flex items-center rounded-full px-6 py-2.5"
                   style={{
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    backdropFilter: 'blur(10px)',
+                    background: 'rgba(255,255,255,0.10)',
+                    border: '1px solid rgba(255,255,255,0.22)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
                   }}
                 >
-                  <span className="text-white/60 text-[12px] font-medium tracking-wide">{current.pill}</span>
+                  <span className="text-white/80 text-[14px] font-semibold tracking-wide">{current.pill}</span>
                 </div>
               </div>
 
