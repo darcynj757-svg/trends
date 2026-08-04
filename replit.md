@@ -1,6 +1,6 @@
-# [Project name]
+# Trends
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A Telegram Mini App prototype — a TikTok/Reels-style vertical video feed with an attention economy where users earn TRND tokens for watching videos, daily streaks, and inviting friends.
 
 ## Run & Operate
 
