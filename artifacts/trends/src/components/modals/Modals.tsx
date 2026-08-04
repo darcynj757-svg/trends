@@ -33,7 +33,7 @@ export function Onboarding() {
 
 // ─── Shared constants ─────────────────────────────────────────────────────────
 const ACCENT_BLUE = '#4B7BF5';
-const TITLE_GRADIENT = 'linear-gradient(95deg, #4FC3F7 0%, #B39DDB 55%, #F48FB1 100%)';
+const TITLE_GRADIENT = 'linear-gradient(95deg, #00C6FF 0%, #8B2FFF 48%, #FF1E8C 100%)';
 
 function TrendsLogo() {
   return (
@@ -56,8 +56,8 @@ interface OnboardingScreen {
 const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
-      { text: 'Экономика внимания — новый тренд. Начни ', accent: false },
-      { text: 'монетизировать своё время', accent: true },
+      { text: 'Экономика внимания.\n', accent: false },
+      { text: 'Начни монетизировать своё время', accent: true },
     ],
     subtitle: null,
     pill: 'Новый тренд',
@@ -240,7 +240,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Giant left-aligned title */}
-              <h1 className="text-[34px] leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'break-word', wordBreak: 'keep-all', fontWeight: 900 }}>
+              <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, whiteSpace: 'pre-line', hyphens: 'none' }}>
                 {current.title.map((seg, i) =>
                   seg.accent ? (
                     <span
