@@ -227,7 +227,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Slide body — takes remaining space */}
-        <div className="flex-1 flex flex-col justify-start pt-6 min-h-0">
+        <div className="flex-1 flex flex-col justify-start pt-12 min-h-0">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide}
@@ -258,7 +258,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
-                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '0.5rem' }}>
+                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '2rem' }}>
                         {seg.text.replace(/\n/g, ' ')}
                       </span>
                     );
@@ -308,8 +308,8 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           whileTap={{ scale: 0.97 }}
           className="w-full py-4 rounded-full font-bold text-[16px] tracking-widest text-white relative overflow-hidden mt-6"
           style={{
-            background: 'linear-gradient(90deg, #2979FF 0%, #1565C0 100%)',
-            boxShadow: '0 4px 32px rgba(41,121,255,0.5)',
+            background: 'linear-gradient(90deg, #42A5F5 0%, #1E88E5 100%)',
+            boxShadow: '0 4px 32px rgba(66,165,245,0.5)',
           }}
         >
           <motion.span
