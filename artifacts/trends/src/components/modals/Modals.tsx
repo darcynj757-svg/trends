@@ -32,24 +32,7 @@ export function Onboarding() {
 }
 
 // ─── Shared constants ─────────────────────────────────────────────────────────
-const GRADIENT = 'linear-gradient(95deg, #4FC3F7 0%, #B39DDB 55%, #F48FB1 100%)';
-
-const STARS = Array.from({ length: 80 }, (_, i) => ({
-  id: i,
-  top: (i * 37 + 11) % 100,
-  left: (i * 53 + 7) % 100,
-  size: i % 6 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
-  twinkleDuration: 1.5 + (i % 5) * 0.7,
-  twinkleDelay: (i % 9) * 0.4,
-  baseOpacity: 0.1 + (i % 7) * 0.07,
-}));
-
-const ORBS = [
-  { size: 260, x: ['10%', '25%', '15%'], y: ['15%', '35%', '20%'], color: 'rgba(41,121,255,0.22)', duration: 12 },
-  { size: 200, x: ['65%', '55%', '70%'], y: ['10%', '30%', '15%'], color: 'rgba(124,58,237,0.18)', duration: 15 },
-  { size: 180, x: ['20%', '40%', '25%'], y: ['60%', '75%', '65%'], color: 'rgba(79,195,247,0.15)', duration: 18 },
-  { size: 220, x: ['60%', '75%', '65%'], y: ['55%', '70%', '60%'], color: 'rgba(244,143,177,0.12)', duration: 13 },
-];
+const ACCENT_BLUE = '#4B7BF5';
 
 function TrendsLogo() {
   return (
@@ -61,10 +44,10 @@ function TrendsLogo() {
 }
 
 // ─── Onboarding screen config ─────────────────────────────────────────────────
-interface TitleSegment { text: string; gradient: boolean }
+interface TitleSegment { text: string; accent: boolean }
 interface OnboardingScreen {
   title: TitleSegment[];
-  subtitle: string;
+  subtitle: string | null;
   pill: string;
   buttonLabel: string;
 }
@@ -72,39 +55,59 @@ interface OnboardingScreen {
 const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
-      { text: 'Твоё внимание = ', gradient: false },
-      { text: 'твои деньги', gradient: true },
+      { text: 'Экономика внимания — новый тренд. Начни ', accent: false },
+      { text: 'монетизировать своё время', accent: true },
     ],
-    subtitle: 'Смотри Reels прямо в Telegram и получай токены за каждый просмотр.',
-    pill: 'Весь контент Telegram в одной ленте',
+    subtitle: null,
+    pill: 'Новый тренд',
     buttonLabel: 'ДАЛЕЕ',
   },
   {
     title: [
-      { text: 'Токены → ', gradient: false },
-      { text: 'реальная выгода', gradient: true },
+      { text: 'Смотри Reels в Telegram и ', accent: false },
+      { text: 'зарабатывай токены', accent: true },
     ],
-    subtitle: 'Обменивай в магазине на подписки, скидки и промокоды — или копи и жди листинга. Решаешь ты.',
-    pill: 'Обменивай в один тап',
+    subtitle: null,
+    pill: 'Весь контент Telegram в одной бесконечной ленте',
     buttonLabel: 'ДАЛЕЕ',
   },
   {
     title: [
-      { text: 'Зови друзей — ', gradient: false },
-      { text: 'зарабатывай больше', gradient: true },
+      { text: 'Приглашай друзей — получай ', accent: false },
+      { text: 'токены', accent: true },
+      { text: ' за их просмотры', accent: false },
     ],
-    subtitle: 'Друг смотрит ленту — токены капают вам обоим. Чем больше друзей смотрят Trends, тем выше твой доход.',
+    subtitle: 'Друг смотрит ленту, токены капают вам обоим. Чем больше друзей смотрят Trends, тем выше твой доход.',
     pill: 'Реферальная программа',
     buttonLabel: 'ДАЛЕЕ',
   },
   {
     title: [
-      { text: 'Твои первые ', gradient: false },
-      { text: '100 токенов', gradient: true },
+      { text: 'Трать здесь и сейчас или держи до ', accent: false },
+      { text: 'листинга', accent: true },
     ],
-    subtitle: 'Начислили авансом, чтобы ты сразу почувствовал, как это работает. Остальное заработаешь в ленте.',
-    pill: 'Баланс уже пополнен',
-    buttonLabel: 'ЗАБРАТЬ И НАЧАТЬ',
+    subtitle: 'Заработанные токены можно сразу обменять на выгоду в магазине — или накопить и дождаться выхода на биржу.',
+    pill: 'Решаешь только ты',
+    buttonLabel: 'ДАЛЕЕ',
+  },
+  {
+    title: [
+      { text: 'Магазин — место, где токены становятся ', accent: false },
+      { text: 'выгодой', accent: true },
+    ],
+    subtitle: 'Подписки, скидки, промокоды и другие награды. Выбирай, что нужно именно тебе.',
+    pill: 'Обменивай в один тап',
+    buttonLabel: 'ДАЛЕЕ',
+  },
+  {
+    title: [
+      { text: 'Вкладка «Токены» — вся твоя ', accent: false },
+      { text: 'прибыль', accent: true },
+      { text: ' в одном месте', accent: false },
+    ],
+    subtitle: 'Общий пул, история начислений и управление токенами. Начни монетизировать своё время уже сейчас.',
+    pill: 'Твоё внимание — твой доход',
+    buttonLabel: 'НАЧАТЬ',
   },
 ];
 
@@ -112,6 +115,7 @@ const onboardingScreens: OnboardingScreen[] = [
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   const { setHasSeenTokensOnboarding, addTokens, hasClaimedWelcomeBonus, setHasClaimedWelcomeBonus } = useStore();
   const [slide, setSlide] = useState(0);
+  const [direction, setDirection] = useState(1);
   const touchX = useRef<number>(0);
 
   const TOTAL = onboardingScreens.length;
@@ -120,6 +124,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
   const goTo = (next: number) => {
     if (next < 0 || next >= TOTAL) return;
+    setDirection(next > slide ? 1 : -1);
     setSlide(next);
   };
 
@@ -147,9 +152,15 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
     if (Math.abs(diff) > 48) diff > 0 ? goTo(slide + 1) : goTo(slide - 1);
   };
 
+  const slideVariants = {
+    enter: (dir: number) => ({ opacity: 0, x: dir * 24 }),
+    center: { opacity: 1, x: 0 },
+    exit: (dir: number) => ({ opacity: 0, x: dir * -24 }),
+  };
+
   return (
     <motion.div
-      className="absolute inset-0 z-[80] flex flex-col overflow-hidden"
+      className="absolute inset-0 z-[80] flex flex-col overflow-hidden bg-[#0A0A0A]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -157,55 +168,27 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#050E24]" />
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-72 pointer-events-none"
-        animate={{ opacity: [0.45, 0.75, 0.45] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 90% 60% at 50% 110%, rgba(41,121,255,0.32) 0%, transparent 70%)' }}
-      />
-      {ORBS.map((orb, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full pointer-events-none"
-          style={{ width: orb.size, height: orb.size, background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`, filter: 'blur(40px)' }}
-          animate={{ x: orb.x, y: orb.y }}
-          transition={{ duration: orb.duration, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-        />
-      ))}
-      {STARS.map(s => (
-        <motion.div
-          key={s.id}
-          className="absolute rounded-full bg-white pointer-events-none"
-          style={{ top: `${s.top}%`, left: `${s.left}%`, width: s.size, height: s.size }}
-          animate={{ opacity: [s.baseOpacity, s.baseOpacity * 3.5, s.baseOpacity] }}
-          transition={{ duration: s.twinkleDuration, repeat: Infinity, delay: s.twinkleDelay, ease: 'easeInOut' }}
-        />
-      ))}
+      <div className="relative z-10 flex flex-col h-full px-5 pt-5 pb-8">
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col h-full px-6 pt-5 pb-8">
-
-        {/* Progress bar + skip */}
-        <div className="flex items-center gap-1.5 mb-6">
-          {Array.from({ length: TOTAL }).map((_, i) => (
-            <div
-              key={i}
-              className="h-[3px] rounded-full flex-1 overflow-hidden"
-              style={{ background: 'rgba(255,255,255,0.12)' }}
-            >
+        {/* Progress dots + skip */}
+        <div className="flex items-center justify-between mb-7">
+          <div className="flex items-center gap-2">
+            {Array.from({ length: TOTAL }).map((_, i) => (
               <motion.div
-                className="h-full rounded-full bg-white"
-                animate={{ width: i <= slide ? '100%' : '0%' }}
+                key={i}
+                animate={{
+                  width: i === slide ? 22 : 7,
+                  backgroundColor: i === slide ? '#FFFFFF' : i < slide ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.2)',
+                }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="h-[7px] rounded-full"
               />
-            </div>
-          ))}
+            ))}
+          </div>
           {!isLast && (
             <button
               onClick={handleSkip}
-              className="text-white/35 text-xs font-medium shrink-0 ml-2 hover:text-white/60 transition-colors"
+              className="text-white/40 text-sm font-medium hover:text-white/70 transition-colors"
             >
               Пропустить
             </button>
@@ -213,65 +196,50 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Logo */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-8">
           <TrendsLogo />
         </div>
 
-        {/* Slide body — vertically centred, pure fade */}
+        {/* Slide body */}
         <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="flex flex-col items-center text-center w-full"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="flex flex-col items-center w-full"
             >
-              {/* Headline */}
-              <h1 className="text-[40px] font-black leading-[1.1] mb-5 px-1">
-                {current.title.map((seg, i) =>
-                  seg.gradient ? (
-                    <span
-                      key={i}
-                      style={{
-                        background: GRADIENT,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
-                      {seg.text}
-                    </span>
-                  ) : (
-                    <span key={i} className="text-white">{seg.text}</span>
-                  )
-                )}
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-white/55 text-[15px] leading-relaxed mb-8 px-2">
-                {current.subtitle}
-              </p>
-
-              {/* Pill */}
+              {/* Content card */}
               <div
-                className="inline-flex items-center gap-2 rounded-full px-5 py-2.5"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                className="w-full rounded-[24px] p-6 mb-5"
+                style={{ background: '#1A1A1A' }}
               >
-                <motion.span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.6, repeat: Infinity }}
-                  style={{ background: '#4FC3F7' }}
-                />
+                <h1 className="text-[26px] font-black leading-[1.2] text-center">
+                  {current.title.map((seg, i) =>
+                    seg.accent ? (
+                      <span key={i} style={{ color: ACCENT_BLUE }}>{seg.text}</span>
+                    ) : (
+                      <span key={i} className="text-white">{seg.text}</span>
+                    )
+                  )}
+                </h1>
+                {current.subtitle && (
+                  <p className="text-[14px] leading-relaxed text-center mt-3" style={{ color: '#8E8E93' }}>
+                    {current.subtitle}
+                  </p>
+                )}
+              </div>
+
+              {/* Pill badge */}
+              <div
+                className="inline-flex items-center rounded-full px-4 py-2"
+                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
                 <span className="text-white/60 text-[13px] font-medium">{current.pill}</span>
-                <motion.span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  animate={{ opacity: [1, 0.4, 1] }}
-                  transition={{ duration: 1.6, repeat: Infinity }}
-                  style={{ background: '#F48FB1' }}
-                />
               </div>
             </motion.div>
           </AnimatePresence>
@@ -281,18 +249,8 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         <motion.button
           onClick={handleNext}
           whileTap={{ scale: 0.97 }}
-          className="w-full py-4 rounded-2xl font-bold text-sm tracking-widest text-white relative overflow-hidden mt-6"
-          style={{
-            background: 'linear-gradient(90deg, #2563EB 0%, #1D4ED8 100%)',
-            boxShadow: '0 0 36px rgba(37,99,235,0.5)',
-          }}
+          className="w-full py-4 rounded-full font-bold text-[15px] tracking-wide text-black bg-white mt-6 active:bg-white/90 transition-colors"
         >
-          <motion.span
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.14) 50%, transparent 65%)' }}
-            animate={{ x: ['-100%', '200%'] }}
-            transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.8, ease: 'easeInOut' }}
-          />
           {current.buttonLabel}
         </motion.button>
       </div>
