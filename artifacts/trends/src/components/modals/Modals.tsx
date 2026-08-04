@@ -219,25 +219,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       ))}
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex flex-col h-full px-6 pt-4 pb-8">
-
-        {/* Progress segments — top */}
-        <div className="flex items-center gap-1.5 mb-5">
-          {Array.from({ length: TOTAL }).map((_, i) => (
-            <div
-              key={i}
-              className="flex-1 h-[3px] rounded-full overflow-hidden"
-              style={{ background: 'rgba(255,255,255,0.15)' }}
-            >
-              <motion.div
-                className="h-full rounded-full"
-                animate={{ width: i <= slide ? '100%' : '0%' }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                style={{ background: i < slide ? 'rgba(255,255,255,0.6)' : '#ffffff' }}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="relative z-10 flex flex-col h-full px-6 pt-6 pb-8">
 
         {/* Logo */}
         <div className="flex justify-center mb-6">
@@ -323,6 +305,19 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               )}
             </motion.div>
           </AnimatePresence>
+        </div>
+
+        {/* Progress segments — above button */}
+        <div className="flex items-center justify-center gap-1.5 mb-4">
+          {Array.from({ length: TOTAL }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="rounded-full overflow-hidden"
+              animate={{ width: i === slide ? 20 : 6, opacity: i <= slide ? 1 : 0.3 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              style={{ height: 6, background: i <= slide ? '#ffffff' : 'rgba(255,255,255,0.25)' }}
+            />
+          ))}
         </div>
 
         {/* CTA button — blue gradient */}
