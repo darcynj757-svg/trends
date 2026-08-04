@@ -111,6 +111,25 @@ const onboardingScreens: OnboardingScreen[] = [
   },
 ];
 
+// ─── Animated background orbs ────────────────────────────────────────────────
+const BG_ORBS = [
+  { w: 320, h: 320, x: '-10%', y: '5%',  color: 'rgba(75,123,245,0.28)',  dur: 14, dx: ['0%','12%','4%'],   dy: ['0%','8%','2%']  },
+  { w: 260, h: 260, x: '55%',  y: '-5%', color: 'rgba(56,189,248,0.22)',  dur: 11, dx: ['0%','-10%','-3%'], dy: ['0%','14%','6%'] },
+  { w: 200, h: 200, x: '20%',  y: '55%', color: 'rgba(99,102,241,0.20)',  dur: 17, dx: ['0%','8%','-4%'],   dy: ['0%','-10%','3%']},
+  { w: 180, h: 180, x: '65%',  y: '60%', color: 'rgba(14,165,233,0.18)',  dur: 13, dx: ['0%','-6%','2%'],   dy: ['0%','6%','-4%'] },
+  { w: 140, h: 140, x: '10%',  y: '35%', color: 'rgba(139,92,246,0.15)',  dur: 19, dx: ['0%','10%','5%'],   dy: ['0%','-8%','4%'] },
+];
+
+const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
+  id: i,
+  top:  (i * 41 + 7)  % 95,
+  left: (i * 67 + 13) % 95,
+  size: i % 5 === 0 ? 2.5 : i % 3 === 0 ? 1.8 : 1.2,
+  dur:  2.2 + (i % 6) * 0.6,
+  delay:(i % 8) * 0.35,
+  baseOp: 0.08 + (i % 5) * 0.07,
+}));
+
 // ─── Main component ───────────────────────────────────────────────────────────
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   const { setHasSeenTokensOnboarding, addTokens, hasClaimedWelcomeBonus, setHasClaimedWelcomeBonus } = useStore();
@@ -141,11 +160,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const handleSkip = () => {
-    setHasSeenTokensOnboarding(true);
-    onClose();
-  };
-
   const handleTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX; };
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = touchX.current - e.changedTouches[0].clientX;
@@ -153,50 +167,73 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   };
 
   const slideVariants = {
-    enter: (dir: number) => ({ opacity: 0, x: dir * 24 }),
-    center: { opacity: 1, x: 0 },
-    exit: (dir: number) => ({ opacity: 0, x: dir * -24 }),
+    enter: (dir: number) => ({ opacity: 0, x: dir * 28, scale: 0.97 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit:  (dir: number) => ({ opacity: 0, x: dir * -28, scale: 0.97 }),
   };
 
   return (
     <motion.div
-      className="absolute inset-0 z-[80] flex flex-col overflow-hidden bg-[#0A0A0A]"
+      className="absolute inset-0 z-[80] flex flex-col overflow-hidden"
+      style={{ background: '#05080F' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: 0.3 }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative z-10 flex flex-col h-full px-5 pt-5 pb-8">
+      {/* ── Animated background ── */}
+      {BG_ORBS.map((orb, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: orb.w, height: orb.h,
+            left: orb.x, top: orb.y,
+            background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
+            filter: 'blur(48px)',
+          }}
+          animate={{ x: orb.dx, y: orb.dy }}
+          transition={{ duration: orb.dur, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+        />
+      ))}
 
-        {/* Progress dots + skip */}
-        <div className="flex items-center justify-between mb-7">
-          <div className="flex items-center gap-2">
-            {Array.from({ length: TOTAL }).map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  width: i === slide ? 22 : 7,
-                  backgroundColor: i === slide ? '#FFFFFF' : i < slide ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.2)',
-                }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="h-[7px] rounded-full"
-              />
-            ))}
-          </div>
-          {!isLast && (
-            <button
-              onClick={handleSkip}
-              className="text-white/40 text-sm font-medium hover:text-white/70 transition-colors"
-            >
-              Пропустить
-            </button>
-          )}
-        </div>
+      {/* Subtle grid lines */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(75,123,245,1) 1px, transparent 1px), linear-gradient(90deg, rgba(75,123,245,1) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+        }}
+      />
 
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
+      {/* Floating particles */}
+      {PARTICLES.map(p => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            top: `${p.top}%`, left: `${p.left}%`,
+            width: p.size, height: p.size,
+            background: 'rgba(147,197,253,1)',
+          }}
+          animate={{ opacity: [p.baseOp, p.baseOp * 4, p.baseOp] }}
+          transition={{ duration: p.dur, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+        />
+      ))}
+
+      {/* Bottom glow */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 120%, rgba(75,123,245,0.25) 0%, transparent 70%)' }}
+      />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 flex flex-col h-full px-5 pt-8 pb-8">
+
+        {/* Logo only — clean header */}
+        <div className="flex justify-center mb-10">
           <TrendsLogo />
         </div>
 
@@ -210,15 +247,32 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex flex-col items-center w-full"
             >
-              {/* Content card */}
+              {/* Liquid-glass card */}
               <div
-                className="w-full rounded-[24px] p-6 mb-5"
-                style={{ background: '#1A1A1A' }}
+                className="w-full rounded-[28px] p-6 mb-5 relative overflow-hidden"
+                style={{
+                  background: 'rgba(255,255,255,0.055)',
+                  backdropFilter: 'blur(24px)',
+                  WebkitBackdropFilter: 'blur(24px)',
+                  border: '1px solid rgba(255,255,255,0.13)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.12)',
+                }}
               >
-                <h1 className="text-[26px] font-black leading-[1.2] text-center">
+                {/* Inner highlight shimmer */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-px rounded-full pointer-events-none"
+                  style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%)' }}
+                />
+                {/* Blue accent glow behind text */}
+                <div
+                  className="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-24 pointer-events-none"
+                  style={{ background: 'radial-gradient(ellipse, rgba(75,123,245,0.22) 0%, transparent 70%)', filter: 'blur(12px)' }}
+                />
+
+                <h1 className="relative text-[26px] font-black leading-[1.2] text-center">
                   {current.title.map((seg, i) =>
                     seg.accent ? (
                       <span key={i} style={{ color: ACCENT_BLUE }}>{seg.text}</span>
@@ -228,7 +282,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                   )}
                 </h1>
                 {current.subtitle && (
-                  <p className="text-[14px] leading-relaxed text-center mt-3" style={{ color: '#8E8E93' }}>
+                  <p className="relative text-[14px] leading-relaxed text-center mt-3" style={{ color: '#8E8E93' }}>
                     {current.subtitle}
                   </p>
                 )}
@@ -237,20 +291,50 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {/* Pill badge */}
               <div
                 className="inline-flex items-center rounded-full px-4 py-2"
-                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+                style={{
+                  background: 'rgba(75,123,245,0.12)',
+                  border: '1px solid rgba(75,123,245,0.3)',
+                  backdropFilter: 'blur(8px)',
+                }}
               >
-                <span className="text-white/60 text-[13px] font-medium">{current.pill}</span>
+                <span className="text-[13px] font-medium" style={{ color: 'rgba(147,197,253,0.9)' }}>{current.pill}</span>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* CTA button */}
+        {/* Progress dots — above button */}
+        <div className="flex justify-center items-center gap-2 mb-4">
+          {Array.from({ length: TOTAL }).map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{
+                width: i === slide ? 22 : 7,
+                backgroundColor: i === slide
+                  ? '#FFFFFF'
+                  : i < slide
+                    ? 'rgba(75,123,245,0.6)'
+                    : 'rgba(255,255,255,0.18)',
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="h-[7px] rounded-full"
+            />
+          ))}
+        </div>
+
+        {/* CTA button — liquid glass style */}
         <motion.button
           onClick={handleNext}
           whileTap={{ scale: 0.97 }}
-          className="w-full py-4 rounded-full font-bold text-[15px] tracking-wide text-black bg-white mt-6 active:bg-white/90 transition-colors"
+          className="w-full py-4 rounded-full font-bold text-[15px] tracking-wide text-black bg-white relative overflow-hidden"
+          style={{ boxShadow: '0 0 24px rgba(75,123,245,0.35)' }}
         >
+          <motion.span
+            className="absolute inset-0 pointer-events-none rounded-full"
+            style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)' }}
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
+          />
           {current.buttonLabel}
         </motion.button>
       </div>
