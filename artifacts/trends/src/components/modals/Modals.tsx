@@ -258,7 +258,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Giant left-aligned title */}
-              <h1 className="text-[40px] font-black leading-[1.1] mb-6" style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+              <h1 className="text-[40px] font-black leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
                 {current.title.map((seg, i) =>
                   seg.accent ? (
                     <span
@@ -278,10 +278,10 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 )}
               </h1>
 
-              {/* Subtitle pill */}
+              {/* Subtitle */}
               {current.subtitle ? (
                 <div
-                  className="self-start inline-flex rounded-2xl px-4 py-3"
+                  className="rounded-2xl px-4 py-3 text-center"
                   style={{
                     background: 'rgba(255,255,255,0.07)',
                     border: '1px solid rgba(255,255,255,0.1)',
@@ -292,27 +292,33 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 </div>
               ) : (
                 <div
-                  className="self-start inline-flex items-center rounded-full px-4 py-2"
-                  style={{
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    backdropFilter: 'blur(10px)',
-                  }}
+                  className="flex justify-center"
                 >
-                  <span className="text-white/60 text-[13px] font-medium">{current.pill}</span>
+                  <div
+                    className="inline-flex items-center rounded-full px-4 py-2"
+                    style={{
+                      background: 'rgba(255,255,255,0.07)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <span className="text-white/60 text-[13px] font-medium">{current.pill}</span>
+                  </div>
                 </div>
               )}
 
-              {/* Pill badge (shown below subtitle when subtitle exists) */}
+              {/* Pill badge below subtitle */}
               {current.subtitle && (
-                <div
-                  className="self-start inline-flex items-center rounded-full px-4 py-2 mt-3"
-                  style={{
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <span className="text-white/50 text-[12px] font-medium">{current.pill}</span>
+                <div className="flex justify-center mt-3">
+                  <div
+                    className="inline-flex items-center rounded-full px-4 py-2"
+                    style={{
+                      background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <span className="text-white/50 text-[12px] font-medium">{current.pill}</span>
+                  </div>
                 </div>
               )}
             </motion.div>
