@@ -240,9 +240,16 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Giant left-aligned title */}
-              <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, whiteSpace: 'pre-line', hyphens: 'none' }}>
-                {current.title.map((seg, i) =>
-                  seg.accent ? (
+              <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none' }}>
+                {current.title.map((seg, i) => {
+                  const parts = seg.text.split('\n');
+                  const content = parts.map((part, pi) => (
+                    <span key={pi}>
+                      {part}
+                      {pi < parts.length - 1 && <br />}
+                    </span>
+                  ));
+                  return seg.accent ? (
                     <span
                       key={i}
                       style={{
@@ -250,14 +257,15 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
+                        display: 'inline',
                       }}
                     >
-                      {seg.text}
+                      {content}
                     </span>
                   ) : (
-                    <span key={i} className="text-white">{seg.text}</span>
-                  )
-                )}
+                    <span key={i} className="text-white">{content}</span>
+                  );
+                })}
               </h1>
 
               {/* Subtitle */}
