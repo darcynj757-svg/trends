@@ -6,6 +6,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { TokensOnboarding } from '@/components/modals/Modals';
 import { AnimatePresence } from 'framer-motion';
 import { useStore } from '@/store/useStore';
+import { useEffect } from 'react';
 import Feed from '@/pages/Feed';
 import Tokens from '@/pages/Tokens';
 import Profit from '@/pages/Profit';
@@ -14,8 +15,17 @@ import Profile from '@/pages/Profile';
 import NotFound from '@/pages/not-found';
 
 function AppRoutes() {
-  const { hasSeenTokensOnboarding, setShowBalanceHighlight } = useStore();
+  const { hasSeenTokensOnboarding, setHasSeenTokensOnboarding, setShowBalanceHighlight } = useStore();
   const [, navigate] = useLocation();
+
+  // ?onboarding param resets the onboarding so it can be previewed again
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('onboarding')) {
+      setHasSeenTokensOnboarding(false);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const handleOnboardingClose = () => {
     navigate('/');
