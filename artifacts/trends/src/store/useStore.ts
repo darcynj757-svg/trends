@@ -45,11 +45,19 @@ interface AppState {
   hasSeenDailyCheckin: boolean;
   hasSeenTokensOnboarding: boolean;
   showTokensOnboarding: boolean;
-  
+  hasClaimedWelcomeBonus: boolean;
+  showBalanceHighlight: boolean;
+  hasSeenShopTooltip: boolean;
+  hasSeenTokensTooltip: boolean;
+
   setHasSeenOnboarding: (val: boolean) => void;
   setHasSeenDailyCheckin: (val: boolean) => void;
   setHasSeenTokensOnboarding: (val: boolean) => void;
   setShowTokensOnboarding: (val: boolean) => void;
+  setHasClaimedWelcomeBonus: (val: boolean) => void;
+  setShowBalanceHighlight: (val: boolean) => void;
+  setHasSeenShopTooltip: (val: boolean) => void;
+  setHasSeenTokensTooltip: (val: boolean) => void;
   addTokens: (amount: number, reason: string) => void;
   updateProfile: (updates: Partial<User>) => void;
 }
@@ -105,7 +113,7 @@ export const useStore = create<AppState>()(
       user: {
         name: 'Миша Зевс',
         handle: 'misha_zeus',
-        balance: 9000,
+        balance: 0,
         streak: 9,
         avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=misha',
         verified: true,
@@ -114,44 +122,48 @@ export const useStore = create<AppState>()(
         likes: 184000,
         bio: 'Делаю красиво. Web3 & Design.',
       },
-      transactions: [
-        { id: 't1', amount: 150, reason: 'Ежедневный стрик 🔥', date: new Date().toISOString(), type: 'earn' },
-        { id: 't2', amount: 12, reason: 'Просмотр видео', date: new Date(Date.now() - 3600000).toISOString(), type: 'earn' },
-        { id: 't3', amount: 25, reason: 'Просмотр видео', date: new Date(Date.now() - 7200000).toISOString(), type: 'earn' },
-        { id: 't4', amount: -500, reason: 'Защита серии 🛡', date: new Date(Date.now() - 86400000).toISOString(), type: 'spend' },
-        { id: 't5', amount: 1000, reason: 'Верификация', date: new Date(Date.now() - 172800000).toISOString(), type: 'earn' },
-      ],
+      transactions: [],
       videos: mockVideos,
       hasSeenOnboarding: false,
       hasSeenDailyCheckin: false,
       hasSeenTokensOnboarding: false,
       showTokensOnboarding: false,
+      hasClaimedWelcomeBonus: false,
+      showBalanceHighlight: false,
+      hasSeenShopTooltip: false,
+      hasSeenTokensTooltip: false,
 
       setHasSeenOnboarding: (val) => set({ hasSeenOnboarding: val }),
       setHasSeenDailyCheckin: (val) => set({ hasSeenDailyCheckin: val }),
       setHasSeenTokensOnboarding: (val) => set({ hasSeenTokensOnboarding: val }),
       setShowTokensOnboarding: (val) => set({ showTokensOnboarding: val }),
-      
-      addTokens: (amount, reason) => set((state) => ({
-        user: { ...state.user, balance: state.user.balance + amount },
-        transactions: [
-          {
-            id: Math.random().toString(36).substring(7),
-            amount,
-            reason,
-            date: new Date().toISOString(),
-            type: (amount > 0 ? 'earn' : 'spend') as 'earn' | 'spend'
-          },
-          ...state.transactions
-        ].slice(0, 50)
-      })),
-      
-      updateProfile: (updates) => set((state) => ({
-        user: { ...state.user, ...updates }
-      })),
+      setHasClaimedWelcomeBonus: (val) => set({ hasClaimedWelcomeBonus: val }),
+      setShowBalanceHighlight: (val) => set({ showBalanceHighlight: val }),
+      setHasSeenShopTooltip: (val) => set({ hasSeenShopTooltip: val }),
+      setHasSeenTokensTooltip: (val) => set({ hasSeenTokensTooltip: val }),
+
+      addTokens: (amount, reason) =>
+        set((state) => ({
+          user: { ...state.user, balance: state.user.balance + amount },
+          transactions: [
+            {
+              id: Math.random().toString(36).substring(7),
+              amount,
+              reason,
+              date: new Date().toISOString(),
+              type: (amount > 0 ? 'earn' : 'spend') as 'earn' | 'spend',
+            },
+            ...state.transactions,
+          ].slice(0, 50),
+        })),
+
+      updateProfile: (updates) =>
+        set((state) => ({
+          user: { ...state.user, ...updates },
+        })),
     }),
     {
-      name: 'trends-storage-v2',
+      name: 'trends-storage-v3',
     }
   )
 );

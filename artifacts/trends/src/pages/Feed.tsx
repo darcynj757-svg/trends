@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageCircle, Share2, Bookmark, Play, ChevronDown, Check } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, Play, ChevronDown } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 
 export default function Feed() {
-  const { videos } = useStore();
+  const { videos, showBalanceHighlight, user } = useStore();
   const [activeTab, setActiveTab] = useState('Для вас');
   const [showCategories, setShowCategories] = useState(false);
   const categories = ['Авто и мото', 'Новости и СМИ', 'Блогинг', 'Крипто', 'Юмор', 'Игры'];
@@ -15,23 +15,23 @@ export default function Feed() {
       {/* Top Nav */}
       <div className="absolute top-0 left-0 w-full z-30 pt-12 pb-4 px-4 flex flex-col items-center bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none">
         <div className="pointer-events-auto flex items-center justify-center gap-6 mb-3">
-          <button 
-            className={cn("text-base transition-colors drop-shadow-md flex items-center gap-1.5", activeTab === 'Тренды' ? 'text-white font-bold' : 'text-white/70 font-medium')} 
+          <button
+            className={cn('text-base transition-colors drop-shadow-md flex items-center gap-1.5', activeTab === 'Тренды' ? 'text-white font-bold' : 'text-white/70 font-medium')}
             onClick={() => { setActiveTab('Тренды'); setShowCategories(!showCategories); }}
           >
-            Тренды <ChevronDown className={cn("w-4 h-4 transition-transform", showCategories && "rotate-180")} />
+            Тренды <ChevronDown className={cn('w-4 h-4 transition-transform', showCategories && 'rotate-180')} />
           </button>
-          <button 
-            className={cn("text-base transition-colors drop-shadow-md", activeTab === 'Для вас' ? 'text-white font-bold' : 'text-white/70 font-medium')} 
+          <button
+            className={cn('text-base transition-colors drop-shadow-md', activeTab === 'Для вас' ? 'text-white font-bold' : 'text-white/70 font-medium')}
             onClick={() => { setActiveTab('Для вас'); setShowCategories(false); }}
           >
             Для вас
           </button>
         </div>
-        
+
         <AnimatePresence>
           {showCategories && activeTab === 'Тренды' && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0, y: -10 }}
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -10 }}
@@ -49,6 +49,39 @@ export default function Feed() {
         </AnimatePresence>
       </div>
 
+      {/* Balance highlight banner */}
+      <AnimatePresence>
+        {showBalanceHighlight && (
+          <motion.div
+            className="absolute top-0 left-0 right-0 z-40 flex justify-center pointer-events-none"
+            style={{ paddingTop: '5.5rem' }}
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div
+              className="flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm font-bold text-white"
+              style={{
+                background: 'rgba(10,20,50,0.9)',
+                border: '1px solid rgba(79,195,247,0.4)',
+                boxShadow: '0 0 24px rgba(37,99,235,0.5)',
+                backdropFilter: 'blur(12px)',
+              }}
+            >
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                🎁
+              </motion.span>
+              <span>+100 TRND начислено!</span>
+              <span className="text-white/50 font-normal">Баланс: {user.balance}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {videos.map((video, idx) => (
         <VideoItem key={video.id} video={video} index={idx} />
       ))}
@@ -56,9 +89,9 @@ export default function Feed() {
   );
 }
 
-function VideoItem({ video, index }: { video: any, index: number }) {
+function VideoItem({ video, index }: { video: any; index: number }) {
   const [progress, setProgress] = useState(0);
-  const duration = 15; // 15 seconds
+  const duration = 15;
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const { addTokens } = useStore();
@@ -70,9 +103,7 @@ function VideoItem({ video, index }: { video: any, index: number }) {
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       setIsPlaying(entry.isIntersecting);
-      if (!entry.isIntersecting) {
-        setProgress(0); // reset when out of view
-      }
+      if (!entry.isIntersecting) setProgress(0);
     }, { threshold: 0.6 });
 
     if (containerRef.current) observer.observe(containerRef.current);
@@ -85,11 +116,9 @@ function VideoItem({ video, index }: { video: any, index: number }) {
       interval = setInterval(() => {
         setProgress(p => {
           if (p >= duration) {
-            if ((window as any).triggerTokenEarn) {
-              (window as any).triggerTokenEarn(2);
-            }
+            if ((window as any).triggerTokenEarn) (window as any).triggerTokenEarn(2);
             addTokens(2, 'Просмотр видео');
-            return 0; // Loop video
+            return 0;
           }
           return p + 0.1;
         });
@@ -106,7 +135,6 @@ function VideoItem({ video, index }: { video: any, index: number }) {
 
   return (
     <div ref={containerRef} className="relative w-full h-[100dvh] snap-start flex-shrink-0 flex flex-col justify-end" style={{ background: video.gradient }}>
-      {/* Mock Play Indicator */}
       <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/10">
         <div className="w-16 h-16 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20">
           <Play className="w-8 h-8 text-white ml-1" fill="white" />
@@ -119,7 +147,7 @@ function VideoItem({ video, index }: { video: any, index: number }) {
       <div className="absolute right-4 bottom-32 z-20 flex flex-col gap-6 items-center">
         <button onClick={() => setLiked(!liked)} className="flex flex-col items-center gap-1 group">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-            <Heart className={cn("w-7 h-7 transition-colors", liked ? "fill-destructive text-destructive" : "text-white")} />
+            <Heart className={cn('w-7 h-7 transition-colors', liked ? 'fill-destructive text-destructive' : 'text-white')} />
           </div>
           <span className="text-white font-medium text-xs shadow-black drop-shadow-md">
             {liked ? (video.likes + 1).toLocaleString('ru-RU') : video.likes.toLocaleString('ru-RU')}
@@ -135,7 +163,7 @@ function VideoItem({ video, index }: { video: any, index: number }) {
 
         <button onClick={() => setSaved(!saved)} className="flex flex-col items-center gap-1 group">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-            <Bookmark className={cn("w-7 h-7 transition-colors", saved ? "fill-accent text-accent" : "text-white")} />
+            <Bookmark className={cn('w-7 h-7 transition-colors', saved ? 'fill-accent text-accent' : 'text-white')} />
           </div>
           <span className="text-white font-medium text-xs shadow-black drop-shadow-md">{video.bookmarks}</span>
         </button>
@@ -155,23 +183,21 @@ function VideoItem({ video, index }: { video: any, index: number }) {
           <div className="flex-1 flex flex-col justify-center">
             <div className="flex items-center gap-2">
               <h3 className="text-white font-bold text-base drop-shadow-md">{video.author}</h3>
-              <button 
+              <button
                 onClick={() => setFollowing(!following)}
                 className={cn(
-                  "text-[10px] font-bold px-3 py-1 rounded-full transition-colors border uppercase tracking-wide",
-                  following ? "bg-white/10 text-white border-white/10" : "bg-primary text-white border-primary"
+                  'text-[10px] font-bold px-3 py-1 rounded-full transition-colors border uppercase tracking-wide',
+                  following ? 'bg-white/10 text-white border-white/10' : 'bg-primary text-white border-primary'
                 )}
               >
-                {following ? "В подписках" : "Подписаться"}
+                {following ? 'В подписках' : 'Подписаться'}
               </button>
             </div>
             <p className="text-white/60 text-xs drop-shadow-md">@{video.handle}</p>
           </div>
         </div>
-        
-        <p className="text-white/90 text-sm mb-2 drop-shadow-md line-clamp-2">
-          {video.description}
-        </p>
+
+        <p className="text-white/90 text-sm mb-2 drop-shadow-md line-clamp-2">{video.description}</p>
         <div className="flex flex-wrap gap-2">
           {video.tags.map((tag: string) => (
             <span key={tag} className="text-xs font-bold text-primary drop-shadow-md">#{tag}</span>
@@ -179,7 +205,7 @@ function VideoItem({ video, index }: { video: any, index: number }) {
         </div>
       </div>
 
-      {/* Progress Bar & Time */}
+      {/* Progress Bar */}
       <div className="absolute bottom-[92px] left-0 w-full px-4 flex items-center gap-3 z-20">
         <div className="flex-1 h-[3px] bg-white/20 relative rounded-full overflow-hidden">
           <div className="absolute top-0 left-0 h-full bg-white/90 rounded-full" style={{ width: `${(progress / duration) * 100}%` }} />

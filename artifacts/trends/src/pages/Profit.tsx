@@ -1,8 +1,22 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, ChevronRight, Tag, Utensils, Laptop, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import { useStore } from '@/store/useStore';
 
 export default function Profit() {
+  const { hasSeenShopTooltip, setHasSeenShopTooltip } = useStore();
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    if (!hasSeenShopTooltip) {
+      setShowTooltip(true);
+      setHasSeenShopTooltip(true);
+      const t = setTimeout(() => setShowTooltip(false), 3500);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
   const categories = [
     { name: 'Все', active: true },
     { name: 'Еда', icon: <Utensils className="w-3 h-3" /> },
@@ -18,7 +32,26 @@ export default function Profit() {
   ];
 
   return (
-    <div className="w-full h-full bg-[#050505] overflow-y-auto hide-scrollbar pb-28 text-white px-4">
+    <div className="relative w-full h-full bg-[#050505] overflow-y-auto hide-scrollbar pb-28 text-white px-4">
+      {/* First-visit tooltip */}
+      <AnimatePresence>
+        {showTooltip && (
+          <motion.div
+            className="absolute top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div
+              className="flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium text-white whitespace-nowrap"
+              style={{ background: 'rgba(10,20,50,0.95)', border: '1px solid rgba(79,195,247,0.35)', boxShadow: '0 0 20px rgba(37,99,235,0.4)', backdropFilter: 'blur(12px)' }}
+            >
+              🏪 Здесь токены превращаются в выгоду
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="pt-12 pb-6">
         <h1 className="text-2xl font-display font-bold">Профит</h1>
         <p className="text-white/60 text-sm mt-1">Тратьте TRND с выгодой у партнеров</p>

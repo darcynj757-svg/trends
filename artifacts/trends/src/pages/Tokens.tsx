@@ -1,12 +1,23 @@
 import { useStore } from '@/store/useStore';
-import { motion } from 'framer-motion';
-import { Shield, UserPlus, Play, CheckCircle, ChevronRight, Gift, Copy, Bell } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, UserPlus, Play, CheckCircle, Copy, Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from 'react';
 
 export default function Tokens() {
-  const { user, transactions } = useStore();
+  const { user, transactions, hasSeenTokensTooltip, setHasSeenTokensTooltip } = useStore();
   const { toast } = useToast();
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    if (!hasSeenTokensTooltip) {
+      setShowTooltip(true);
+      setHasSeenTokensTooltip(true);
+      const t = setTimeout(() => setShowTooltip(false), 3500);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   const handleCopy = () => {
     toast({
@@ -16,7 +27,26 @@ export default function Tokens() {
   };
 
   return (
-    <div className="w-full h-full bg-[#050505] overflow-y-auto hide-scrollbar pb-28 text-white">
+    <div className="relative w-full h-full bg-[#050505] overflow-y-auto hide-scrollbar pb-28 text-white">
+      {/* First-visit tooltip */}
+      <AnimatePresence>
+        {showTooltip && (
+          <motion.div
+            className="absolute top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div
+              className="flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium text-white whitespace-nowrap"
+              style={{ background: 'rgba(10,20,50,0.95)', border: '1px solid rgba(79,195,247,0.35)', boxShadow: '0 0 20px rgba(37,99,235,0.4)', backdropFilter: 'blur(12px)' }}
+            >
+              💼 Твой общий пул и история начислений
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Header Section */}
       <div className="relative px-4 pt-12 pb-8 bg-gradient-to-b from-primary/10 to-transparent">
         <div className="flex items-center justify-between mb-8">
