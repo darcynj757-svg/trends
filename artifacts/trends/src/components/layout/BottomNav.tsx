@@ -2,9 +2,11 @@ import { Link, useLocation } from "wouter";
 import { Home, Wallet, Plus, Percent, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useStore } from "@/store/useStore";
 
 export function BottomNav() {
   const [location] = useLocation();
+  const { setHasSeenTokensOnboarding } = useStore();
 
   const navItems = [
     { path: "/", icon: Home, label: "Лента" },
@@ -39,7 +41,7 @@ export function BottomNav() {
           }
 
           return (
-            <Link key={index} href={item.path}>
+            <Link key={index} href={item.path} onClick={item.path === '/tokens' ? () => setHasSeenTokensOnboarding(false) : undefined}>
               <motion.div
                 whileTap={{ scale: 0.85 }}
                 className={cn(
