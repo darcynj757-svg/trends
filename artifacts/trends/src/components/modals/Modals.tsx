@@ -240,7 +240,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Giant left-aligned title */}
-              <h1 className="text-[40px] font-black leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+              <h1 className="text-[34px] leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'break-word', wordBreak: 'keep-all', fontWeight: 900 }}>
                 {current.title.map((seg, i) =>
                   seg.accent ? (
                     <span
