@@ -135,6 +135,14 @@
   font-family: var(--font-display);
 }
 
+.gradient-text {
+  background: linear-gradient(95deg, #00C6FF 0%, #8B2FFF 48%, #FF1E8C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

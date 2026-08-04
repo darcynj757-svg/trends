@@ -239,26 +239,30 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex flex-col w-full"
             >
-              {/* Giant left-aligned title */}
+              {/* Pill — above title */}
+              <div className="flex justify-center mb-4">
+                <div
+                  className="inline-flex items-center rounded-full px-4 py-1.5"
+                  style={{
+                    background: 'rgba(255,255,255,0.07)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                >
+                  <span className="text-white/60 text-[12px] font-medium tracking-wide">{current.pill}</span>
+                </div>
+              </div>
+
+              {/* Title */}
               <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none' }}>
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
-                    // Gradient: render raw text only — no nested elements, background-clip needs a clean box
                     return (
-                      <span
-                        key={i}
-                        style={{
-                          background: TITLE_GRADIENT,
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                        }}
-                      >
+                      <span key={i} className="gradient-text">
                         {seg.text.replace(/\n/g, ' ')}
                       </span>
                     );
                   }
-                  // Plain white: split on \n and insert <br>
                   return seg.text.split('\n').map((part, pi, arr) => (
                     <span key={`${i}-${pi}`} className="text-white">
                       {part}
@@ -269,7 +273,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               </h1>
 
               {/* Subtitle */}
-              {current.subtitle ? (
+              {current.subtitle && (
                 <div
                   className="rounded-2xl px-4 py-3 text-center"
                   style={{
@@ -279,36 +283,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                   }}
                 >
                   <p className="text-white/70 text-[13px] leading-snug">{current.subtitle}</p>
-                </div>
-              ) : (
-                <div
-                  className="flex justify-center"
-                >
-                  <div
-                    className="inline-flex items-center rounded-full px-4 py-2"
-                    style={{
-                      background: 'rgba(255,255,255,0.07)',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <span className="text-white/60 text-[13px] font-medium">{current.pill}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Pill badge below subtitle */}
-              {current.subtitle && (
-                <div className="flex justify-center mt-3">
-                  <div
-                    className="inline-flex items-center rounded-full px-4 py-2"
-                    style={{
-                      background: 'rgba(255,255,255,0.06)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                    }}
-                  >
-                    <span className="text-white/50 text-[12px] font-medium">{current.pill}</span>
-                  </div>
                 </div>
               )}
             </motion.div>
