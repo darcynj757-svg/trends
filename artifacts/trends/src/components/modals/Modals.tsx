@@ -226,8 +226,8 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           <TrendsLogo />
         </div>
 
-        {/* Slide body — takes remaining space, title left-aligned */}
-        <div className="flex-1 flex flex-col justify-center min-h-0">
+        {/* Slide body — takes remaining space */}
+        <div className="flex-1 flex flex-col justify-start pt-6 min-h-0">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide}
@@ -254,7 +254,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Title */}
-              <h1 className="text-[36px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none' }}>
+              <h1 className="text-[38px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
