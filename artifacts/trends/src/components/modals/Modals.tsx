@@ -285,7 +285,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
-                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '2rem' }}>
+                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '0.4rem' }}>
                         {seg.text.replace(/\n/g, ' ')}
                       </span>
                     );
