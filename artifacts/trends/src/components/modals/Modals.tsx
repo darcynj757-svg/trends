@@ -56,8 +56,8 @@ interface OnboardingScreen {
 const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
-      { text: 'Экономика внимания.\n', accent: false },
-      { text: 'Начни монетизировать своё время уже сейчас!', accent: true },
+      { text: 'Экономика внимания!\n', accent: false },
+      { text: 'Начни монетизировать время уже сейчас.', accent: true },
     ],
     subtitle: null,
     pill: 'Новый тренд',
