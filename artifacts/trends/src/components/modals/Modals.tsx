@@ -731,7 +731,7 @@ function ListingMockup() {
         }}
       >
         <p className="text-white/80 text-[12px] leading-[1.65] text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
-          Смотри Reels — <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>. Зови друзей и получай токены с их просмотров. Создадим экономику внимания вместе и выведем токен{' '}
+          Смотри Trends — <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>. Зови друзей и получай токены с их просмотров. Создадим экономику внимания вместе и выведем токен{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
