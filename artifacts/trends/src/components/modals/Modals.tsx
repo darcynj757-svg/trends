@@ -68,7 +68,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'Приглашай\nдрузей и получай', accent: false },
       { text: 'токены за их\nпросмотры', accent: true },
     ],
-    subtitle: 'Друг смотрит — вы оба зарабатываете. Больше друзей в Trends — выше твой ежедневный доход.',
+    subtitle: 'Чем больше друзей смотрят ленту Trends — тем больше токенов ты зарабатываешь.',
     pills: ['Реферальная программа'],
     buttonLabel: 'ДАЛЕЕ',
   },
