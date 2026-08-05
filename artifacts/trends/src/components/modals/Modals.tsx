@@ -351,15 +351,15 @@ function ReferralMockup() {
                 </svg>
               </motion.div>
 
-              {/* Mini phone screen — appears after avatar */}
+              {/* Mini phone screen — appears after avatar, centered on offset point */}
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: 'spring', stiffness: 240, damping: 20, delay: f.delay + 0.35 }}
                 style={{
                   position: 'absolute',
-                  left: fx - 14 + phoneOffX,
-                  top:  fy - 22 + phoneOffY,
+                  left: fx + phoneOffX - 9,
+                  top:  fy + phoneOffY - 15,
                   zIndex: 3,
                 }}
               >
