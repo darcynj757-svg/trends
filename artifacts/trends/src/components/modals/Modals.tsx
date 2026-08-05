@@ -59,7 +59,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'Смотри Reels в Telegram и ', accent: false },
       { text: 'зарабатывай токены', accent: true },
     ],
-    subtitle: 'Весь видеоконтент Telegram в одной бесконечной ленте',
+    subtitle: 'Весь видеоконтент Telegram в одной бесконечной ленте!',
     pills: ['Новый тренд · Экономика внимания'],
     buttonLabel: 'ДАЛЕЕ',
   },
@@ -271,7 +271,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Subtitle */}
               {current.subtitle && (
-                <p className="text-white/70 text-[18px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
+                <p className="text-white/70 text-[22px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
               )}
             </motion.div>
           </AnimatePresence>
