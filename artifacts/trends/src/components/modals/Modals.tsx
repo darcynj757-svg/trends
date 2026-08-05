@@ -589,10 +589,10 @@ function ShopMockup() {
       {/* Row 2 — offset, slightly different speed */}
       <motion.div
         className="flex gap-[7px] w-max pl-6"
-        initial={{ x: -(SHOP_ROW2.length * CARD_W * 0.4) }}
+        initial={{ x: -(SHOP_ROW2.length * CARD_W * 0.1) }}
         animate={{ x: [
-          -(SHOP_ROW2.length * CARD_W * 0.4),
-          -(SHOP_ROW2.length * CARD_W * 0.4 + SHOP_ROW2.length * CARD_W),
+          -(SHOP_ROW2.length * CARD_W * 0.1),
+          -(SHOP_ROW2.length * CARD_W * 0.1 + SHOP_ROW2.length * CARD_W),
         ]}}
         transition={{ duration: 19, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
       >
