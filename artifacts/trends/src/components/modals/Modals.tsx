@@ -37,7 +37,7 @@ const TITLE_GRADIENT = 'linear-gradient(95deg, #00C6FF 0%, #8B2FFF 48%, #FF1E8C 
 
 function TrendsLogo() {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex flex-col items-center gap-1.5">
       <img src={trendsLogoSrc} alt="Trends" className="w-8 h-8 object-contain" style={{ mixBlendMode: 'screen' }} />
       <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">Trends</span>
     </div>
