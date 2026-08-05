@@ -251,7 +251,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Title */}
-              <h1 className="text-[38px] leading-[1.12] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
+              <h1 className="text-[42px] leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
