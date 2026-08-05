@@ -788,7 +788,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 <div
                   className="mx-1 mt-3"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(75,123,245,0.14) 0%, rgba(124,58,237,0.10) 100%)',
                     borderRadius: 14,
                     padding: '11px 16px',
                     position: 'relative',
