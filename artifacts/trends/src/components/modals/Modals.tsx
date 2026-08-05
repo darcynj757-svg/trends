@@ -860,12 +860,12 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       <div className="relative z-10 flex flex-col h-full px-6 pt-6 pb-8">
 
         {/* Logo */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-3">
           <TrendsLogo />
         </div>
 
         {/* Slide body — takes remaining space */}
-        <div className="flex-1 flex flex-col justify-start pt-14 min-h-0">
+        <div className="flex-1 flex flex-col justify-start pt-6 min-h-0">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide}
