@@ -215,6 +215,157 @@ function ReelsMockup() {
   );
 }
 
+// ─── Referral network mockup (slide 1 visual) ────────────────────────────────
+const FRIENDS = [
+  { angle: -100, delay: 0,   token: '+2 TRND', tokenDelay: 0.6  },
+  { angle:  -30, delay: 0.3, token: '+1 TRND', tokenDelay: 1.1  },
+  { angle:   40, delay: 0.6, token: '+3 TRND', tokenDelay: 1.7  },
+  { angle:  110, delay: 0.9, token: '+1 TRND', tokenDelay: 2.3  },
+];
+
+function ReferralMockup() {
+  const r = 82; // orbit radius
+
+  return (
+    <div className="flex justify-center items-center mt-6 mb-2" style={{ height: 210, position: 'relative' }}>
+      <div style={{ position: 'relative', width: 210, height: 210 }}>
+
+        {/* Orbit ring */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '50%', left: '50%',
+            width: r * 2, height: r * 2,
+            transform: 'translate(-50%, -50%)',
+            borderRadius: '50%',
+            border: '1px dashed rgba(56,182,255,0.25)',
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Friend avatars */}
+        {FRIENDS.map((f, i) => {
+          const rad = (f.angle * Math.PI) / 180;
+          const cx = 105 + r * Math.cos(rad);
+          const cy = 105 + r * Math.sin(rad);
+          return (
+            <motion.div key={i}>
+              {/* Connection line */}
+              <svg
+                style={{ position: 'absolute', inset: 0, width: 210, height: 210, pointerEvents: 'none', overflow: 'visible' }}
+              >
+                <motion.line
+                  x1={105} y1={105} x2={cx} y2={cy}
+                  stroke="rgba(56,182,255,0.3)"
+                  strokeWidth={1}
+                  strokeDasharray="4 4"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: f.delay + 0.2 }}
+                />
+              </svg>
+
+              {/* Friend circle */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 18, delay: f.delay }}
+                style={{
+                  position: 'absolute',
+                  left: cx - 20, top: cy - 20,
+                  width: 40, height: 40,
+                  borderRadius: '50%',
+                  background: 'rgba(56,182,255,0.15)',
+                  border: '1.5px solid rgba(120,210,255,0.5)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 0 14px rgba(56,182,255,0.25)',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" fill="rgba(180,230,255,0.8)" />
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(180,230,255,0.8)" />
+                </svg>
+              </motion.div>
+
+              {/* Token badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 0 }}
+                animate={{ opacity: [0, 1, 1, 0], y: [0, -22, -44, -66] }}
+                transition={{ duration: 2.4, repeat: Infinity, delay: f.tokenDelay, ease: 'easeOut' }}
+                style={{
+                  position: 'absolute',
+                  left: cx - 24, top: cy - 36,
+                  borderRadius: 20,
+                  padding: '3px 8px',
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: 'rgba(255,255,255,0.95)',
+                  whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
+                  background: 'rgba(56,182,255,0.45)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.55)',
+                  boxShadow: '0 2px 12px rgba(56,182,255,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
+                }}
+              >
+                {f.token}
+              </motion.div>
+            </motion.div>
+          );
+        })}
+
+        {/* Center "you" */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 220, damping: 14, delay: 0.1 }}
+          style={{
+            position: 'absolute',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 56, height: 56,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, rgba(56,182,255,0.55) 0%, rgba(99,102,241,0.55) 100%)',
+            border: '2px solid rgba(255,255,255,0.55)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 0 28px rgba(56,182,255,0.5), inset 0 1px 0 rgba(255,255,255,0.3)',
+          }}
+        >
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="4" fill="white" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="white" />
+            </svg>
+          </motion.div>
+        </motion.div>
+
+        {/* Pulse ring */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            borderRadius: '50%',
+            border: '1.5px solid rgba(56,182,255,0.6)',
+            pointerEvents: 'none',
+          }}
+          animate={{ width: [56, 90, 56], height: [56, 90, 56], opacity: [0.8, 0, 0.8] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
   { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
@@ -391,8 +542,9 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
               )}
 
-              {/* Animated visual — slide 0 only */}
+              {/* Animated visual */}
               {slide === 0 && <ReelsMockup />}
+              {slide === 1 && <ReferralMockup />}
             </motion.div>
           </AnimatePresence>
         </div>
