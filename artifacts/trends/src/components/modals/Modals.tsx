@@ -197,15 +197,15 @@ function ReelsMockup() {
               padding: '4px 10px',
               fontSize: 10,
               fontWeight: 700,
-              color: 'rgba(180,230,255,0.95)',
+              color: 'rgba(255,255,255,0.95)',
               whiteSpace: 'nowrap',
               pointerEvents: 'none',
               zIndex: 20,
-              background: 'rgba(56,182,255,0.18)',
+              background: 'rgba(56,182,255,0.55)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(120,210,255,0.45)',
-              boxShadow: '0 2px 16px rgba(56,182,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25)',
+              border: '1px solid rgba(255,255,255,0.6)',
+              boxShadow: '0 2px 16px rgba(56,182,255,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
             }}
           >
             {t.label}
