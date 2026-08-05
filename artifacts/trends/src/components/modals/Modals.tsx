@@ -587,7 +587,7 @@ function ShopMockup() {
   const CARD_W = 148 + 7; // card width + gap
 
   return (
-    <div className="mt-3 mb-1 flex flex-col gap-[7px] overflow-hidden -mx-6">
+    <div className="mt-7 mb-1 flex flex-col gap-[7px] overflow-hidden -mx-6">
       {/* Row 1 — scrolls left */}
       <motion.div
         className="flex gap-[7px] w-max pl-6"
