@@ -785,7 +785,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Text below animation (slide 2) */}
               {slide === 2 && (
-                <p className="text-white/70 text-[19px] leading-snug text-center px-2 mt-5" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
+                <p className="text-white/70 text-[19px] leading-snug text-center px-2 mt-5 mb-10" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
                   Или держи токены до листинга, конвертируя их в реальные деньги.
                 </p>
               )}
