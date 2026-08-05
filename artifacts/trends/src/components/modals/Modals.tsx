@@ -924,7 +924,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {current.subtitle && (
                 <div className="flex items-center gap-2 px-2">
                   <span style={{ fontSize: 12, color: '#FFD700', opacity: 0.75, flexShrink: 0 }}>✦</span>
-                  <p className="text-white/70 text-[19px] leading-snug text-center flex-1" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>{current.subtitle}</p>
+                  <p className="text-white text-[19px] leading-snug text-center flex-1" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>{current.subtitle}</p>
                   <span style={{ fontSize: 12, color: '#FFD700', opacity: 0.75, flexShrink: 0 }}>✦</span>
                 </div>
               )}
