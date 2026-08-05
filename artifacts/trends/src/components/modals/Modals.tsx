@@ -217,9 +217,9 @@ function ReelsMockup() {
 
 // ─── Referral network mockup (slide 1 visual) ────────────────────────────────
 const FRIENDS = [
-  { angle: -120, delay: 0,   token: '+2 TRND', tokenDelay: 0.5  },
-  { angle:  -20, delay: 0.3, token: '+1 TRND', tokenDelay: 1.2  },
-  { angle:   70, delay: 0.6, token: '+3 TRND', tokenDelay: 2.0  },
+  { angle:  -90, delay: 0,   token: '+2 TRND', tokenDelay: 0.5  },
+  { angle:   30, delay: 0.3, token: '+1 TRND', tokenDelay: 1.2  },
+  { angle:  150, delay: 0.6, token: '+3 TRND', tokenDelay: 2.0  },
 ];
 
 function ReferralMockup() {
