@@ -84,11 +84,10 @@ const onboardingScreens: OnboardingScreen[] = [
   },
   {
     title: [
-      { text: 'Вкладка «Токены» — вся твоя ', accent: false },
-      { text: 'прибыль', accent: true },
-      { text: ' в одном месте', accent: false },
+      { text: '«Токены» — вся твоя\n', accent: false },
+      { text: 'прибыль\nв одном месте', accent: true },
     ],
-    subtitle: 'Общий пул, история начислений и управление токенами. Начни монетизировать своё время уже сейчас.',
+    subtitle: 'Начни монетизировать свою привычку скролить ленту уже сегодня.',
     pills: ['Твоё внимание — твой доход'],
     buttonLabel: 'НАЧАТЬ',
   },
