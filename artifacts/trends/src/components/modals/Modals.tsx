@@ -232,7 +232,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pills — above title */}
-              <div className="flex flex-wrap justify-center gap-2 mb-5">
+              <div className="flex flex-wrap justify-center gap-2 mb-8">
                 {current.pills.map((pill, pi) => (
                   <div
                     key={pi}
@@ -251,7 +251,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Title */}
-              <h1 className="text-[42px] leading-[1.1] mb-6 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
+              <h1 className="text-[42px] leading-[1.1] mb-9 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
