@@ -789,7 +789,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                   className="mx-1 mt-3"
                   style={{
                     background: 'linear-gradient(135deg, rgba(75,123,245,0.14) 0%, rgba(124,58,237,0.10) 100%)',
-                    border: '1px solid rgba(124,58,237,0.30)',
                     borderRadius: 14,
                     padding: '11px 16px',
                     position: 'relative',
@@ -804,8 +803,8 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                     pointerEvents: 'none',
                   }} />
                   <p style={{
-                    color: 'rgba(255,255,255,0.80)',
-                    fontSize: 13,
+                    color: 'rgba(255,255,255,0.90)',
+                    fontSize: 16,
                     fontWeight: 400,
                     lineHeight: 1.45,
                     textAlign: 'center',
