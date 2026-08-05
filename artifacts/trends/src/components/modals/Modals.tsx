@@ -80,7 +80,16 @@ const onboardingScreens: OnboardingScreen[] = [
     ],
     subtitle: 'Обменивай токены в магазине уже сегодня — скидки, акции, промокоды или цифровые продукты от партнёров.',
     pills: ['Обменивай · Копи · Зарабатывай'],
-    buttonLabel: 'ГОТОВО',
+    buttonLabel: 'ДАЛЕЕ',
+  },
+  {
+    title: [
+      { text: 'Листинг и ', accent: false },
+      { text: 'экономика\nвнимания', accent: true },
+    ],
+    subtitle: 'Листинг TRND состоится при достижении 15 миллионов пользователей',
+    pills: ['Листинг · 15 млн пользователей'],
+    buttonLabel: 'НАЧАТЬ',
   },
 ];
 
@@ -604,6 +613,175 @@ function ShopMockup() {
   );
 }
 
+// ─── Listing progress mockup (slide 3) ────────────────────────────────────────
+const LISTING_TARGET = 15_000_000;
+const CURRENT_USERS_COUNT = 2_347_182;
+
+function useCountUp(target: number, duration = 2600) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    let rafId: number;
+    const startTime = performance.now();
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const p = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(Math.round(eased * target));
+      if (p < 1) rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [target, duration]);
+  return value;
+}
+
+function ListingMockup() {
+  const count = useCountUp(CURRENT_USERS_COUNT);
+  const progressPct = (CURRENT_USERS_COUNT / LISTING_TARGET) * 100; // ~15.6%
+  const remaining = LISTING_TARGET - CURRENT_USERS_COUNT;
+
+  const fmtM = (n: number) =>
+    (n / 1_000_000).toFixed(1).replace('.', ',') + '\u00a0млн';
+
+  return (
+    <div className="mt-4 mb-1 flex flex-col items-center w-full">
+
+      {/* Big animated counter */}
+      <div className="text-center mb-5">
+        <div
+          className="text-[42px] leading-none font-black"
+          style={{
+            fontFamily: "'Unbounded', sans-serif",
+            background: 'linear-gradient(95deg, #00C6FF 0%, #8B2FFF 48%, #FF1E8C 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          {fmtM(count)}
+        </div>
+        <div className="text-white/45 text-[10px] tracking-widest uppercase mt-1.5">
+          пользователей в Trends
+        </div>
+      </div>
+
+      {/* Progress bar section */}
+      <div className="w-full mb-4">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-white/35 text-[10px]">Сейчас</span>
+          <div className="flex items-center gap-1.5">
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: '#4ade80' }}
+              animate={{ opacity: [1, 0.3, 1], scale: [1, 1.35, 1] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <span className="text-[10px] font-semibold" style={{ color: '#4ade80' }}>
+              15 млн — Листинг
+            </span>
+          </div>
+        </div>
+
+        {/* Bar */}
+        <div
+          className="h-3 rounded-full overflow-hidden"
+          style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)' }}
+        >
+          <motion.div
+            className="h-full rounded-full relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(90deg, #00C6FF 0%, #8B2FFF 60%, #FF1E8C 100%)',
+              boxShadow: '0 0 14px rgba(139,47,255,0.65)',
+            }}
+            initial={{ width: '0%' }}
+            animate={{ width: `${progressPct}%` }}
+            transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
+          >
+            {/* Shimmer sweep */}
+            <motion.div
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%)',
+              }}
+              animate={{ x: ['-100%', '400%'] }}
+              transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 2.2, ease: 'easeInOut', delay: 3 }}
+            />
+          </motion.div>
+        </div>
+
+        <div className="flex justify-end mt-1">
+          <span className="text-white/35 text-[10px]">
+            до листинга ещё&nbsp;
+            <span className="text-white/65 font-semibold">{fmtM(remaining)}</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Stat cards */}
+      <div className="flex gap-2 w-full">
+        {/* Target */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
+        >
+          <div
+            className="text-[15px] font-black leading-none text-white"
+            style={{ fontFamily: "'Unbounded', sans-serif" }}
+          >
+            15 млн
+          </div>
+          <div className="text-white/40 text-[9px] mt-1 tracking-wide">цель листинга</div>
+        </motion.div>
+
+        {/* TRND */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
+          style={{ background: 'rgba(139,47,255,0.15)', border: '1px solid rgba(139,47,255,0.35)' }}
+        >
+          <div
+            className="text-[15px] font-black leading-none"
+            style={{
+              fontFamily: "'Unbounded', sans-serif",
+              background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            TRND
+          </div>
+          <div className="text-white/40 text-[9px] mt-1 tracking-wide">твои токены</div>
+        </motion.div>
+
+        {/* Exchanges — pulsing "СКОРО" */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65 }}
+          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
+        >
+          <motion.div
+            className="text-[15px] font-black leading-none text-white"
+            style={{ fontFamily: "'Unbounded', sans-serif" }}
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            СКОРО
+          </motion.div>
+          <div className="text-white/40 text-[9px] mt-1 tracking-wide">биржи</div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
   { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
@@ -784,6 +962,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {slide === 0 && <ReelsMockup />}
               {slide === 1 && <ReferralMockup />}
               {slide === 2 && <ShopMockup />}
+              {slide === 3 && <ListingMockup />}
 
               {/* Text below animation (slide 2) */}
               {slide === 2 && (
