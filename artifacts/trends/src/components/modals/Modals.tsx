@@ -271,16 +271,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Subtitle */}
               {current.subtitle && (
-                <div
-                  className="rounded-2xl px-4 py-3 text-center"
-                  style={{
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  <p className="text-white/60 text-[14px] leading-relaxed" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
-                </div>
+                <p className="text-white/70 text-[18px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
               )}
             </motion.div>
           </AnimatePresence>
