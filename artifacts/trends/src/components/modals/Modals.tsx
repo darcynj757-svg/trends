@@ -731,18 +731,18 @@ function ListingMockup() {
         }}
       >
         <p className="text-white/80 text-[12px] leading-[1.65] text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
-          Смотри Trends — <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>. Зови друзей и получай токены с их просмотров. Создадим экономику внимания вместе и выведем токен{' '}
+          Смотри Trends, зови друзей и зарабатывайте токены вместе —{' '}
+          <span className="text-white font-semibold">чем нас больше, тем ближе листинг{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              fontWeight: 700,
             }}
           >
-            TRND на мировые биржи
-          </span>.
+            TRND
+          </span>{' '}на мировых биржах</span>.
         </p>
       </motion.div>
     </div>
