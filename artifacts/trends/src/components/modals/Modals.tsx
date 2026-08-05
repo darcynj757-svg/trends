@@ -428,6 +428,50 @@ function ReferralMockup() {
   );
 }
 
+// ─── Shop pills marquee (slide 2) ────────────────────────────────────────────
+const SHOP_PILLS_ROW1 = ['Промокоды', 'Скидки до 30%', 'Кэшбэк', 'Telegram Premium', 'VIP-доступ', 'NFT-карточка', 'Буст ×2', 'Партнёры'];
+const SHOP_PILLS_ROW2 = ['Акции', '200 TRND', '500 TRND', 'Цифровые товары', 'Подписки', 'Ozon', 'Yandex Go', 'Магазин'];
+
+function ShopPillsMarquee() {
+  const pill = (text: string, i: number) => (
+    <div
+      key={i}
+      className="inline-flex items-center rounded-full px-2.5 py-[3px] shrink-0"
+      style={{
+        background: 'rgba(255,255,255,0.08)',
+        border: '1px solid rgba(255,255,255,0.18)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
+    >
+      <span className="text-white/75 text-[10px] font-medium tracking-wide whitespace-nowrap">{text}</span>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col gap-1.5 -mx-6 overflow-hidden mb-6 -mt-4">
+      {/* Row 1 — scrolls left */}
+      <motion.div
+        className="flex gap-1.5 w-max pl-6"
+        animate={{ x: [0, -(SHOP_PILLS_ROW1.length * 88)] }}
+        transition={{ duration: 14, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+      >
+        {[...SHOP_PILLS_ROW1, ...SHOP_PILLS_ROW1].map((t, i) => pill(t, i))}
+      </motion.div>
+
+      {/* Row 2 — offset start, slightly different speed */}
+      <motion.div
+        className="flex gap-1.5 w-max pl-6"
+        initial={{ x: -SHOP_PILLS_ROW2.length * 44 }}
+        animate={{ x: [-SHOP_PILLS_ROW2.length * 44, -(SHOP_PILLS_ROW2.length * 44 + SHOP_PILLS_ROW2.length * 88)] }}
+        transition={{ duration: 17, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+      >
+        {[...SHOP_PILLS_ROW2, ...SHOP_PILLS_ROW2].map((t, i) => pill(t, i))}
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── Shop carousel (slide 2 visual) ──────────────────────────────────────────
 const SHOP_ITEMS = [
   { name: 'Скидка 30%',       price: '500 TRND',   color: '#4B7BF5' },
@@ -651,23 +695,27 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pills — above title */}
-              <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
-                {current.pills.map((pill, pi) => (
-                  <div
-                    key={pi}
-                    className="inline-flex items-center rounded-full px-4 py-1.5"
-                    style={{
-                      background: 'rgba(255,255,255,0.10)',
-                      border: '1px solid rgba(255,255,255,0.22)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
-                    }}
-                  >
-                    <span className="text-white/80 text-[11px] font-semibold tracking-wide">{pill}</span>
-                  </div>
-                ))}
-              </div>
+              {slide === 2 ? (
+                <ShopPillsMarquee />
+              ) : (
+                <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
+                  {current.pills.map((pill, pi) => (
+                    <div
+                      key={pi}
+                      className="inline-flex items-center rounded-full px-4 py-1.5"
+                      style={{
+                        background: 'rgba(255,255,255,0.10)',
+                        border: '1px solid rgba(255,255,255,0.22)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
+                      }}
+                    >
+                      <span className="text-white/80 text-[11px] font-semibold tracking-wide">{pill}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Title */}
               <h1 className="text-[42px] leading-[1.1] mb-5 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
