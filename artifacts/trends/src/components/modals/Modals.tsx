@@ -475,20 +475,15 @@ function ShopPillsMarquee() {
 
 // ─── Shop carousel (slide 2 visual) ──────────────────────────────────────────
 const SHOP_ROW1 = [
-  { emoji: '🏷️', cat: 'Мода',     name: 'Скидка 30%',    price: '500 TRND',    badge: '-30%',  color: '#4B7BF5' },
-  { emoji: '🎟️', cat: 'Промо',    name: 'Промокод',      price: '200 TRND',    badge: 'NEW',   color: '#7C3AED' },
-  { emoji: '👑', cat: 'Доступ',   name: 'VIP подписка',  price: '2 000 TRND',  badge: 'VIP',   color: '#D97706' },
-  { emoji: '💳', cat: 'Финансы',  name: 'Кэшбэк 15%',   price: '350 TRND',    badge: '+15%',  color: '#059669' },
-  { emoji: '🖼️', cat: 'Крипто',   name: 'NFT-карточка',  price: '5 000 TRND',  badge: 'RARE',  color: '#DB2777' },
-  { emoji: '✈️', cat: 'Telegram', name: 'TG Premium',    price: '1 500 TRND',  badge: 'HOT',   color: '#4B7BF5' },
+  { emoji: '🎬', cat: 'Кино',     name: 'Кинопоиск',     price: '600 TRND',    badge: 'HD',    color: '#FF6B00' },
+  { emoji: '🔒', cat: 'Безопасность', name: 'VPN доступ', price: '400 TRND',   badge: '1 мес', color: '#4B7BF5' },
+  { emoji: '🍎', cat: 'Красота',  name: 'Золотое яблоко',price: '800 TRND',    badge: '-15%',  color: '#DB2777' },
+  { emoji: '✈️', cat: 'Telegram', name: 'TG Premium',    price: '1 500 TRND',  badge: 'HOT',   color: '#2AABEE' },
 ];
 const SHOP_ROW2 = [
-  { emoji: '⚡', cat: 'Буст',     name: 'Буст просмотров ×2', price: '800 TRND',    badge: '×2',    color: '#0891B2' },
-  { emoji: '🛍️', cat: 'Ozon',    name: 'Акция Ozon',    price: '300 TRND',    badge: '-20%',  color: '#DB2777' },
-  { emoji: '₿',  cat: 'Крипто',  name: 'Crypto-вывод',  price: '10 000 TRND', badge: 'OUT',   color: '#D97706' },
-  { emoji: '🚀', cat: 'Подписка',name: 'Подписка Pro',   price: '700 TRND',    badge: 'PRO',   color: '#059669' },
-  { emoji: '🎮', cat: 'Игры',    name: 'Game Pass 30д', price: '1 200 TRND',  badge: '30д',   color: '#7C3AED' },
-  { emoji: '🍕', cat: 'Еда',     name: 'Самокат −25%',  price: '450 TRND',    badge: '-25%',  color: '#0891B2' },
+  { emoji: '🛵', cat: 'Доставка', name: 'Самокат',       price: '350 TRND',    badge: '-25%',  color: '#059669' },
+  { emoji: '⭐', cat: 'Яндекс',  name: 'Яндекс Плюс',   price: '900 TRND',    badge: '3 мес', color: '#FACC15' },
+  { emoji: '₿',  cat: 'Крипто',  name: 'Крипто карта',  price: '5 000 TRND',  badge: 'NEW',   color: '#D97706' },
 ];
 
 function ShopCard(item: { text: string } | { emoji: string; cat: string; name: string; price: string; badge: string; color: string }) {
