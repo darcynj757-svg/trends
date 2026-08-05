@@ -130,11 +130,6 @@ const STARS = Array.from({ length: 55 }, (_, i) => ({
   baseOp: 0.12 + (i % 5) * 0.08,
 }));
 
-const SHOOTING_STARS = [
-  { id: 0, top: 12, delay: 3,  dur: 1.1, length: 100 },
-  { id: 1, top: 34, delay: 9,  dur: 0.9, length: 80  },
-  { id: 2, top: 22, delay: 16, dur: 1.2, length: 120 },
-];
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function TokensOnboarding({ onClose }: { onClose: () => void }) {
@@ -224,24 +219,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         />
       ))}
 
-      {/* Shooting stars */}
-      {SHOOTING_STARS.map(s => (
-        <motion.div
-          key={s.id}
-          className="absolute pointer-events-none"
-          style={{
-            top: `${s.top}%`,
-            left: '-8%',
-            width: s.length,
-            height: 1.5,
-            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 70%, white 100%)',
-            borderRadius: 2,
-            rotate: 18,
-          }}
-          animate={{ x: ['0vw', '125vw'], opacity: [0, 0.9, 0.9, 0] }}
-          transition={{ duration: s.dur, repeat: Infinity, delay: s.delay, repeatDelay: 12, ease: 'easeIn' }}
-        />
-      ))}
 
       {/* ── Content ── */}
       <div className="relative z-10 flex flex-col h-full px-6 pt-6 pb-8">
