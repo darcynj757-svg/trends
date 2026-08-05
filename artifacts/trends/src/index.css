@@ -138,11 +138,11 @@
 .gradient-text {
   background: linear-gradient(
     95deg,
-    #0055FF 0%,
-    #0088FF 40%,
-    #00CCFF 75%,
-    #00EEFF 100%
+    #005EFF 0%,
+    #0099FF 45%,
+    #00CCFF 100%
   );
+  filter: saturate(1.4) brightness(1.15);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
