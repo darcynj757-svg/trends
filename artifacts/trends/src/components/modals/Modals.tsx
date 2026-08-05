@@ -65,9 +65,8 @@ const onboardingScreens: OnboardingScreen[] = [
   },
   {
     title: [
-      { text: 'Приглашай друзей — получай ', accent: false },
-      { text: 'токены', accent: true },
-      { text: ' за их просмотры', accent: false },
+      { text: 'Приглашай\nдрузей и получай', accent: false },
+      { text: 'токены за их\nпросмотры', accent: true },
     ],
     subtitle: 'Друг смотрит ленту, токены капают вам обоим. Чем больше друзей смотрят Trends, тем выше твой доход.',
     pills: ['Реферальная программа'],
@@ -369,7 +368,12 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                   if (seg.accent) {
                     return (
                       <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '0.4rem' }}>
-                        {seg.text.replace(/\n/g, ' ')}
+                        {seg.text.split('\n').map((part, pi, arr) => (
+                          <span key={pi}>
+                            {part}
+                            {pi < arr.length - 1 && <br />}
+                          </span>
+                        ))}
                       </span>
                     );
                   }
