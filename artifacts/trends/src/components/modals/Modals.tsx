@@ -79,7 +79,6 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'работают\nна тебя', accent: true },
     ],
     subtitle: 'Обменивай токены в магазине уже сегодня — скидки, акции, промокоды или цифровые продукты от партнёров.',
-    subtitleBelow: 'Или держи токены до листинга, конвертируя их в реальные деньги.',
     pills: ['Обменивай · Копи · Зарабатывай'],
     buttonLabel: 'ДАЛЕЕ',
   },
@@ -486,15 +485,48 @@ const SHOP_ROW1 = [
 const SHOP_ROW2 = [
   { emoji: '⚡', cat: 'Буст',     name: 'Буст просмотров ×2', price: '800 TRND',    badge: '×2',    color: '#0891B2' },
   { emoji: '🛍️', cat: 'Ozon',    name: 'Акция Ozon',    price: '300 TRND',    badge: '-20%',  color: '#DB2777' },
+  { text: 'Или держи токены до листинга, конвертируя их в реальные деньги.' } as const,
   { emoji: '₿',  cat: 'Крипто',  name: 'Crypto-вывод',  price: '10 000 TRND', badge: 'OUT',   color: '#D97706' },
   { emoji: '🚀', cat: 'Подписка',name: 'Подписка Pro',   price: '700 TRND',    badge: 'PRO',   color: '#059669' },
   { emoji: '🎮', cat: 'Игры',    name: 'Game Pass 30д', price: '1 200 TRND',  badge: '30д',   color: '#7C3AED' },
   { emoji: '🍕', cat: 'Еда',     name: 'Самокат −25%',  price: '450 TRND',    badge: '-25%',  color: '#0891B2' },
 ];
 
-function ShopCard({ emoji, cat, name, price, badge, color }: {
-  emoji: string; cat: string; name: string; price: string; badge: string; color: string;
-}) {
+function ShopCard(item: { text: string } | { emoji: string; cat: string; name: string; price: string; badge: string; color: string }) {
+  if ('text' in item) {
+    return (
+      <div style={{
+        width: 200,
+        height: 62,
+        flexShrink: 0,
+        background: 'linear-gradient(135deg, rgba(75,123,245,0.18) 0%, rgba(124,58,237,0.12) 100%)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(124,58,237,0.35)',
+        borderRadius: 11,
+        padding: '10px 13px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 2px 10px rgba(124,58,237,0.15), inset 0 1px 0 rgba(255,255,255,0.10)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', top: -14, right: -14,
+          width: 50, height: 50, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.4) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+        <p style={{
+          color: 'rgba(255,255,255,0.85)', fontSize: 10, fontWeight: 500,
+          lineHeight: 1.4, textAlign: 'center', margin: 0, position: 'relative', zIndex: 1,
+        }}>{item.text}</p>
+      </div>
+    );
+  }
+
+  const { emoji, cat, name, price, badge, color } = item;
   return (
     <div style={{
       width: 148,
@@ -767,10 +799,6 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {slide === 1 && <ReferralMockup />}
               {slide === 2 && <ShopMockup />}
 
-              {/* Subtitle below animation (slide 2 only) */}
-              {current.subtitleBelow && (
-                <p className="text-white/60 text-[15px] leading-snug text-center px-2 mt-3" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitleBelow}</p>
-              )}
             </motion.div>
           </AnimatePresence>
         </div>
