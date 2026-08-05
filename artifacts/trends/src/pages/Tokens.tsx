@@ -60,7 +60,7 @@ export default function Tokens() {
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-[4rem] font-display font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#00FFFF] to-[#007FFF]"
+            className="text-[4rem] font-display font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#0055FF] to-[#00EEFF]"
           >
             {user.balance.toLocaleString('ru-RU')}
           </motion.div>
