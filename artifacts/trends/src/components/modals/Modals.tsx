@@ -308,8 +308,8 @@ function ReferralMockup() {
           // position mini phone offset from the avatar, away from center
           const normX = Math.cos(rad);
           const normY = Math.sin(rad);
-          const phoneOffX = normX * 26;
-          const phoneOffY = normY * 26;
+          const phoneOffX = normX * 16;
+          const phoneOffY = normY * 16;
 
           return (
             <motion.div key={i}>
