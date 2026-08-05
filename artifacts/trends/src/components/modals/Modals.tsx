@@ -473,95 +473,87 @@ function ShopPillsMarquee() {
 }
 
 // ─── Shop carousel (slide 2 visual) ──────────────────────────────────────────
-const SHOP_ITEMS = [
-  { name: 'Скидка 30%',       price: '500 TRND',   color: '#4B7BF5' },
-  { name: 'Промокод',         price: '200 TRND',   color: '#7C3AED' },
-  { name: 'VIP подписка',     price: '2 000 TRND', color: '#D97706' },
-  { name: 'Кэшбэк 15%',      price: '350 TRND',   color: '#059669' },
-  { name: 'NFT-карточка',     price: '5 000 TRND', color: '#DB2777' },
-  { name: 'Буст ×2',          price: '800 TRND',   color: '#0891B2' },
+const SHOP_ROW1 = [
+  { name: 'Скидка 30%',   price: '500 TRND',   color: '#4B7BF5' },
+  { name: 'Промокод',     price: '200 TRND',   color: '#7C3AED' },
+  { name: 'VIP подписка', price: '2 000 TRND', color: '#D97706' },
+  { name: 'Кэшбэк 15%',  price: '350 TRND',   color: '#059669' },
+  { name: 'NFT-карточка', price: '5 000 TRND', color: '#DB2777' },
+];
+const SHOP_ROW2 = [
+  { name: 'Буст ×2',        price: '800 TRND',   color: '#0891B2' },
+  { name: 'Tg Premium',     price: '1 500 TRND', color: '#4B7BF5' },
+  { name: 'Акция Ozon',     price: '300 TRND',   color: '#DB2777' },
+  { name: 'Crypto-вывод',   price: '10 000 TRND',color: '#D97706' },
+  { name: 'Подписка Pro',   price: '700 TRND',   color: '#059669' },
 ];
 
+function ShopCard({ name, price, color }: { name: string; price: string; color: string }) {
+  return (
+    <div
+      style={{
+        width: 120,
+        flexShrink: 0,
+        background: 'rgba(255,255,255,0.07)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        border: `1px solid ${color}55`,
+        borderRadius: 14,
+        padding: '10px 12px 9px',
+        textAlign: 'center',
+        boxShadow: `0 2px 16px ${color}18, inset 0 1px 0 rgba(255,255,255,0.10)`,
+      }}
+    >
+      <div style={{
+        display: 'inline-block',
+        background: `${color}22`,
+        border: `1px solid ${color}44`,
+        borderRadius: 20, padding: '1px 7px',
+        color, fontSize: 8, fontWeight: 700,
+        letterSpacing: '0.04em', marginBottom: 6,
+      }}>
+        TRND SHOP
+      </div>
+      <div style={{ color: 'rgba(255,255,255,0.88)', fontSize: 12, fontWeight: 700, marginBottom: 5, lineHeight: 1.2 }}>
+        {name}
+      </div>
+      <div style={{ color, fontSize: 14, fontWeight: 900, letterSpacing: '0.01em' }}>
+        {price}
+      </div>
+    </div>
+  );
+}
+
 function ShopMockup() {
-  const [index, setIndex] = useState(0);
-  const [dir, setDir] = useState(1);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setDir(1);
-      setIndex(i => (i + 1) % SHOP_ITEMS.length);
-    }, 2200);
-    return () => clearInterval(id);
-  }, []);
-
-  const item = SHOP_ITEMS[index];
-
-  const variants = {
-    enter: (d: number) => ({ x: d * 70, opacity: 0, scale: 0.94 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit:   (d: number) => ({ x: d * -70, opacity: 0, scale: 0.94 }),
-  };
+  const CARD_W = 120 + 8; // card width + gap
 
   return (
-    <div className="flex flex-col items-center mt-6 mb-2" style={{ gap: 14 }}>
-      {/* Card carousel */}
-      <div style={{ width: 210, overflow: 'hidden', position: 'relative' }}>
-        <AnimatePresence mode="wait" custom={dir}>
-          <motion.div
-            key={index}
-            custom={dir}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{
-              background: 'rgba(255,255,255,0.07)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              border: `1px solid ${item.color}55`,
-              borderRadius: 20,
-              padding: '18px 20px 16px',
-              textAlign: 'center',
-              boxShadow: `0 4px 32px ${item.color}22, inset 0 1px 0 rgba(255,255,255,0.12)`,
-            }}
-          >
-            {/* Category label */}
-            <div style={{
-              display: 'inline-block',
-              background: `${item.color}22`,
-              border: `1px solid ${item.color}55`,
-              borderRadius: 20, padding: '2px 10px',
-              color: item.color, fontSize: 10, fontWeight: 700,
-              letterSpacing: '0.04em', marginBottom: 10,
-            }}>
-              ЦИФРОВОЙ ПРОДУКТ
-            </div>
-
-            {/* Product name */}
-            <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
-              {item.name}
-            </div>
-
-            {/* Token price */}
-            <div style={{ color: item.color, fontSize: 26, fontWeight: 900, letterSpacing: '0.01em' }}>
-              {item.price}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Dot indicators */}
-      <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-        {SHOP_ITEMS.map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ width: i === index ? 18 : 5, opacity: i === index ? 1 : 0.3 }}
-            transition={{ duration: 0.3 }}
-            style={{ height: 5, borderRadius: 3, background: 'white' }}
-          />
+    <div className="mt-5 mb-2 flex flex-col gap-2 overflow-hidden -mx-6">
+      {/* Row 1 — scrolls left */}
+      <motion.div
+        className="flex gap-2 w-max pl-6"
+        animate={{ x: [0, -(SHOP_ROW1.length * CARD_W)] }}
+        transition={{ duration: 13, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+      >
+        {[...SHOP_ROW1, ...SHOP_ROW1].map((item, i) => (
+          <ShopCard key={i} {...item} />
         ))}
-      </div>
+      </motion.div>
+
+      {/* Row 2 — offset start, slightly different speed */}
+      <motion.div
+        className="flex gap-2 w-max pl-6"
+        initial={{ x: -(SHOP_ROW2.length * CARD_W * 0.4) }}
+        animate={{ x: [
+          -(SHOP_ROW2.length * CARD_W * 0.4),
+          -(SHOP_ROW2.length * CARD_W * 0.4 + SHOP_ROW2.length * CARD_W),
+        ]}}
+        transition={{ duration: 16, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+      >
+        {[...SHOP_ROW2, ...SHOP_ROW2].map((item, i) => (
+          <ShopCard key={i} {...item} />
+        ))}
+      </motion.div>
     </div>
   );
 }
@@ -695,27 +687,23 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pills — above title */}
-              {slide === 2 ? (
-                <ShopPillsMarquee />
-              ) : (
-                <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
-                  {current.pills.map((pill, pi) => (
-                    <div
-                      key={pi}
-                      className="inline-flex items-center rounded-full px-4 py-1.5"
-                      style={{
-                        background: 'rgba(255,255,255,0.10)',
-                        border: '1px solid rgba(255,255,255,0.22)',
-                        backdropFilter: 'blur(20px)',
-                        WebkitBackdropFilter: 'blur(20px)',
-                        boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
-                      }}
-                    >
-                      <span className="text-white/80 text-[11px] font-semibold tracking-wide">{pill}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
+                {current.pills.map((pill, pi) => (
+                  <div
+                    key={pi}
+                    className="inline-flex items-center rounded-full px-4 py-1.5"
+                    style={{
+                      background: 'rgba(255,255,255,0.10)',
+                      border: '1px solid rgba(255,255,255,0.22)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
+                    }}
+                  >
+                    <span className="text-white/80 text-[11px] font-semibold tracking-wide">{pill}</span>
+                  </div>
+                ))}
+              </div>
 
               {/* Title */}
               <h1 className="text-[42px] leading-[1.1] mb-5 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
