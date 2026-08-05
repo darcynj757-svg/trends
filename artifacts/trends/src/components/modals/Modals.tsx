@@ -717,67 +717,36 @@ function ListingMockup() {
         </div>
       </div>
 
-      {/* Stat cards */}
-      <div className="flex gap-2 w-full">
-        {/* Target */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
-        >
-          <div
-            className="text-[15px] font-black leading-none text-white"
-            style={{ fontFamily: "'Unbounded', sans-serif" }}
-          >
-            15 млн
-          </div>
-          <div className="text-white/40 text-[9px] mt-1 tracking-wide">цель листинга</div>
-        </motion.div>
-
-        {/* TRND */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
-          style={{ background: 'rgba(139,47,255,0.15)', border: '1px solid rgba(139,47,255,0.35)' }}
-        >
-          <div
-            className="text-[15px] font-black leading-none"
+      {/* Community text block */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="w-full rounded-2xl px-4 py-4"
+        style={{
+          background: 'rgba(255,255,255,0.055)',
+          border: '1px solid rgba(255,255,255,0.10)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+        }}
+      >
+        <p className="text-white/80 text-[13px] leading-relaxed text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
+          Смотри Reels, зови друзей —{' '}
+          <span className="text-white font-semibold">получай токены с каждого их просмотра</span>.
+          Вместе мы строим новую экономику внимания и приближаем{' '}
+          <span
             style={{
-              fontFamily: "'Unbounded', sans-serif",
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
+              fontWeight: 700,
             }}
           >
-            TRND
-          </div>
-          <div className="text-white/40 text-[9px] mt-1 tracking-wide">твои токены</div>
-        </motion.div>
-
-        {/* Exchanges — pulsing "СКОРО" */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
-          className="flex-1 flex flex-col items-center py-3 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
-        >
-          <motion.div
-            className="text-[15px] font-black leading-none text-white"
-            style={{ fontFamily: "'Unbounded', sans-serif" }}
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            СКОРО
-          </motion.div>
-          <div className="text-white/40 text-[9px] mt-1 tracking-wide">биржи</div>
-        </motion.div>
-      </div>
+            листинг TRND
+          </span>.
+        </p>
+      </motion.div>
     </div>
   );
 }
