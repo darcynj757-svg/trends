@@ -480,8 +480,8 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
   if ('text' in item) {
     return (
       <div style={{
-        width: 176,
-        height: 54,
+        width: 200,
+        height: 58,
         flexShrink: 0,
         background: 'linear-gradient(135deg, rgba(75,123,245,0.18) 0%, rgba(124,58,237,0.12) 100%)',
         backdropFilter: 'blur(20px)',
@@ -513,8 +513,8 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
   const { emoji, cat, name, price, badge, color } = item;
   return (
     <div style={{
-      width: 130,
-      height: 54,
+      width: 155,
+      height: 58,
       flexShrink: 0,
       background: `linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)`,
       backdropFilter: 'blur(20px)',
@@ -569,7 +569,7 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
 }
 
 function ShopMockup() {
-  const CARD_W = 130 + 7; // card width + gap
+  const CARD_W = 155 + 7; // card width + gap
 
   return (
     <div className="mt-7 mb-1 flex flex-col gap-[7px] overflow-hidden -mx-6">
@@ -785,7 +785,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Text below animation (slide 2) */}
               {slide === 2 && (
-                <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
+                <p className="text-white/70 text-[19px] leading-snug text-center px-2 mt-5" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
                   Или держи токены до листинга, конвертируя их в реальные деньги.
                 </p>
               )}
