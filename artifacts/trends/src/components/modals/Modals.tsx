@@ -120,7 +120,7 @@ function ReelsMockup() {
         <div
           className="absolute inset-0 rounded-[22px] overflow-hidden"
           style={{
-            background: '#0a0f1e',
+            background: '#0d0d0d',
             border: '2px solid rgba(255,255,255,0.18)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)',
           }}
@@ -751,9 +751,9 @@ function ListingMockup() {
 
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
-  { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
-  { w: 460, h: 460, x: '42%',  y: '30%',  color: 'rgba(150,20,255,0.26)',  dur: 10, dx: ['0%','-10%','-3%'], dy: ['0%','12%','5%'] },
-  { w: 380, h: 380, x: '5%',   y: '55%',  color: 'rgba(0,180,255,0.20)',   dur: 14, dx: ['0%','8%','-4%'], dy: ['0%','-10%','3%'] },
+  { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(255,255,255,0.04)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
+  { w: 460, h: 460, x: '42%',  y: '30%',  color: 'rgba(255,255,255,0.03)',  dur: 10, dx: ['0%','-10%','-3%'], dy: ['0%','12%','5%'] },
+  { w: 380, h: 380, x: '5%',   y: '55%',  color: 'rgba(255,255,255,0.03)',   dur: 14, dx: ['0%','8%','-4%'], dy: ['0%','-10%','3%'] },
 ];
 
 const STARS = Array.from({ length: 55 }, (_, i) => ({
@@ -812,7 +812,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
       className="absolute inset-0 z-[80] flex flex-col overflow-hidden"
-      style={{ background: '#050E24' }}
+      style={{ background: '#050505' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -839,7 +839,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
       {/* Bottom glow */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: '45%', background: 'radial-gradient(ellipse 80% 55% at 50% 115%, rgba(41,100,255,0.38) 0%, transparent 70%)' }}
+        style={{ height: '45%', background: 'radial-gradient(ellipse 80% 55% at 50% 115%, rgba(255,255,255,0.04) 0%, transparent 70%)' }}
         animate={{ opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
