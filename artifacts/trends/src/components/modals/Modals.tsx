@@ -49,28 +49,18 @@ interface TitleSegment { text: string; accent: boolean }
 interface OnboardingScreen {
   title: TitleSegment[];
   subtitle: string | null;
-  pill: string;
+  pills: string[];
   buttonLabel: string;
 }
 
 const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
-      { text: 'Экономика внимания!\n\nНачни', accent: false },
-      { text: 'монетизировать время', accent: true },
-      { text: 'уже сейчас.', accent: false },
-    ],
-    subtitle: null,
-    pill: 'Новый тренд',
-    buttonLabel: 'ДАЛЕЕ',
-  },
-  {
-    title: [
-      { text: 'Смотри Reels в Telegram и ', accent: false },
+      { text: 'Смотри Reels в телеграм и ', accent: false },
       { text: 'зарабатывай токены', accent: true },
     ],
-    subtitle: null,
-    pill: 'Весь контент Telegram в одной бесконечной ленте',
+    subtitle: 'Весь видеоконтент Telegram в одной бесконечной ленте',
+    pills: ['Новый тренд', 'Экономика внимания'],
     buttonLabel: 'ДАЛЕЕ',
   },
   {
@@ -80,7 +70,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: ' за их просмотры', accent: false },
     ],
     subtitle: 'Друг смотрит ленту, токены капают вам обоим. Чем больше друзей смотрят Trends, тем выше твой доход.',
-    pill: 'Реферальная программа',
+    pills: ['Реферальная программа'],
     buttonLabel: 'ДАЛЕЕ',
   },
   {
@@ -89,7 +79,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'листинга', accent: true },
     ],
     subtitle: 'Заработанные токены можно сразу обменять на выгоду в магазине — или накопить и дождаться выхода на биржу.',
-    pill: 'Решаешь только ты',
+    pills: ['Решаешь только ты'],
     buttonLabel: 'ДАЛЕЕ',
   },
   {
@@ -98,7 +88,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'выгодой', accent: true },
     ],
     subtitle: 'Подписки, скидки, промокоды и другие награды. Выбирай, что нужно именно тебе.',
-    pill: 'Обменивай в один тап',
+    pills: ['Обменивай в один тап'],
     buttonLabel: 'ДАЛЕЕ',
   },
   {
@@ -108,7 +98,7 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: ' в одном месте', accent: false },
     ],
     subtitle: 'Общий пул, история начислений и управление токенами. Начни монетизировать своё время уже сейчас.',
-    pill: 'Твоё внимание — твой доход',
+    pills: ['Твоё внимание — твой доход'],
     buttonLabel: 'НАЧАТЬ',
   },
 ];
@@ -241,20 +231,23 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex flex-col w-full"
             >
-              {/* Pill — above title */}
-              <div className="flex justify-center mb-5">
-                <div
-                  className="inline-flex items-center rounded-full px-6 py-2.5"
-                  style={{
-                    background: 'rgba(255,255,255,0.10)',
-                    border: '1px solid rgba(255,255,255,0.22)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
-                  }}
-                >
-                  <span className="text-white/80 text-[14px] font-semibold tracking-wide">{current.pill}</span>
-                </div>
+              {/* Pills — above title */}
+              <div className="flex flex-wrap justify-center gap-2 mb-5">
+                {current.pills.map((pill, pi) => (
+                  <div
+                    key={pi}
+                    className="inline-flex items-center rounded-full px-5 py-2"
+                    style={{
+                      background: 'rgba(255,255,255,0.10)',
+                      border: '1px solid rgba(255,255,255,0.22)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
+                    }}
+                  >
+                    <span className="text-white/80 text-[13px] font-semibold tracking-wide">{pill}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Title */}
@@ -286,7 +279,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                     backdropFilter: 'blur(10px)',
                   }}
                 >
-                  <p className="text-white/70 text-[13px] leading-snug">{current.subtitle}</p>
+                  <p className="text-white/60 text-[14px] leading-relaxed" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
                 </div>
               )}
             </motion.div>
