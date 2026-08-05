@@ -236,7 +236,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 {current.pills.map((pill, pi) => (
                   <div
                     key={pi}
-                    className="inline-flex items-center rounded-full px-5 py-2"
+                    className="inline-flex items-center rounded-full px-3 py-1"
                     style={{
                       background: 'rgba(255,255,255,0.10)',
                       border: '1px solid rgba(255,255,255,0.22)',
@@ -245,7 +245,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                       boxShadow: '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18)',
                     }}
                   >
-                    <span className="text-white/80 text-[13px] font-semibold tracking-wide">{pill}</span>
+                    <span className="text-white/80 text-[11px] font-semibold tracking-wide">{pill}</span>
                   </div>
                 ))}
               </div>
