@@ -136,17 +136,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(
-    95deg,
-    #1565C0 0%,
-    #1E88E5 50%,
-    #42A5F5 100%
-  );
-  filter: none;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  color: #1E88E5;
 }
 
 .hide-scrollbar {
