@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, ChevronRight, Tag, Utensils, Laptop, Sparkles } from 'lucide-react';
+import { ShoppingBag, Tag, Utensils, Laptop, Sparkles, Shirt, Gamepad2, Dumbbell, Coffee, Car } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useStore } from '@/store/useStore';
 
 export default function Profit() {
@@ -17,11 +17,18 @@ export default function Profit() {
     }
   }, []);
 
+  const [activeCategory, setActiveCategory] = useState('Все');
+
   const categories = [
-    { name: 'Все', active: true },
-    { name: 'Еда', icon: <Utensils className="w-3 h-3" /> },
-    { name: 'Мода', icon: <Tag className="w-3 h-3" /> },
-    { name: 'Техника', icon: <Laptop className="w-3 h-3" /> },
+    { name: 'Все' },
+    { name: 'Еда', icon: <Utensils className="w-2.5 h-2.5" /> },
+    { name: 'Мода', icon: <Shirt className="w-2.5 h-2.5" /> },
+    { name: 'Техника', icon: <Laptop className="w-2.5 h-2.5" /> },
+    { name: 'Игры', icon: <Gamepad2 className="w-2.5 h-2.5" /> },
+    { name: 'Спорт', icon: <Dumbbell className="w-2.5 h-2.5" /> },
+    { name: 'Кафе', icon: <Coffee className="w-2.5 h-2.5" /> },
+    { name: 'Авто', icon: <Car className="w-2.5 h-2.5" /> },
+    { name: 'Красота', icon: <Tag className="w-2.5 h-2.5" /> },
   ];
 
   const offers = [
@@ -75,21 +82,28 @@ export default function Profit() {
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="flex gap-2 mb-6 overflow-x-auto hide-scrollbar -mx-4 px-4 pb-2">
-        {categories.map((c) => (
-          <button
-            key={c.name}
-            className={cn(
-              "flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
-              c.active 
-                ? "bg-white text-black" 
-                : "bg-white/5 text-white/70 hover:bg-white/10 border border-white/5"
-            )}
-          >
-            {c.icon} {c.name}
-          </button>
-        ))}
+      {/* Categories — scrolling marquee */}
+      <div className="mb-5 -mx-4 overflow-hidden">
+        <motion.div
+          className="flex gap-1.5 w-max px-4"
+          animate={{ x: [0, -(categories.length * 76)] }}
+          transition={{ duration: 12, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+        >
+          {[...categories, ...categories].map((c, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveCategory(c.name)}
+              className={cn(
+                "flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors",
+                activeCategory === c.name
+                  ? "bg-white text-black"
+                  : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/5"
+              )}
+            >
+              {c.icon} {c.name}
+            </button>
+          ))}
+        </motion.div>
       </div>
 
       {/* Grid */}
