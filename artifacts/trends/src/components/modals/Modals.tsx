@@ -572,7 +572,7 @@ function ShopMockup() {
   const CARD_W = 155 + 7; // card width + gap
 
   return (
-    <div className="mt-5 mb-0 flex flex-col gap-[7px] overflow-hidden -mx-6">
+    <div className="mt-7 mb-1 flex flex-col gap-[7px] overflow-hidden -mx-6">
       {/* Row 1 — scrolls left */}
       <motion.div
         className="flex gap-[7px] w-max pl-6"
@@ -731,7 +731,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pills — above title */}
-              <div className="flex flex-wrap justify-center gap-2 mb-4 -mt-6">
+              <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
                 {current.pills.map((pill, pi) => (
                   <div
                     key={pi}
@@ -750,7 +750,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Title */}
-              <h1 className="text-[42px] leading-[1.1] mb-2 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
+              <h1 className="text-[42px] leading-[1.1] mb-5 text-center" style={{ overflowWrap: 'normal', wordBreak: 'keep-all', fontWeight: 900, hyphens: 'none', fontFamily: "'Unbounded', sans-serif", textShadow: '0 0 1px rgba(255,255,255,0.6)' }}>
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
@@ -785,7 +785,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Text below animation (slide 2) */}
               {slide === 2 && (
-                <p className="text-white/70 text-[19px] leading-snug text-center px-2 mt-7 mb-4" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
+                <p className="text-white/70 text-[19px] leading-snug text-center px-2 mt-5 mb-10" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
                   Или держи токены до листинга, конвертируя их в реальные деньги.
                 </p>
               )}
