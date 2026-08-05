@@ -722,7 +722,7 @@ function ListingMockup() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35 }}
-        className="w-full rounded-2xl px-4 py-4"
+        className="w-full rounded-2xl px-4 py-3"
         style={{
           background: 'rgba(255,255,255,0.055)',
           border: '1px solid rgba(255,255,255,0.10)',
@@ -730,11 +730,8 @@ function ListingMockup() {
           WebkitBackdropFilter: 'blur(16px)',
         }}
       >
-        <p className="text-white/80 text-[13px] leading-[1.7] text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
-          Смотри Reels —{' '}
-          <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>.<br />
-          Зови друзей и получай токены с их просмотров.<br />
-          Создадим экономику внимания вместе и выведем токен{' '}
+        <p className="text-white/80 text-[12px] leading-[1.65] text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
+          Смотри Reels — <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>. Зови друзей и получай токены с их просмотров. Создадим экономику внимания вместе и выведем токен{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
