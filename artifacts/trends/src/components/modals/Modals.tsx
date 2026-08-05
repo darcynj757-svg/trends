@@ -217,18 +217,19 @@ function ReelsMockup() {
 
 // ─── Referral network mockup (slide 1 visual) ────────────────────────────────
 const FRIENDS = [
-  { angle: -100, delay: 0,   token: '+2 TRND', tokenDelay: 0.6  },
-  { angle:  -30, delay: 0.3, token: '+1 TRND', tokenDelay: 1.1  },
-  { angle:   40, delay: 0.6, token: '+3 TRND', tokenDelay: 1.7  },
-  { angle:  110, delay: 0.9, token: '+1 TRND', tokenDelay: 2.3  },
+  { angle: -120, delay: 0,   token: '+2 TRND', tokenDelay: 0.5  },
+  { angle:  -20, delay: 0.3, token: '+1 TRND', tokenDelay: 1.2  },
+  { angle:   70, delay: 0.6, token: '+3 TRND', tokenDelay: 2.0  },
 ];
 
 function ReferralMockup() {
-  const r = 82; // orbit radius
+  const size = 160;
+  const cx0 = size / 2;
+  const r = 56;
 
   return (
-    <div className="flex justify-center items-center mt-6 mb-2" style={{ height: 210, position: 'relative' }}>
-      <div style={{ position: 'relative', width: 210, height: 210 }}>
+    <div className="flex justify-center items-center mt-4 mb-1" style={{ height: size }}>
+      <div style={{ position: 'relative', width: size, height: size }}>
 
         {/* Orbit ring */}
         <motion.div
@@ -238,68 +239,66 @@ function ReferralMockup() {
             width: r * 2, height: r * 2,
             transform: 'translate(-50%, -50%)',
             borderRadius: '50%',
-            border: '1px dashed rgba(56,182,255,0.25)',
+            border: '1px dashed rgba(56,182,255,0.22)',
           }}
           animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
         />
 
-        {/* Friend avatars */}
+        {/* Friend avatars + lines + tokens */}
         {FRIENDS.map((f, i) => {
           const rad = (f.angle * Math.PI) / 180;
-          const cx = 105 + r * Math.cos(rad);
-          const cy = 105 + r * Math.sin(rad);
+          const fx = cx0 + r * Math.cos(rad);
+          const fy = cx0 + r * Math.sin(rad);
           return (
             <motion.div key={i}>
               {/* Connection line */}
-              <svg
-                style={{ position: 'absolute', inset: 0, width: 210, height: 210, pointerEvents: 'none', overflow: 'visible' }}
-              >
+              <svg style={{ position: 'absolute', inset: 0, width: size, height: size, pointerEvents: 'none', overflow: 'visible' }}>
                 <motion.line
-                  x1={105} y1={105} x2={cx} y2={cy}
-                  stroke="rgba(56,182,255,0.3)"
+                  x1={cx0} y1={cx0} x2={fx} y2={fy}
+                  stroke="rgba(56,182,255,0.28)"
                   strokeWidth={1}
-                  strokeDasharray="4 4"
+                  strokeDasharray="3 4"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: f.delay + 0.2 }}
+                  transition={{ duration: 0.5, delay: f.delay + 0.15 }}
                 />
               </svg>
 
-              {/* Friend circle */}
+              {/* Friend avatar */}
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 18, delay: f.delay }}
                 style={{
                   position: 'absolute',
-                  left: cx - 20, top: cy - 20,
-                  width: 40, height: 40,
+                  left: fx - 16, top: fy - 16,
+                  width: 32, height: 32,
                   borderRadius: '50%',
-                  background: 'rgba(56,182,255,0.15)',
-                  border: '1.5px solid rgba(120,210,255,0.5)',
+                  background: 'rgba(56,182,255,0.14)',
+                  border: '1.5px solid rgba(120,210,255,0.45)',
                   backdropFilter: 'blur(10px)',
                   WebkitBackdropFilter: 'blur(10px)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 0 14px rgba(56,182,255,0.25)',
+                  boxShadow: '0 0 10px rgba(56,182,255,0.2)',
                 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="8" r="4" fill="rgba(180,230,255,0.8)" />
-                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(180,230,255,0.8)" />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" fill="rgba(180,230,255,0.85)" />
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(180,230,255,0.85)" />
                 </svg>
               </motion.div>
 
-              {/* Token badge */}
+              {/* Token badge — floats upward from friend */}
               <motion.div
-                initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: [0, 1, 1, 0], y: [0, -22, -44, -66] }}
-                transition={{ duration: 2.4, repeat: Infinity, delay: f.tokenDelay, ease: 'easeOut' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 1, 0], y: [0, -18, -36, -52] }}
+                transition={{ duration: 2.2, repeat: Infinity, delay: f.tokenDelay, ease: 'easeOut' }}
                 style={{
                   position: 'absolute',
-                  left: cx - 24, top: cy - 36,
+                  left: fx - 22, top: fy - 28,
                   borderRadius: 20,
-                  padding: '3px 8px',
+                  padding: '2px 7px',
                   fontSize: 9,
                   fontWeight: 700,
                   color: 'rgba(255,255,255,0.95)',
@@ -308,8 +307,8 @@ function ReferralMockup() {
                   background: 'rgba(56,182,255,0.45)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255,255,255,0.55)',
-                  boxShadow: '0 2px 12px rgba(56,182,255,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
+                  border: '1px solid rgba(255,255,255,0.5)',
+                  boxShadow: '0 2px 10px rgba(56,182,255,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
                 }}
               >
                 {f.token}
@@ -318,7 +317,7 @@ function ReferralMockup() {
           );
         })}
 
-        {/* Center "you" */}
+        {/* Center avatar */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -327,21 +326,18 @@ function ReferralMockup() {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 56, height: 56,
+            width: 44, height: 44,
             borderRadius: '50%',
             background: 'linear-gradient(135deg, rgba(56,182,255,0.55) 0%, rgba(99,102,241,0.55) 100%)',
-            border: '2px solid rgba(255,255,255,0.55)',
+            border: '2px solid rgba(255,255,255,0.5)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 28px rgba(56,182,255,0.5), inset 0 1px 0 rgba(255,255,255,0.3)',
+            boxShadow: '0 0 22px rgba(56,182,255,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
           }}
         >
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="8" r="4" fill="white" />
               <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="white" />
             </svg>
@@ -351,14 +347,13 @@ function ReferralMockup() {
         {/* Pulse ring */}
         <motion.div
           style={{
-            position: 'absolute',
-            top: '50%', left: '50%',
+            position: 'absolute', top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
             borderRadius: '50%',
-            border: '1.5px solid rgba(56,182,255,0.6)',
+            border: '1.5px solid rgba(56,182,255,0.55)',
             pointerEvents: 'none',
           }}
-          animate={{ width: [56, 90, 56], height: [56, 90, 56], opacity: [0.8, 0, 0.8] }}
+          animate={{ width: [44, 72, 44], height: [44, 72, 44], opacity: [0.7, 0, 0.7] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
         />
       </div>
