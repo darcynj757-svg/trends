@@ -428,134 +428,94 @@ function ReferralMockup() {
   );
 }
 
-// ─── Shop mockup (slide 2 visual) ────────────────────────────────────────────
-const SHOP_PRODUCTS = [
-  { name: 'Скидка 30%',    price: '500',   color: '#4B7BF5' },
-  { name: 'Промокод',      price: '200',   color: '#7C3AED' },
-  { name: 'VIP подписка',  price: '2 000', color: '#D97706' },
-  { name: 'Кэшбэк 15%',   price: '350',   color: '#059669' },
-  { name: 'NFT-карточка',  price: '5 000', color: '#DB2777' },
-  { name: 'Буст ×2',       price: '800',   color: '#0891B2' },
-];
-
-const SPEND_BADGES = [
-  { x: -42, delay: 0,   label: '-500 TRND' },
-  { x:  42, delay: 3.5, label: '-200 TRND' },
+// ─── Shop carousel (slide 2 visual) ──────────────────────────────────────────
+const SHOP_ITEMS = [
+  { name: 'Скидка 30%',       price: '500 TRND',   color: '#4B7BF5' },
+  { name: 'Промокод',         price: '200 TRND',   color: '#7C3AED' },
+  { name: 'VIP подписка',     price: '2 000 TRND', color: '#D97706' },
+  { name: 'Кэшбэк 15%',      price: '350 TRND',   color: '#059669' },
+  { name: 'NFT-карточка',     price: '5 000 TRND', color: '#DB2777' },
+  { name: 'Буст ×2',          price: '800 TRND',   color: '#0891B2' },
 ];
 
 function ShopMockup() {
-  const phoneW = 140;
-  const phoneH = 210;
-  const itemH = 32;
-  const rows = SHOP_PRODUCTS;
-  const totalH = rows.length * itemH;
+  const [index, setIndex] = useState(0);
+  const [dir, setDir] = useState(1);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setDir(1);
+      setIndex(i => (i + 1) % SHOP_ITEMS.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  const item = SHOP_ITEMS[index];
+
+  const variants = {
+    enter: (d: number) => ({ x: d * 70, opacity: 0, scale: 0.94 }),
+    center: { x: 0, opacity: 1, scale: 1 },
+    exit:   (d: number) => ({ x: d * -70, opacity: 0, scale: 0.94 }),
+  };
 
   return (
-    <div className="flex justify-center items-center mt-6 mb-2" style={{ height: phoneH + 50 }}>
-      <div className="relative" style={{ width: phoneW, height: phoneH }}>
-
-        {/* Phone shell */}
-        <div
-          className="absolute inset-0 rounded-[22px] overflow-hidden"
-          style={{
-            background: '#0a0f1e',
-            border: '2px solid rgba(255,255,255,0.18)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)',
-          }}
-        >
-          {/* Header: balance */}
-          <div style={{
-            padding: '10px 10px 8px',
-            borderBottom: '1px solid rgba(255,255,255,0.07)',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em' }}>
-              МАГАЗИН
-            </span>
-            <motion.span
-              animate={{ opacity: [1, 0.6, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ color: '#38B6FF', fontSize: 9, fontWeight: 700 }}
-            >
-              13 450 TRND
-            </motion.span>
-          </div>
-
-          {/* Scrolling product list */}
-          <div style={{ overflow: 'hidden', position: 'relative', height: phoneH - 34 }}>
-            <motion.div
-              animate={{ y: [0, -totalH] }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
-            >
-              {[...rows, ...rows].map((row, i) => (
-                <div
-                  key={i}
-                  style={{
-                    height: itemH,
-                    display: 'flex', alignItems: 'center',
-                    padding: '0 10px', gap: 8,
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                  }}
-                >
-                  {/* Color dot */}
-                  <div style={{
-                    width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                    background: row.color,
-                    boxShadow: `0 0 6px ${row.color}88`,
-                  }} />
-                  {/* Name */}
-                  <span style={{ flex: 1, color: 'rgba(255,255,255,0.8)', fontSize: 9, fontWeight: 500 }}>
-                    {row.name}
-                  </span>
-                  {/* Price pill */}
-                  <span style={{
-                    background: `${row.color}22`,
-                    border: `1px solid ${row.color}55`,
-                    borderRadius: 8, padding: '1px 5px',
-                    color: row.color, fontSize: 8, fontWeight: 700,
-                  }}>
-                    {row.price}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Fade edges */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 20,
-              background: 'linear-gradient(to bottom, #0a0f1e, transparent)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 20,
-              background: 'linear-gradient(to top, #0a0f1e, transparent)', pointerEvents: 'none' }} />
-          </div>
-        </div>
-
-        {/* Notch */}
-        <div style={{
-          position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
-          width: 28, height: 5, borderRadius: 4, background: 'rgba(255,255,255,0.18)', zIndex: 10,
-        }} />
-
-        {/* Spend badges floating upward */}
-        {SPEND_BADGES.map((t, i) => (
+    <div className="flex flex-col items-center mt-6 mb-2" style={{ gap: 14 }}>
+      {/* Card carousel */}
+      <div style={{ width: 210, overflow: 'hidden', position: 'relative' }}>
+        <AnimatePresence mode="wait" custom={dir}>
           <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: [0, 1, 1, 0], y: [10, -22, -50, -78] }}
-            transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 4, delay: t.delay, ease: 'easeOut' }}
+            key={index}
+            custom={dir}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{
-              position: 'absolute', bottom: 24,
-              left: '50%', transform: `translateX(calc(-50% + ${t.x}px))`,
-              borderRadius: 20, padding: '4px 9px',
-              fontSize: 10, fontWeight: 700,
-              color: 'rgba(255,255,255,0.95)', whiteSpace: 'nowrap',
-              pointerEvents: 'none', zIndex: 20,
-              background: 'rgba(99,102,241,0.55)',
-              backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              boxShadow: '0 2px 16px rgba(99,102,241,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+              background: 'rgba(255,255,255,0.07)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: `1px solid ${item.color}55`,
+              borderRadius: 20,
+              padding: '18px 20px 16px',
+              textAlign: 'center',
+              boxShadow: `0 4px 32px ${item.color}22, inset 0 1px 0 rgba(255,255,255,0.12)`,
             }}
           >
-            {t.label}
+            {/* Category label */}
+            <div style={{
+              display: 'inline-block',
+              background: `${item.color}22`,
+              border: `1px solid ${item.color}55`,
+              borderRadius: 20, padding: '2px 10px',
+              color: item.color, fontSize: 10, fontWeight: 700,
+              letterSpacing: '0.04em', marginBottom: 10,
+            }}>
+              ЦИФРОВОЙ ПРОДУКТ
+            </div>
+
+            {/* Product name */}
+            <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
+              {item.name}
+            </div>
+
+            {/* Token price */}
+            <div style={{ color: item.color, fontSize: 26, fontWeight: 900, letterSpacing: '0.01em' }}>
+              {item.price}
+            </div>
           </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Dot indicators */}
+      <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+        {SHOP_ITEMS.map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{ width: i === index ? 18 : 5, opacity: i === index ? 1 : 0.3 }}
+            transition={{ duration: 0.3 }}
+            style={{ height: 5, borderRadius: 3, background: 'white' }}
+          />
         ))}
       </div>
     </div>
