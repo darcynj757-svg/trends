@@ -186,7 +186,7 @@ function ReelsMockup() {
             key={i}
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: [0, 1, 1, 0], y: [10, -24, -56, -88] }}
-            transition={{ duration: 2.6, repeat: Infinity, delay: t.delay, ease: 'easeOut' }}
+            transition={{ duration: 2.6, repeat: Infinity, repeatDelay: 4, delay: t.delay, ease: 'easeOut' }}
             style={{
               position: 'absolute',
               bottom: 20,
@@ -237,7 +237,7 @@ function ReferralMockup() {
             position: 'absolute',
             top: '50%', left: '50%',
             width: r * 2, height: r * 2,
-            transform: 'translate(-50%, -50%)',
+            marginLeft: -r, marginTop: -r,
             borderRadius: '50%',
             border: '1px dashed rgba(56,182,255,0.22)',
           }}
@@ -293,7 +293,7 @@ function ReferralMockup() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 1, 0], y: [0, -18, -36, -52] }}
-                transition={{ duration: 2.2, repeat: Infinity, delay: f.tokenDelay, ease: 'easeOut' }}
+                transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 4, delay: f.tokenDelay, ease: 'easeOut' }}
                 style={{
                   position: 'absolute',
                   left: fx - 22, top: fy - 28,
@@ -325,7 +325,7 @@ function ReferralMockup() {
           style={{
             position: 'absolute',
             top: '50%', left: '50%',
-            transform: 'translate(-50%, -50%)',
+            marginLeft: -22, marginTop: -22,
             width: 44, height: 44,
             borderRadius: '50%',
             background: 'linear-gradient(135deg, rgba(56,182,255,0.55) 0%, rgba(99,102,241,0.55) 100%)',
@@ -345,17 +345,18 @@ function ReferralMockup() {
         </motion.div>
 
         {/* Pulse ring */}
-        <motion.div
-          style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%, -50%)',
-            borderRadius: '50%',
-            border: '1.5px solid rgba(56,182,255,0.55)',
-            pointerEvents: 'none',
-          }}
-          animate={{ width: [44, 72, 44], height: [44, 72, 44], opacity: [0.7, 0, 0.7] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-        />
+        <div style={{ position: 'absolute', top: '50%', left: '50%', width: 0, height: 0 }}>
+          <motion.div
+            style={{
+              position: 'absolute',
+              borderRadius: '50%',
+              border: '1.5px solid rgba(56,182,255,0.55)',
+              pointerEvents: 'none',
+            }}
+            animate={{ width: [44, 72, 44], height: [44, 72, 44], x: [-22, -36, -22], y: [-22, -36, -22], opacity: [0.7, 0, 0.7] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
+          />
+        </div>
       </div>
     </div>
   );
