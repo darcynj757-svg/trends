@@ -794,24 +794,23 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           </AnimatePresence>
         </div>
 
-        {/* Progress segments — above button */}
-        <div className="flex items-center justify-center gap-1.5 mb-5 mt-auto pt-4">
-          {Array.from({ length: TOTAL }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="rounded-full overflow-hidden"
-              animate={{ width: i === slide ? 20 : 6, opacity: i <= slide ? 1 : 0.3 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              style={{ height: 6, background: i <= slide ? '#ffffff' : 'rgba(255,255,255,0.25)' }}
-            />
-          ))}
-        </div>
-
         {/* CTA button — blue gradient */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex items-center justify-center gap-1.5">
+            {Array.from({ length: TOTAL }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="rounded-full overflow-hidden"
+                animate={{ width: i === slide ? 20 : 6, opacity: i <= slide ? 1 : 0.3 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                style={{ height: 6, background: i <= slide ? '#ffffff' : 'rgba(255,255,255,0.25)' }}
+              />
+            ))}
+          </div>
         <motion.button
           onClick={handleNext}
           whileTap={{ scale: 0.97 }}
-          className="w-full py-4 rounded-full font-bold text-[16px] tracking-widest text-white relative overflow-hidden mt-6"
+          className="w-full py-4 rounded-full font-bold text-[16px] tracking-widest text-white relative overflow-hidden"
           style={{
             background: 'linear-gradient(90deg, #42A5F5 0%, #1E88E5 100%)',
             boxShadow: '0 4px 32px rgba(66,165,245,0.5)',
@@ -825,6 +824,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
           />
           {current.buttonLabel}
         </motion.button>
+        </div>
       </div>
     </motion.div>
   );
