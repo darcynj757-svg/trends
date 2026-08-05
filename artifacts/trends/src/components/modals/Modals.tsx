@@ -901,7 +901,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
                 {current.title.map((seg, i) => {
                   if (seg.accent) {
                     return (
-                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '0.4rem' }}>
+                      <span key={i} className="gradient-text" style={{ display: 'block', marginTop: '0.4rem', textShadow: 'none' }}>
                         {seg.text.split('\n').map((part, pi, arr) => (
                           <span key={pi}>
                             {part}
