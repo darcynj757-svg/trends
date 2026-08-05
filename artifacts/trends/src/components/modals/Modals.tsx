@@ -730,11 +730,11 @@ function ListingMockup() {
           WebkitBackdropFilter: 'blur(16px)',
         }}
       >
-        <p className="text-white/80 text-[13px] leading-relaxed text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
+        <p className="text-white/80 text-[13px] leading-[1.7] text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
           Смотри Reels —{' '}
-          <span className="text-white font-semibold">начни монетизировать свою привычку скролить ленту</span>,
-          зови друзей — получай токены с их просмотров.{' '}
-          Вместе мы создаём экономику нового поколения — и выводим{' '}
+          <span className="text-white font-semibold">монетизируй привычку скроллить ленту</span>.<br />
+          Зови друзей и получай токены с их просмотров.<br />
+          Создадим экономику внимания вместе и выведем токен{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
