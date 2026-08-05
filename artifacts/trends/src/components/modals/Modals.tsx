@@ -922,7 +922,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Subtitle */}
               {current.subtitle && (
-                <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>{current.subtitle}</p>
+                <p className="text-white/88 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line', textShadow: '0 0 24px rgba(79,195,247,0.25)' }}>{current.subtitle}</p>
               )}
 
               {/* Animated visual */}
