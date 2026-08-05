@@ -56,7 +56,7 @@ interface OnboardingScreen {
 const onboardingScreens: OnboardingScreen[] = [
   {
     title: [
-      { text: 'Смотри Reels в Telegram и ', accent: false },
+      { text: 'Смотри Reels\nв Telegram и ', accent: false },
       { text: 'зарабатывай токены', accent: true },
     ],
     subtitle: 'Весь видеоконтент Telegram в одной бесконечной ленте!',
