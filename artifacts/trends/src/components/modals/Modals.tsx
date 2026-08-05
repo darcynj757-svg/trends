@@ -485,7 +485,6 @@ const SHOP_ROW1 = [
 const SHOP_ROW2 = [
   { emoji: '⚡', cat: 'Буст',     name: 'Буст просмотров ×2', price: '800 TRND',    badge: '×2',    color: '#0891B2' },
   { emoji: '🛍️', cat: 'Ozon',    name: 'Акция Ozon',    price: '300 TRND',    badge: '-20%',  color: '#DB2777' },
-  { text: 'Или держи токены до листинга, конвертируя их в реальные деньги.' } as const,
   { emoji: '₿',  cat: 'Крипто',  name: 'Crypto-вывод',  price: '10 000 TRND', badge: 'OUT',   color: '#D97706' },
   { emoji: '🚀', cat: 'Подписка',name: 'Подписка Pro',   price: '700 TRND',    badge: 'PRO',   color: '#059669' },
   { emoji: '🎮', cat: 'Игры',    name: 'Game Pass 30д', price: '1 200 TRND',  badge: '30д',   color: '#7C3AED' },
@@ -798,6 +797,41 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {slide === 0 && <ReelsMockup />}
               {slide === 1 && <ReferralMockup />}
               {slide === 2 && <ShopMockup />}
+
+              {/* Text card below animation (slide 2) */}
+              {slide === 2 && (
+                <div
+                  className="mx-1 mt-3"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(75,123,245,0.14) 0%, rgba(124,58,237,0.10) 100%)',
+                    border: '1px solid rgba(124,58,237,0.30)',
+                    borderRadius: 14,
+                    padding: '11px 16px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    boxShadow: '0 2px 12px rgba(124,58,237,0.12), inset 0 1px 0 rgba(255,255,255,0.08)',
+                  }}
+                >
+                  <div style={{
+                    position: 'absolute', top: -16, right: -16,
+                    width: 60, height: 60, borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%)',
+                    pointerEvents: 'none',
+                  }} />
+                  <p style={{
+                    color: 'rgba(255,255,255,0.80)',
+                    fontSize: 13,
+                    fontWeight: 400,
+                    lineHeight: 1.45,
+                    textAlign: 'center',
+                    margin: 0,
+                    position: 'relative',
+                    zIndex: 1,
+                  }}>
+                    Или держи токены до листинга, конвертируя их в реальные деньги.
+                  </p>
+                </div>
+              )}
 
             </motion.div>
           </AnimatePresence>
