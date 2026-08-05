@@ -49,6 +49,7 @@ interface TitleSegment { text: string; accent: boolean }
 interface OnboardingScreen {
   title: TitleSegment[];
   subtitle: string | null;
+  subtitleBelow?: string;
   pills: string[];
   buttonLabel: string;
 }
@@ -77,7 +78,8 @@ const onboardingScreens: OnboardingScreen[] = [
       { text: 'Твои токены', accent: false },
       { text: 'работают\nна тебя', accent: true },
     ],
-    subtitle: 'Обменивай токены в магазине уже сегодня — скидки, акции, промокоды или цифровые продукты от партнёров.\n\nИли держи токены до листинга, конвертируя их в реальные деньги.',
+    subtitle: 'Обменивай токены в магазине уже сегодня — скидки, акции, промокоды или цифровые продукты от партнёров.',
+    subtitleBelow: 'Или держи токены до листинга, конвертируя их в реальные деньги.',
     pills: ['Обменивай · Копи · Зарабатывай'],
     buttonLabel: 'ДАЛЕЕ',
   },
@@ -764,6 +766,11 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {slide === 0 && <ReelsMockup />}
               {slide === 1 && <ReferralMockup />}
               {slide === 2 && <ShopMockup />}
+
+              {/* Subtitle below animation (slide 2 only) */}
+              {current.subtitleBelow && (
+                <p className="text-white/60 text-[15px] leading-snug text-center px-2 mt-3" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitleBelow}</p>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
