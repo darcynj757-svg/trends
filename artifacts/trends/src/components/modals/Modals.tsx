@@ -232,16 +232,17 @@ const MINI_CARD_COLORS = [
 
 /** A tiny phone screen that scrolls cards — shown next to each friend avatar */
 function MiniPhone({ delay }: { delay: number }) {
-  const w = 28, h = 44, cardH = h - 2;
+  const w = 18, h = 30, cardH = h - 2;
   return (
     <div style={{
       width: w, height: h,
-      borderRadius: 6,
+      borderRadius: 4,
       overflow: 'hidden',
-      border: '1px solid rgba(255,255,255,0.22)',
-      background: '#0a0f1e',
-      boxShadow: '0 4px 16px rgba(0,0,0,0.55)',
+      border: '1px solid rgba(255,255,255,0.14)',
+      background: 'rgba(10,15,30,0.45)',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.4)',
       flexShrink: 0,
+      opacity: 0.65,
     }}>
       <motion.div
         style={{ display: 'flex', flexDirection: 'column' }}
