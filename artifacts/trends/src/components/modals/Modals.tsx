@@ -271,7 +271,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
 
               {/* Subtitle */}
               {current.subtitle && (
-                <p className="text-white/70 text-[22px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
+                <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
               )}
             </motion.div>
           </AnimatePresence>
