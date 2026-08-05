@@ -219,7 +219,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Slide body — takes remaining space */}
-        <div className="flex-1 flex flex-col justify-start pt-20 min-h-0">
+        <div className="flex-1 flex flex-col justify-start pt-14 min-h-0">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide}
