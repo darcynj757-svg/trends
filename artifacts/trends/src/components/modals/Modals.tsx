@@ -734,7 +734,7 @@ function ListingMockup() {
           Смотри Reels —{' '}
           <span className="text-white font-semibold">начни монетизировать свою привычку скролить ленту</span>,
           зови друзей — получай токены с их просмотров.{' '}
-          Вместе мы превращаем внимание в капитал и выводим{' '}
+          Вместе мы создаём экономику нового поколения — и выводим{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
@@ -744,7 +744,7 @@ function ListingMockup() {
               fontWeight: 700,
             }}
           >
-            TRND на биржи
+            TRND на мировые биржи
           </span>.
         </p>
       </motion.div>
