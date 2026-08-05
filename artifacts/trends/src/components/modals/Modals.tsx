@@ -217,15 +217,68 @@ function ReelsMockup() {
 
 // ─── Referral network mockup (slide 1 visual) ────────────────────────────────
 const FRIENDS = [
-  { angle:  -90, delay: 0,   token: '+2 TRND', tokenDelay: 0.5  },
-  { angle:   30, delay: 0.3, token: '+1 TRND', tokenDelay: 1.2  },
-  { angle:  150, delay: 0.6, token: '+3 TRND', tokenDelay: 2.0  },
+  { angle: -90, delay: 0,   token: '+2 TRND', tokenDelay: 0.5 },
+  { angle:  30, delay: 0.3, token: '+1 TRND', tokenDelay: 1.2 },
+  { angle: 150, delay: 0.6, token: '+3 TRND', tokenDelay: 2.0 },
 ];
 
+// tiny card colors for the mini-screen inside each friend node
+const MINI_CARD_COLORS = [
+  'linear-gradient(160deg,#1a3a6e 0%,#2563eb 100%)',
+  'linear-gradient(160deg,#4a1a6e 0%,#7c3aed 100%)',
+  'linear-gradient(160deg,#1a4a3a 0%,#059669 100%)',
+  'linear-gradient(160deg,#6e1a3a 0%,#db2777 100%)',
+];
+
+/** A tiny phone screen that scrolls cards — shown next to each friend avatar */
+function MiniPhone({ delay }: { delay: number }) {
+  const w = 28, h = 44, cardH = h - 2;
+  return (
+    <div style={{
+      width: w, height: h,
+      borderRadius: 6,
+      overflow: 'hidden',
+      border: '1px solid rgba(255,255,255,0.22)',
+      background: '#0a0f1e',
+      boxShadow: '0 4px 16px rgba(0,0,0,0.55)',
+      flexShrink: 0,
+    }}>
+      <motion.div
+        style={{ display: 'flex', flexDirection: 'column' }}
+        animate={{ y: [0, -cardH, -cardH * 2, -cardH * 3, -cardH * 4] }}
+        transition={{
+          duration: 8, repeat: Infinity, repeatType: 'loop',
+          ease: [0.4, 0, 0.2, 1], times: [0, 0.22, 0.44, 0.66, 1],
+          delay,
+        }}
+      >
+        {[...MINI_CARD_COLORS, MINI_CARD_COLORS[0]].map((bg, i) => (
+          <div key={i} style={{
+            width: w - 2, height: cardH, flexShrink: 0, background: bg,
+            margin: '0 auto', position: 'relative',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {/* tiny play dot */}
+            <div style={{
+              width: 8, height: 8, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.35)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="4" height="5" viewBox="0 0 4 5" fill="white">
+                <path d="M0 0l4 2.5L0 5z" />
+              </svg>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function ReferralMockup() {
-  const size = 160;
+  const size = 200;
   const cx0 = size / 2;
-  const r = 56;
+  const r = 62;
 
   return (
     <div className="flex justify-center items-center mt-4 mb-1" style={{ height: size }}>
@@ -245,11 +298,18 @@ function ReferralMockup() {
           transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
         />
 
-        {/* Friend avatars + lines + tokens */}
+        {/* Friend avatars + mini phones + lines + tokens */}
         {FRIENDS.map((f, i) => {
           const rad = (f.angle * Math.PI) / 180;
           const fx = cx0 + r * Math.cos(rad);
           const fy = cx0 + r * Math.sin(rad);
+
+          // position mini phone offset from the avatar, away from center
+          const normX = Math.cos(rad);
+          const normY = Math.sin(rad);
+          const phoneOffX = normX * 26;
+          const phoneOffY = normY * 26;
+
           return (
             <motion.div key={i}>
               {/* Connection line */}
@@ -272,8 +332,8 @@ function ReferralMockup() {
                 transition={{ type: 'spring', stiffness: 260, damping: 18, delay: f.delay }}
                 style={{
                   position: 'absolute',
-                  left: fx - 16, top: fy - 16,
-                  width: 32, height: 32,
+                  left: fx - 14, top: fy - 14,
+                  width: 28, height: 28,
                   borderRadius: '50%',
                   background: 'rgba(56,182,255,0.14)',
                   border: '1.5px solid rgba(120,210,255,0.45)',
@@ -281,15 +341,31 @@ function ReferralMockup() {
                   WebkitBackdropFilter: 'blur(10px)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   boxShadow: '0 0 10px rgba(56,182,255,0.2)',
+                  zIndex: 2,
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="8" r="4" fill="rgba(180,230,255,0.85)" />
                   <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(180,230,255,0.85)" />
                 </svg>
               </motion.div>
 
-              {/* Token badge — floats upward from friend */}
+              {/* Mini phone screen — appears after avatar */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 240, damping: 20, delay: f.delay + 0.35 }}
+                style={{
+                  position: 'absolute',
+                  left: fx - 14 + phoneOffX,
+                  top:  fy - 22 + phoneOffY,
+                  zIndex: 3,
+                }}
+              >
+                <MiniPhone delay={i * 1.8} />
+              </motion.div>
+
+              {/* Token badge */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 1, 0], y: [0, -18, -36, -52] }}
@@ -299,16 +375,14 @@ function ReferralMockup() {
                   left: fx - 22, top: fy - 28,
                   borderRadius: 20,
                   padding: '2px 7px',
-                  fontSize: 9,
-                  fontWeight: 700,
+                  fontSize: 9, fontWeight: 700,
                   color: 'rgba(255,255,255,0.95)',
-                  whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
+                  whiteSpace: 'nowrap', pointerEvents: 'none',
                   background: 'rgba(56,182,255,0.45)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
+                  backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
                   border: '1px solid rgba(255,255,255,0.5)',
                   boxShadow: '0 2px 10px rgba(56,182,255,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                  zIndex: 4,
                 }}
               >
                 {f.token}
@@ -330,10 +404,10 @@ function ReferralMockup() {
             borderRadius: '50%',
             background: 'linear-gradient(135deg, rgba(56,182,255,0.55) 0%, rgba(99,102,241,0.55) 100%)',
             border: '2px solid rgba(255,255,255,0.5)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 0 22px rgba(56,182,255,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+            zIndex: 2,
           }}
         >
           <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}>
