@@ -139,7 +139,7 @@ function ReelsMockup() {
           <motion.div
             style={{ display: 'flex', flexDirection: 'column' }}
             animate={{ y: [0, -cardH, -cardH * 2, -cardH * 3, -cardH * 4] }}
-            transition={{ duration: 5, repeat: Infinity, repeatType: 'loop', ease: [0.4, 0, 0.2, 1], times: [0, 0.22, 0.44, 0.66, 1] }}
+            transition={{ duration: 10, repeat: Infinity, repeatType: 'loop', ease: [0.4, 0, 0.2, 1], times: [0, 0.22, 0.44, 0.66, 1] }}
           >
             {[...CARD_COLORS, CARD_COLORS[0]].map((bg, i) => (
               <div
@@ -185,24 +185,27 @@ function ReelsMockup() {
         {tokens.map((t, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 0, x: t.x }}
-            animate={{ opacity: [0, 1, 1, 0], y: [10, -20, -50, -80] }}
-            transition={{ duration: 2.2, repeat: Infinity, delay: t.delay, ease: 'easeOut' }}
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: [0, 1, 1, 0], y: [10, -24, -56, -88] }}
+            transition={{ duration: 2.6, repeat: Infinity, delay: t.delay, ease: 'easeOut' }}
             style={{
               position: 'absolute',
               bottom: 20,
               left: '50%',
               transform: `translateX(calc(-50% + ${t.x}px))`,
-              background: 'linear-gradient(135deg,#f59e0b,#fbbf24)',
               borderRadius: 20,
-              padding: '3px 8px',
+              padding: '4px 10px',
               fontSize: 10,
               fontWeight: 700,
-              color: '#1a0a00',
+              color: 'rgba(180,230,255,0.95)',
               whiteSpace: 'nowrap',
-              boxShadow: '0 2px 12px rgba(245,158,11,0.5)',
               pointerEvents: 'none',
               zIndex: 20,
+              background: 'rgba(56,182,255,0.18)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(120,210,255,0.45)',
+              boxShadow: '0 2px 16px rgba(56,182,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25)',
             }}
           >
             {t.label}
