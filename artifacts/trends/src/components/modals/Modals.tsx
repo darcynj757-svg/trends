@@ -474,81 +474,92 @@ function ShopPillsMarquee() {
 
 // ─── Shop carousel (slide 2 visual) ──────────────────────────────────────────
 const SHOP_ROW1 = [
-  { name: 'Скидка 30%',   price: '500 TRND',   color: '#4B7BF5' },
-  { name: 'Промокод',     price: '200 TRND',   color: '#7C3AED' },
-  { name: 'VIP подписка', price: '2 000 TRND', color: '#D97706' },
-  { name: 'Кэшбэк 15%',  price: '350 TRND',   color: '#059669' },
-  { name: 'NFT-карточка', price: '5 000 TRND', color: '#DB2777' },
+  { emoji: '🏷️', cat: 'Мода',     name: 'Скидка 30%',    price: '500 TRND',    badge: '-30%',  color: '#4B7BF5' },
+  { emoji: '🎟️', cat: 'Промо',    name: 'Промокод',      price: '200 TRND',    badge: 'NEW',   color: '#7C3AED' },
+  { emoji: '👑', cat: 'Доступ',   name: 'VIP подписка',  price: '2 000 TRND',  badge: 'VIP',   color: '#D97706' },
+  { emoji: '💳', cat: 'Финансы',  name: 'Кэшбэк 15%',   price: '350 TRND',    badge: '+15%',  color: '#059669' },
+  { emoji: '🖼️', cat: 'Крипто',   name: 'NFT-карточка',  price: '5 000 TRND',  badge: 'RARE',  color: '#DB2777' },
+  { emoji: '✈️', cat: 'Telegram', name: 'TG Premium',    price: '1 500 TRND',  badge: 'HOT',   color: '#4B7BF5' },
 ];
 const SHOP_ROW2 = [
-  { name: 'Буст ×2',        price: '800 TRND',   color: '#0891B2' },
-  { name: 'Tg Premium',     price: '1 500 TRND', color: '#4B7BF5' },
-  { name: 'Акция Ozon',     price: '300 TRND',   color: '#DB2777' },
-  { name: 'Crypto-вывод',   price: '10 000 TRND',color: '#D97706' },
-  { name: 'Подписка Pro',   price: '700 TRND',   color: '#059669' },
+  { emoji: '⚡', cat: 'Буст',     name: 'Буст просмотров ×2', price: '800 TRND',    badge: '×2',    color: '#0891B2' },
+  { emoji: '🛍️', cat: 'Ozon',    name: 'Акция Ozon',    price: '300 TRND',    badge: '-20%',  color: '#DB2777' },
+  { emoji: '₿',  cat: 'Крипто',  name: 'Crypto-вывод',  price: '10 000 TRND', badge: 'OUT',   color: '#D97706' },
+  { emoji: '🚀', cat: 'Подписка',name: 'Подписка Pro',   price: '700 TRND',    badge: 'PRO',   color: '#059669' },
+  { emoji: '🎮', cat: 'Игры',    name: 'Game Pass 30д', price: '1 200 TRND',  badge: '30д',   color: '#7C3AED' },
+  { emoji: '🍕', cat: 'Еда',     name: 'Самокат −25%',  price: '450 TRND',    badge: '-25%',  color: '#0891B2' },
 ];
 
-function ShopCard({ name, price, color }: { name: string; price: string; color: string }) {
+function ShopCard({ emoji, cat, name, price, badge, color }: {
+  emoji: string; cat: string; name: string; price: string; badge: string; color: string;
+}) {
   return (
-    <div
-      style={{
-        width: 120,
-        flexShrink: 0,
-        background: 'rgba(255,255,255,0.07)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
-        border: `1px solid ${color}55`,
-        borderRadius: 14,
-        padding: '10px 12px 9px',
-        textAlign: 'center',
-        boxShadow: `0 2px 16px ${color}18, inset 0 1px 0 rgba(255,255,255,0.10)`,
-      }}
-    >
+    <div style={{
+      width: 100,
+      flexShrink: 0,
+      background: `linear-gradient(145deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)`,
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: `1px solid ${color}50`,
+      borderRadius: 12,
+      padding: '8px 9px 7px',
+      position: 'relative',
+      boxShadow: `0 2px 12px ${color}20, inset 0 1px 0 rgba(255,255,255,0.12)`,
+      overflow: 'hidden',
+    }}>
+      {/* Accent glow top-right */}
       <div style={{
-        display: 'inline-block',
-        background: `${color}22`,
-        border: `1px solid ${color}44`,
-        borderRadius: 20, padding: '1px 7px',
-        color, fontSize: 8, fontWeight: 700,
-        letterSpacing: '0.04em', marginBottom: 6,
-      }}>
-        TRND SHOP
-      </div>
-      <div style={{ color: 'rgba(255,255,255,0.88)', fontSize: 12, fontWeight: 700, marginBottom: 5, lineHeight: 1.2 }}>
-        {name}
-      </div>
-      <div style={{ color, fontSize: 14, fontWeight: 900, letterSpacing: '0.01em' }}>
-        {price}
-      </div>
+        position: 'absolute', top: -10, right: -10,
+        width: 40, height: 40, borderRadius: '50%',
+        background: `radial-gradient(circle, ${color}55 0%, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+      {/* Badge top-right */}
+      <div style={{
+        position: 'absolute', top: 6, right: 7,
+        background: `${color}33`, border: `1px solid ${color}66`,
+        borderRadius: 6, padding: '1px 4px',
+        color, fontSize: 7, fontWeight: 800, letterSpacing: '0.04em',
+      }}>{badge}</div>
+      {/* Emoji */}
+      <div style={{ fontSize: 18, lineHeight: 1, marginBottom: 4 }}>{emoji}</div>
+      {/* Category */}
+      <div style={{ color: `${color}cc`, fontSize: 8, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 2 }}>{cat}</div>
+      {/* Name */}
+      <div style={{ color: 'rgba(255,255,255,0.90)', fontSize: 10, fontWeight: 700, lineHeight: 1.25, marginBottom: 5 }}>{name}</div>
+      {/* Divider */}
+      <div style={{ height: 1, background: `${color}30`, marginBottom: 5, borderRadius: 1 }} />
+      {/* Price */}
+      <div style={{ color, fontSize: 11, fontWeight: 900, letterSpacing: '0.01em' }}>{price}</div>
     </div>
   );
 }
 
 function ShopMockup() {
-  const CARD_W = 120 + 8; // card width + gap
+  const CARD_W = 100 + 7; // card width + gap
 
   return (
-    <div className="mt-5 mb-2 flex flex-col gap-2 overflow-hidden -mx-6">
+    <div className="mt-4 mb-1 flex flex-col gap-2 overflow-hidden -mx-6">
       {/* Row 1 — scrolls left */}
       <motion.div
-        className="flex gap-2 w-max pl-6"
+        className="flex gap-[7px] w-max pl-6"
         animate={{ x: [0, -(SHOP_ROW1.length * CARD_W)] }}
-        transition={{ duration: 13, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+        transition={{ duration: 14, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
       >
         {[...SHOP_ROW1, ...SHOP_ROW1].map((item, i) => (
           <ShopCard key={i} {...item} />
         ))}
       </motion.div>
 
-      {/* Row 2 — offset start, slightly different speed */}
+      {/* Row 2 — offset, slightly different speed */}
       <motion.div
-        className="flex gap-2 w-max pl-6"
-        initial={{ x: -(SHOP_ROW2.length * CARD_W * 0.4) }}
+        className="flex gap-[7px] w-max pl-6"
+        initial={{ x: -(SHOP_ROW2.length * CARD_W * 0.45) }}
         animate={{ x: [
-          -(SHOP_ROW2.length * CARD_W * 0.4),
-          -(SHOP_ROW2.length * CARD_W * 0.4 + SHOP_ROW2.length * CARD_W),
+          -(SHOP_ROW2.length * CARD_W * 0.45),
+          -(SHOP_ROW2.length * CARD_W * 0.45 + SHOP_ROW2.length * CARD_W),
         ]}}
-        transition={{ duration: 16, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+        transition={{ duration: 17, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
       >
         {[...SHOP_ROW2, ...SHOP_ROW2].map((item, i) => (
           <ShopCard key={i} {...item} />
