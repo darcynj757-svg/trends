@@ -103,6 +103,116 @@ const onboardingScreens: OnboardingScreen[] = [
   },
 ];
 
+// ─── Reels phone mockup (slide 0 visual) ─────────────────────────────────────
+const CARD_COLORS = [
+  'linear-gradient(160deg,#1a3a6e 0%,#2563eb 100%)',
+  'linear-gradient(160deg,#4a1a6e 0%,#7c3aed 100%)',
+  'linear-gradient(160deg,#1a4a3a 0%,#059669 100%)',
+  'linear-gradient(160deg,#6e1a3a 0%,#db2777 100%)',
+];
+
+function ReelsMockup() {
+  const phoneW = 100;
+  const phoneH = 178;
+  const cardH = phoneH - 8;
+
+  const tokens = [
+    { x: -38, delay: 0,   label: '+2 TRND' },
+    { x:  38, delay: 0.9, label: '+1 TRND' },
+    { x: -22, delay: 1.8, label: '+3 TRND' },
+  ];
+
+  return (
+    <div className="flex justify-center items-center mt-6 mb-2" style={{ height: phoneH + 60 }}>
+      <div className="relative" style={{ width: phoneW, height: phoneH }}>
+
+        {/* Phone shell */}
+        <div
+          className="absolute inset-0 rounded-[22px] overflow-hidden"
+          style={{
+            background: '#0a0f1e',
+            border: '2px solid rgba(255,255,255,0.18)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)',
+          }}
+        >
+          {/* Scrolling cards */}
+          <motion.div
+            style={{ display: 'flex', flexDirection: 'column' }}
+            animate={{ y: [0, -cardH, -cardH * 2, -cardH * 3, -cardH * 4] }}
+            transition={{ duration: 5, repeat: Infinity, repeatType: 'loop', ease: [0.4, 0, 0.2, 1], times: [0, 0.22, 0.44, 0.66, 1] }}
+          >
+            {[...CARD_COLORS, CARD_COLORS[0]].map((bg, i) => (
+              <div
+                key={i}
+                style={{ width: phoneW - 4, height: cardH, flexShrink: 0, background: bg, position: 'relative', margin: '0 auto' }}
+              >
+                {/* Play icon */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <motion.div
+                    animate={{ scale: [1, 1.12, 1] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
+                    style={{
+                      width: 32, height: 32, borderRadius: '50%',
+                      background: 'rgba(255,255,255,0.22)',
+                      backdropFilter: 'blur(8px)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                  >
+                    <svg width="12" height="14" viewBox="0 0 12 14" fill="white">
+                      <path d="M1 1l10 6-10 6V1z" />
+                    </svg>
+                  </motion.div>
+                </div>
+                {/* Bottom bar */}
+                <div style={{ position: 'absolute', bottom: 8, left: 8, right: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'rgba(255,255,255,0.35)' }} />
+                  <div style={{ flex: 1, height: 4, borderRadius: 4, background: 'rgba(255,255,255,0.2)' }} />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Glass overlay gradient at bottom */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 32,
+            background: 'linear-gradient(to top, rgba(10,15,30,0.7) 0%, transparent 100%)' }} />
+        </div>
+
+        {/* Notch */}
+        <div style={{ position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
+          width: 28, height: 5, borderRadius: 4, background: 'rgba(255,255,255,0.18)', zIndex: 10 }} />
+
+        {/* Floating token badges */}
+        {tokens.map((t, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 0, x: t.x }}
+            animate={{ opacity: [0, 1, 1, 0], y: [10, -20, -50, -80] }}
+            transition={{ duration: 2.2, repeat: Infinity, delay: t.delay, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              bottom: 20,
+              left: '50%',
+              transform: `translateX(calc(-50% + ${t.x}px))`,
+              background: 'linear-gradient(135deg,#f59e0b,#fbbf24)',
+              borderRadius: 20,
+              padding: '3px 8px',
+              fontSize: 10,
+              fontWeight: 700,
+              color: '#1a0a00',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 2px 12px rgba(245,158,11,0.5)',
+              pointerEvents: 'none',
+              zIndex: 20,
+            }}
+          >
+            {t.label}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
   { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
@@ -273,6 +383,9 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {current.subtitle && (
                 <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em' }}>{current.subtitle}</p>
               )}
+
+              {/* Animated visual — slide 0 only */}
+              {slide === 0 && <ReelsMockup />}
             </motion.div>
           </AnimatePresence>
         </div>
