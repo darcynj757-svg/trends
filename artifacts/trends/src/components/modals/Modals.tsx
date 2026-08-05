@@ -477,7 +477,7 @@ function ShopPillsMarquee() {
 const SHOP_ROW1 = [
   { emoji: '🎬', cat: 'Кино',     name: 'Кинопоиск',     price: '600 TRND',    badge: 'HD',    color: '#FF6B00' },
   { emoji: '🔒', cat: 'Безопасность', name: 'VPN доступ', price: '400 TRND',   badge: '1 мес', color: '#4B7BF5' },
-  { emoji: '🍎', cat: 'Красота',  name: 'Золотое яблоко',price: '800 TRND',    badge: '-15%',  color: '#22C55E' },
+  { emoji: '🍏', cat: 'Красота',  name: 'Золотое яблоко',price: '800 TRND',    badge: '-15%',  color: '#22C55E' },
   { emoji: '✈️', cat: 'Telegram', name: 'TG Premium',    price: '1 500 TRND',  badge: 'HOT',   color: '#2AABEE' },
 ];
 const SHOP_ROW2 = [
