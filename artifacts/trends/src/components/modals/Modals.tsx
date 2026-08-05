@@ -795,7 +795,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Progress segments — above button */}
-        <div className="flex items-center justify-center gap-1.5 mb-4">
+        <div className="flex items-center justify-center gap-1.5 mb-4 mt-4">
           {Array.from({ length: TOTAL }).map((_, i) => (
             <motion.div
               key={i}
