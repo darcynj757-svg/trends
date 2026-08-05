@@ -232,7 +232,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               className="flex flex-col w-full"
             >
               {/* Pills — above title */}
-              <div className="flex flex-wrap justify-center gap-2 mb-8">
+              <div className="flex flex-wrap justify-center gap-2 mb-8 -mt-6">
                 {current.pills.map((pill, pi) => (
                   <div
                     key={pi}
