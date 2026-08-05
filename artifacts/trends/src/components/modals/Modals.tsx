@@ -480,15 +480,15 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
   if ('text' in item) {
     return (
       <div style={{
-        width: 200,
-        height: 62,
+        width: 176,
+        height: 54,
         flexShrink: 0,
         background: 'linear-gradient(135deg, rgba(75,123,245,0.18) 0%, rgba(124,58,237,0.12) 100%)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: '1px solid rgba(124,58,237,0.35)',
-        borderRadius: 11,
-        padding: '10px 13px',
+        borderRadius: 10,
+        padding: '8px 11px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -497,13 +497,13 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
         overflow: 'hidden',
       }}>
         <div style={{
-          position: 'absolute', top: -14, right: -14,
-          width: 50, height: 50, borderRadius: '50%',
+          position: 'absolute', top: -12, right: -12,
+          width: 44, height: 44, borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(124,58,237,0.4) 0%, transparent 70%)',
           pointerEvents: 'none',
         }} />
         <p style={{
-          color: 'rgba(255,255,255,0.85)', fontSize: 10, fontWeight: 500,
+          color: 'rgba(255,255,255,0.85)', fontSize: 9, fontWeight: 500,
           lineHeight: 1.4, textAlign: 'center', margin: 0, position: 'relative', zIndex: 1,
         }}>{item.text}</p>
       </div>
@@ -513,33 +513,33 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
   const { emoji, cat, name, price, badge, color } = item;
   return (
     <div style={{
-      width: 148,
-      height: 62,
+      width: 130,
+      height: 54,
       flexShrink: 0,
       background: `linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)`,
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
       border: `1px solid ${color}48`,
-      borderRadius: 11,
-      padding: '7px 9px',
+      borderRadius: 10,
+      padding: '6px 8px',
       position: 'relative',
       boxShadow: `0 2px 10px ${color}18, inset 0 1px 0 rgba(255,255,255,0.10)`,
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
-      gap: 8,
+      gap: 7,
     }}>
       {/* Glow */}
       <div style={{
-        position: 'absolute', top: -12, right: -12,
-        width: 44, height: 44, borderRadius: '50%',
+        position: 'absolute', top: -10, right: -10,
+        width: 38, height: 38, borderRadius: '50%',
         background: `radial-gradient(circle, ${color}45 0%, transparent 70%)`,
         pointerEvents: 'none',
       }} />
       {/* Emoji icon */}
       <div style={{
-        fontSize: 22, lineHeight: 1, flexShrink: 0,
-        width: 34, height: 34, borderRadius: 9,
+        fontSize: 19, lineHeight: 1, flexShrink: 0,
+        width: 30, height: 30, borderRadius: 8,
         background: `${color}18`,
         border: `1px solid ${color}30`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -548,28 +548,28 @@ function ShopCard(item: { text: string } | { emoji: string; cat: string; name: s
       <div style={{ flex: 1, minWidth: 0, position: 'relative', zIndex: 1 }}>
         {/* Category + badge row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
-          <span style={{ color: `${color}cc`, fontSize: 8, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{cat}</span>
+          <span style={{ color: `${color}cc`, fontSize: 7, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{cat}</span>
           <span style={{
             background: `${color}28`, border: `1px solid ${color}55`,
-            borderRadius: 5, padding: '0px 4px',
-            color, fontSize: 7, fontWeight: 800, letterSpacing: '0.03em',
+            borderRadius: 4, padding: '0px 3px',
+            color, fontSize: 6, fontWeight: 800, letterSpacing: '0.03em',
           }}>{badge}</span>
         </div>
         {/* Name */}
         <div style={{
-          color: 'rgba(255,255,255,0.92)', fontSize: 10, fontWeight: 700,
-          lineHeight: 1.2, marginBottom: 4,
+          color: 'rgba(255,255,255,0.92)', fontSize: 9, fontWeight: 700,
+          lineHeight: 1.2, marginBottom: 3,
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>{name}</div>
         {/* Price */}
-        <div style={{ color, fontSize: 11, fontWeight: 900, lineHeight: 1 }}>{price}</div>
+        <div style={{ color, fontSize: 10, fontWeight: 900, lineHeight: 1 }}>{price}</div>
       </div>
     </div>
   );
 }
 
 function ShopMockup() {
-  const CARD_W = 148 + 7; // card width + gap
+  const CARD_W = 130 + 7; // card width + gap
 
   return (
     <div className="mt-7 mb-1 flex flex-col gap-[7px] overflow-hidden -mx-6">
