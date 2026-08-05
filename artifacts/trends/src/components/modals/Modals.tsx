@@ -783,37 +783,11 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {slide === 1 && <ReferralMockup />}
               {slide === 2 && <ShopMockup />}
 
-              {/* Text card below animation (slide 2) */}
+              {/* Text below animation (slide 2) */}
               {slide === 2 && (
-                <div
-                  className="mx-1 mt-3"
-                  style={{
-                    borderRadius: 14,
-                    padding: '11px 16px',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    boxShadow: '0 2px 12px rgba(124,58,237,0.12), inset 0 1px 0 rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <div style={{
-                    position: 'absolute', top: -16, right: -16,
-                    width: 60, height: 60, borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%)',
-                    pointerEvents: 'none',
-                  }} />
-                  <p style={{
-                    color: 'rgba(255,255,255,0.90)',
-                    fontSize: 16,
-                    fontWeight: 400,
-                    lineHeight: 1.45,
-                    textAlign: 'center',
-                    margin: 0,
-                    position: 'relative',
-                    zIndex: 1,
-                  }}>
-                    Или держи токены до листинга, конвертируя их в реальные деньги.
-                  </p>
-                </div>
+                <p className="text-white/70 text-[19px] leading-snug text-center px-2" style={{ fontWeight: 300, letterSpacing: '0.01em', whiteSpace: 'pre-line' }}>
+                  Или держи токены до листинга, конвертируя их в реальные деньги.
+                </p>
               )}
 
             </motion.div>
