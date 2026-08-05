@@ -428,6 +428,140 @@ function ReferralMockup() {
   );
 }
 
+// ─── Shop mockup (slide 2 visual) ────────────────────────────────────────────
+const SHOP_PRODUCTS = [
+  { name: 'Скидка 30%',    price: '500',   color: '#4B7BF5' },
+  { name: 'Промокод',      price: '200',   color: '#7C3AED' },
+  { name: 'VIP подписка',  price: '2 000', color: '#D97706' },
+  { name: 'Кэшбэк 15%',   price: '350',   color: '#059669' },
+  { name: 'NFT-карточка',  price: '5 000', color: '#DB2777' },
+  { name: 'Буст ×2',       price: '800',   color: '#0891B2' },
+];
+
+const SPEND_BADGES = [
+  { x: -42, delay: 0,   label: '-500 TRND' },
+  { x:  42, delay: 3.5, label: '-200 TRND' },
+];
+
+function ShopMockup() {
+  const phoneW = 140;
+  const phoneH = 210;
+  const itemH = 32;
+  const rows = SHOP_PRODUCTS;
+  const totalH = rows.length * itemH;
+
+  return (
+    <div className="flex justify-center items-center mt-6 mb-2" style={{ height: phoneH + 50 }}>
+      <div className="relative" style={{ width: phoneW, height: phoneH }}>
+
+        {/* Phone shell */}
+        <div
+          className="absolute inset-0 rounded-[22px] overflow-hidden"
+          style={{
+            background: '#0a0f1e',
+            border: '2px solid rgba(255,255,255,0.18)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)',
+          }}
+        >
+          {/* Header: balance */}
+          <div style={{
+            padding: '10px 10px 8px',
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em' }}>
+              МАГАЗИН
+            </span>
+            <motion.span
+              animate={{ opacity: [1, 0.6, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ color: '#38B6FF', fontSize: 9, fontWeight: 700 }}
+            >
+              13 450 TRND
+            </motion.span>
+          </div>
+
+          {/* Scrolling product list */}
+          <div style={{ overflow: 'hidden', position: 'relative', height: phoneH - 34 }}>
+            <motion.div
+              animate={{ y: [0, -totalH] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+            >
+              {[...rows, ...rows].map((row, i) => (
+                <div
+                  key={i}
+                  style={{
+                    height: itemH,
+                    display: 'flex', alignItems: 'center',
+                    padding: '0 10px', gap: 8,
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  }}
+                >
+                  {/* Color dot */}
+                  <div style={{
+                    width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                    background: row.color,
+                    boxShadow: `0 0 6px ${row.color}88`,
+                  }} />
+                  {/* Name */}
+                  <span style={{ flex: 1, color: 'rgba(255,255,255,0.8)', fontSize: 9, fontWeight: 500 }}>
+                    {row.name}
+                  </span>
+                  {/* Price pill */}
+                  <span style={{
+                    background: `${row.color}22`,
+                    border: `1px solid ${row.color}55`,
+                    borderRadius: 8, padding: '1px 5px',
+                    color: row.color, fontSize: 8, fontWeight: 700,
+                  }}>
+                    {row.price}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Fade edges */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 20,
+              background: 'linear-gradient(to bottom, #0a0f1e, transparent)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 20,
+              background: 'linear-gradient(to top, #0a0f1e, transparent)', pointerEvents: 'none' }} />
+          </div>
+        </div>
+
+        {/* Notch */}
+        <div style={{
+          position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
+          width: 28, height: 5, borderRadius: 4, background: 'rgba(255,255,255,0.18)', zIndex: 10,
+        }} />
+
+        {/* Spend badges floating upward */}
+        {SPEND_BADGES.map((t, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: [0, 1, 1, 0], y: [10, -22, -50, -78] }}
+            transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 4, delay: t.delay, ease: 'easeOut' }}
+            style={{
+              position: 'absolute', bottom: 24,
+              left: '50%', transform: `translateX(calc(-50% + ${t.x}px))`,
+              borderRadius: 20, padding: '4px 9px',
+              fontSize: 10, fontWeight: 700,
+              color: 'rgba(255,255,255,0.95)', whiteSpace: 'nowrap',
+              pointerEvents: 'none', zIndex: 20,
+              background: 'rgba(99,102,241,0.55)',
+              backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.6)',
+              boxShadow: '0 2px 16px rgba(99,102,241,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+            }}
+          >
+            {t.label}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Animated background ─────────────────────────────────────────────────────
 const BG_ORBS = [
   { w: 500, h: 500, x: '-18%', y: '-5%',  color: 'rgba(41,100,255,0.28)',  dur: 12, dx: ['0%','12%','4%'], dy: ['0%','8%','2%']   },
@@ -607,6 +741,7 @@ export function TokensOnboarding({ onClose }: { onClose: () => void }) {
               {/* Animated visual */}
               {slide === 0 && <ReelsMockup />}
               {slide === 1 && <ReferralMockup />}
+              {slide === 2 && <ShopMockup />}
             </motion.div>
           </AnimatePresence>
         </div>
