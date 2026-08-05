@@ -731,9 +731,10 @@ function ListingMockup() {
         }}
       >
         <p className="text-white/80 text-[13px] leading-relaxed text-center" style={{ fontWeight: 400, letterSpacing: '0.01em' }}>
-          Смотри Reels, зови друзей —{' '}
-          <span className="text-white font-semibold">получай токены с каждого их просмотра</span>.
-          Вместе мы строим новую экономику внимания и приближаем{' '}
+          Смотри Reels —{' '}
+          <span className="text-white font-semibold">начни монетизировать свою привычку скролить ленту</span>,
+          зови друзей — получай токены с их просмотров.{' '}
+          Вместе мы превращаем внимание в капитал и выводим{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #00C6FF, #8B2FFF)',
@@ -743,7 +744,7 @@ function ListingMockup() {
               fontWeight: 700,
             }}
           >
-            листинг TRND
+            TRND на биржи
           </span>.
         </p>
       </motion.div>
